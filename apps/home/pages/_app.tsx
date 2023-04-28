@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 
 import fetcher from '@/lib/fetcher'
 
+import { appWithTranslation } from 'next-i18next'
 import { DefaultSeo } from 'next-seo'
 import { SWRConfig } from 'swr'
 
@@ -45,4 +46,4 @@ const App = ({ Component, pageProps }: AppProps) => {
   )
 }
 
-export default App
+export default appWithTranslation(App)

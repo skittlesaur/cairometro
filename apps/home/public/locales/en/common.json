@@ -1,0 +1,12 @@
+{
+  "language": "en",
+  "name": "English",
+  "navigation": {
+    "home": "Home",
+    "stations": "Stations",
+    "subscriptions": "Subscriptions",
+    "instructions": "Instructions",
+    "login": "Login",
+    "createAccount": "Create Account"
+  }
+}

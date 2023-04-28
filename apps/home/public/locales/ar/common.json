@@ -1,0 +1,12 @@
+{
+  "language": "ar",
+  "name": "العربية",
+  "navigation": {
+    "home": "الرئيسية",
+    "stations": "المحطات",
+    "subscriptions": "الاشتراكات",
+    "instructions": "التعليمات",
+    "login": "تسجيل الدخول",
+    "createAccount": "إنشاء حساب"
+  }
+}
