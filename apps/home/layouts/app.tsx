@@ -1,3 +1,4 @@
+import Footer from '@/components/footer'
 import Navigation, { NavigationProps } from '@/components/navigation'
 
 import { useTranslation } from 'next-i18next'
@@ -21,6 +22,7 @@ const AppLayout = ({ children, navigation }: AppLayoutProps) => {
       <div className="max-w-screen-xl mx-auto">
         {children}
       </div>
+      <Footer />
     </div>
   )
 }

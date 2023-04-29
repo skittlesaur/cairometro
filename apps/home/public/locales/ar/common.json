@@ -24,5 +24,24 @@
     },
     "login": "تسجيل الدخول",
     "createAccount": "إنشاء حساب"
+  },
+  "footer": {
+    "metro": {
+      "title": "مترو",
+      "stations": "المحطات",
+      "subscriptions": "الاشتراكات",
+      "lines": "الخطوط",
+      "tickets": "التذاكر"
+    },
+    "instructions": {
+      "title": "التعليمات",
+      "specialNeeds": "الاحتياجات الخاصة",
+      "rules": "القوانين وقواعد السلوك",
+      "schedule": "جدول القطارات"
+    },
+    "development": {
+      "title": "التطوير",
+      "github": "Github Repository"
+    }
   }
 }

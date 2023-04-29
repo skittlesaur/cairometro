@@ -24,5 +24,24 @@
     },
     "login": "Login",
     "createAccount": "Create Account"
+  },
+  "footer": {
+    "metro": {
+      "title": "Metro",
+      "stations": "Stations",
+      "subscriptions": "Subscriptions",
+      "lines": "Lines",
+      "tickets": "Tickets"
+    },
+    "instructions": {
+      "title": "Instructions",
+      "specialNeeds": "Special Needs",
+      "rules": "Rules & Code of Conduct",
+      "schedule": "Schedule"
+    },
+    "development": {
+      "title": "Development",
+      "github": "Github Repository"
+    }
   }
 }

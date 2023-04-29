@@ -28,7 +28,6 @@ export interface NavigationProps extends VariantProps<typeof navigationVariants>
 const Navigation = ({ activePath, variant }: NavigationProps) => {
   const { isDesktop } = useWindowSize()
 
-
   return (
     <header className={cn(navigationVariants({ variant }))}>
       {isDesktop ? (
