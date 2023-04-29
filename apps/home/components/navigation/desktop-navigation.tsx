@@ -17,26 +17,49 @@ import { NavigationMenuItem, NavigationMenuLink } from '@radix-ui/react-navigati
 import cn from 'classnames'
 import { useTranslation } from 'next-i18next'
 
-interface DesktopNavigationProps extends NavigationProps {
-  links: {
-    name: string
-    href: string
-  }[]
-  instructions: {
-    name: string
-    content: {
-      name: string
-      href: string
-      description: string
-    }[]
-  }
-}
-const DesktopNavigation = ({ activePath, links, instructions }: DesktopNavigationProps) => {
+const DesktopNavigation = ({ activePath }: NavigationProps) => {
   const { t, i18n } = useTranslation('common')
   const router = useRouter()
+
+
+  const links = [
+    {
+      name: t('navigation.home'),
+      href: '/',
+    },
+    {
+      name: t('navigation.stations'),
+      href: '/stations',
+    },
+    {
+      name: t('navigation.subscriptions'),
+      href: '/subscriptions',
+    },
+  ]
+
+  const instructions = {
+    name: t('navigation.instructions.title'),
+    content: [
+      {
+        name: t('navigation.instructions.content.specialNeeds.title'),
+        description: t('navigation.instructions.content.specialNeeds.description'),
+        href: '/instructions/special-needs',
+      },
+      {
+        name: t('navigation.instructions.content.rules.title'),
+        description: t('navigation.instructions.content.rules.description'),
+        href: '/instructions/rules',
+      },
+      {
+        name: t('navigation.instructions.content.schedule.title'),
+        description: t('navigation.instructions.content.schedule.description'),
+        href: '/instructions/schedule',
+      },
+    ],
+  }
   
   return (
-    <div className="max-w-screen-xl mx-auto grid grid-cols-3">
+    <div className="max-w-screen-xl px-5 min-[1300px]:px-0 mx-auto grid grid-cols-3">
       <div className="flex items-start">
         <Link
           href="/"
