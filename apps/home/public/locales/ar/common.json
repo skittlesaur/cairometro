@@ -5,7 +5,23 @@
     "home": "الرئيسية",
     "stations": "المحطات",
     "subscriptions": "الاشتراكات",
-    "instructions": "التعليمات",
+    "instructions": {
+      "title": "التعليمات",
+      "content": {
+        "specialNeeds": {
+          "title": "الاحتياجات الخاصة",
+          "description": "خدمات اصحاب الهمم المتاحة"
+        },
+        "rules": {
+          "title": "القوانين وقواعد السلوك",
+          "description": "القواعد والأنظمة التي يجب أن يتبعها المسافرون"
+        },
+        "schedule": {
+          "title": "جدول القطارات",
+          "description": "مواعيد القطارات والمحطات"
+        }
+      }
+    },
     "login": "تسجيل الدخول",
     "createAccount": "إنشاء حساب"
   }

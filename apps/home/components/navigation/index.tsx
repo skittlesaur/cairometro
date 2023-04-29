@@ -34,7 +34,7 @@ const navigationVariants = cva(
 )
 
 export interface NavigationProps extends VariantProps<typeof navigationVariants> {
-  activePath?: 'home' | 'stations' | 'subscriptions' | 'instructions'
+  activePath?: '/' | '/stations' | '/subscriptions'
 }
 
 const Navigation = ({ activePath, variant }: NavigationProps) => {
@@ -91,15 +91,15 @@ const Navigation = ({ activePath, variant }: NavigationProps) => {
             </div>
           </Link>
         </div>
-        <NavigationMenu>
+        <NavigationMenu list={{ className: 'rtl:flex-row-reverse' }}>
           {links.map((link) => (
             <NavigationMenuItem key={link.name}>
               <NavigationMenuLink asChild>
                 <Link
                   href={link.href}
                   className={`text-sm transition-colors py-2 px-3 ${cn({
-                    'text-black font-medium': link.name.toLowerCase() === activePath,
-                    'text-neutral-600 hover:text-black': link.name.toLowerCase() !== activePath,
+                    'text-black font-medium': link.href === activePath,
+                    'text-neutral-600 hover:text-black': link.href !== activePath,
                   })}`}
                 >
                   {link.name}
@@ -111,7 +111,10 @@ const Navigation = ({ activePath, variant }: NavigationProps) => {
             <NavigationMenuTrigger>
               {instructions.name}
             </NavigationMenuTrigger>
-            <NavigationMenuContent>
+            <NavigationMenuContent
+              dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
+              className="rtl:text-right"
+            >
               <ul className="text-sm grid grid-cols-[1.25fr_2fr] w-[28em]">
                 {instructions.content.map((item, idx) => (
                   idx === 0 ? (

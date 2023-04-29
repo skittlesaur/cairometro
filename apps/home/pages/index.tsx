@@ -9,7 +9,7 @@ const HomePage: NextPage = () => {
     <AppLayout
       navigation={{
         variant: 'blur',
-        activePath: 'home',
+        activePath: '/',
       }}
     >
       <div className="w-screen h-[200vh] flex flex-col gap-6 items-center justify-center overflow-hidden relative">
