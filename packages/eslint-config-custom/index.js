@@ -22,7 +22,6 @@ module.exports = {
     '@typescript-eslint/type-annotation-spacing': ['error', { 'before': false, 'after': true }],
     'space-infix-ops': ['error', { 'int32Hint': false }],
     'comma-dangle': ['error', 'always-multiline'],
-    'react/prop-types': ['error'],
     'comma-spacing': ['error', { 'before': false, 'after': true }],
     'comma-style': ['error', 'last'],
     'no-caller': 'error',
@@ -109,6 +108,7 @@ module.exports = {
     ],
 
     // JSX
+    'react/prop-types': 'off',
     'react/jsx-indent': ['error', 2],
     'react/jsx-indent-props': ['error', 2],
     'react/jsx-closing-bracket-location': ['error', 'line-aligned'],

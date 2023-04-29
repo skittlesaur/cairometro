@@ -7,8 +7,10 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 const HomePage: NextPage = () => {
   return (
     <AppLayout
-      activePath="home"
-      variant="blur"
+      navigation={{
+        variant: 'blur',
+        activePath: 'home',
+      }}
     >
       <div className="w-screen h-[200vh] flex flex-col gap-6 items-center justify-center overflow-hidden relative">
         <h1 className="flex items-center gap-4 text-6xl font-bold tracking-tight">

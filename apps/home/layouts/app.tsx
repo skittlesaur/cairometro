@@ -2,11 +2,12 @@ import Navigation, { NavigationProps } from '@/components/navigation'
 
 import { useTranslation } from 'next-i18next'
 
-interface AppLayoutProps extends NavigationProps {
+interface AppLayoutProps {
   children: React.ReactNode
+  navigation: NavigationProps
 }
 
-const AppLayout = ({ children, activePath, variant }: AppLayoutProps) => {
+const AppLayout = ({ children, navigation }: AppLayoutProps) => {
   const { i18n } = useTranslation('common')
 
   return (
@@ -14,8 +15,8 @@ const AppLayout = ({ children, activePath, variant }: AppLayoutProps) => {
       dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
     >
       <Navigation
-        activePath={activePath}
-        variant={variant}
+        activePath={navigation.activePath}
+        variant={navigation.variant}
       />
       {children}
     </div>

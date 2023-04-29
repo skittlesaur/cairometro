@@ -5,7 +5,23 @@
     "home": "Home",
     "stations": "Stations",
     "subscriptions": "Subscriptions",
-    "instructions": "Instructions",
+    "instructions": {
+      "title": "Instructions",
+      "content": {
+        "specialNeeds": {
+          "title": "Special Needs",
+          "description": "Accessibility services available for the commuters"
+        },
+        "rules": {
+          "title": "Rules & Code of Conduct",
+          "description": "Rules and regulations to be followed by the commuters"
+        },
+        "schedule": {
+          "title": "Schedule",
+          "description": "Schedule of the trains"
+        }
+      }
+    },
     "login": "Login",
     "createAccount": "Create Account"
   }
