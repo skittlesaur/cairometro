@@ -12,14 +12,14 @@ const NavigationMenuTrigger = React.forwardRef<
   <NavigationMenuPrimitive.Trigger
     ref={ref}
     className={cn(
-      'text-gray-600 inline-flex items-center justify-center rounded-md text-sm transition-colors focus:outline-none disabled:opacity-50 disabled:pointer-events-none hover:text-black data-[state=open]:text-black data-[state=open]:bg-gray-200/50 data-[active]:text-black data-[active]:bg-gray-200/50 py-2 px-3',
+      'text-gray-600 inline-flex rtl:flex-row-reverse items-center justify-center rounded-md text-sm transition-colors focus:outline-none disabled:opacity-50 disabled:pointer-events-none hover:text-black data-[state=open]:text-black data-[state=open]:bg-gray-200/50 data-[active]:text-black data-[active]:bg-gray-200/50 py-2 px-3',
       className
     )}
     {...props}
   >
     {children}{' '}
     <ChevronDown
-      className="relative top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180"
+      className="relative top-[1px] ltr:ml-1 rtl:mr-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180"
       aria-hidden="true"
     />
   </NavigationMenuPrimitive.Trigger>
