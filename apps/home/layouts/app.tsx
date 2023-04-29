@@ -18,7 +18,9 @@ const AppLayout = ({ children, navigation }: AppLayoutProps) => {
         activePath={navigation.activePath}
         variant={navigation.variant}
       />
-      {children}
+      <div className="max-w-screen-xl mx-auto">
+        {children}
+      </div>
     </div>
   )
 }

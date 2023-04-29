@@ -12,7 +12,7 @@ const HomePage: NextPage = () => {
         activePath: '/',
       }}
     >
-      <div className="w-screen h-[200vh] flex flex-col gap-6 items-center justify-center overflow-hidden relative">
+      <div className="h-[200vh] flex flex-col gap-6 items-center justify-center overflow-hidden relative">
         <h1 className="flex items-center gap-4 text-6xl font-bold tracking-tight">
           <span>
             🪐
