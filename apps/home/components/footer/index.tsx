@@ -103,7 +103,7 @@ const Footer = () => {
                 {item.type === 'email' && (
                   <MailOutlineIcon className="w-4 h-4" />
                 )}
-                <span>{item.value}</span>
+                <span dir="ltr">{item.value}</span>
               </Link>
             ))}
           </div>
@@ -131,7 +131,7 @@ const Footer = () => {
         <div className="lg:justify-self-end">
           <div className="flex flex-col gap-4">
             <p className="font-semibold">
-              Get the app
+              {t('footer.getTheApp')}
             </p>
             <div className="flex flex-col gap-2">
               <Link

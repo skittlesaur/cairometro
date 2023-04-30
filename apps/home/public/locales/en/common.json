@@ -42,6 +42,7 @@
     "development": {
       "title": "Development",
       "github": "Github Repository"
-    }
+    },
+    "getTheApp": "Get the app"
   }
 }
