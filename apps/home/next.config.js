@@ -1,7 +1,14 @@
 /* eslint-disable */
-const { i18n } = require('./next-i18next.config')
+const {i18n} = require('./next-i18next.config')
 
-module.exports = {
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+  disable: process.env.NODE_ENV === 'development',
+})
+
+module.exports = withPWA({
   reactStrictMode: true,
   i18n,
 
@@ -13,13 +20,4 @@ module.exports = {
 
     return config
   },
-
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'apod.nasa.gov',
-      },
-    ],
-  },
-}
+})
