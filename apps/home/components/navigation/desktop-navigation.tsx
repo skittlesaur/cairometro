@@ -59,7 +59,7 @@ const DesktopNavigation = ({ activePath }: NavigationProps) => {
   }
   
   return (
-    <div className="max-w-screen-xl px-5 min-[1300px]:px-0 mx-auto grid grid-cols-3">
+    <div className="hidden lg:grid max-w-screen-xl px-5 min-[1300px]:px-0 mx-auto grid-cols-3">
       <div className="flex items-start">
         <Link
           href="/"

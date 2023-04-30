@@ -67,7 +67,7 @@ const MobileNavigation = ({ activePath }: NavigationProps) => {
   }
 
   return (
-    <div className="w-full px-4 grid items-center grid-cols-2">
+    <div className="block lg:hidden w-full px-4 grid items-center grid-cols-2">
       <div className="flex items-start">
         <Link
           href="/"

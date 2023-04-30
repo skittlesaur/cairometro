@@ -1,6 +1,5 @@
 import DesktopNavigation from '@/components/navigation/desktop-navigation'
 import MobileNavigation from '@/components/navigation/mobile-navigation'
-import useWindowSize from '@/lib/use-window-size'
 
 import { cva, VariantProps } from 'class-variance-authority'
 import cn from 'classnames'
@@ -26,19 +25,10 @@ export interface NavigationProps extends VariantProps<typeof navigationVariants>
 }
 
 const Navigation = ({ activePath, variant }: NavigationProps) => {
-  const { isDesktop } = useWindowSize()
-
   return (
     <header className={cn(navigationVariants({ variant }))}>
-      {isDesktop ? (
-        <DesktopNavigation
-          activePath={activePath}
-        />
-      ) : (
-        <MobileNavigation
-          activePath={activePath}
-        />
-      )}
+      <DesktopNavigation activePath={activePath} />
+      <MobileNavigation activePath={activePath} />
     </header>
   )
 }
