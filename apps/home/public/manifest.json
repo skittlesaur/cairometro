@@ -4,8 +4,8 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
-  "name": "Egypt Metro",
-  "short_name": "EgyMetro",
+  "name": "Cairo Metro",
+  "short_name": "Cairo Metro",
   "icons": [
     {
       "src": "/icon-192x192.png",

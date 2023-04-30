@@ -3,7 +3,7 @@ import { DefaultSeo } from 'next-seo'
 const DefaultSeoSettings = () => {
   return (
     <DefaultSeo
-      title="Egypt Metro"
+      title="Cairo Metro"
       additionalLinkTags={[
         {
           rel: 'icon',
