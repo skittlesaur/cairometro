@@ -3,7 +3,7 @@ generator client {
 }
 
 generator nexusPrisma {
-   provider = "nexus-prisma"
+  provider = "nexus-prisma"
 }
 
 datasource db {
@@ -12,9 +12,19 @@ datasource db {
 }
 
 model User {
-  id        String  @id @default(cuid()) @map("_id") @db.ObjectId
-  email     String  @unique
+  id        String   @id @default(cuid()) @map("_id")
+  email     String   @unique
   name      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Otp       Otp[]
+}
+
+model Otp {
+  id         String   @id @default(cuid()) @map("_id")
+  code       String   @unique
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+  expiryDate DateTime
+  userId     String
 }
