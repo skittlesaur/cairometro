@@ -1,13 +1,16 @@
-import { enumType } from 'nexus/src/core'
+import { enumType } from 'nexus'
 import { UserRole } from 'nexus-prisma'
 
-UserRole.name
-UserRole.members
-enumType(UserRole)
+const UserRoleEnum = enumType(UserRole)
 
-// const UserRole = enumType({
+// const UserRoleEnum = enumType({
 //   name: UserRole.name,
 //   members: UserRole.members,
 // })
 
-export default UserRole
+// const UserRoleEnum = enumType({
+//   name: 'UserRoleEnum',
+//   members: ['ADMIN', 'ADULT', 'SENIOR'],
+// })
+
+export default UserRoleEnum
