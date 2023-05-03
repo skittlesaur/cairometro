@@ -12,16 +12,25 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid()) @map("_id") @db.ObjectId
-  UserRole  UserRole
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String       @id @default(cuid()) @map("_id") @db.ObjectId
+  UserRole   UserRole
+  email      String       @unique
+  name       String?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  MagicToken MagicToken[]
 }
 
 enum UserRole {
   ADULT
   SENIOR
   ADMIN
+}
+
+model MagicToken {
+  id         String   @id @default(cuid()) @map("_id")
+  user       User     @relation(fields: [email], references: [email])
+  createdAt  DateTime @default(now())
+  expiryDate DateTime
+  email      String
 }
