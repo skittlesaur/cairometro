@@ -29,8 +29,8 @@ enum UserRole {
 
 model MagicToken {
   id         String   @id @default(cuid()) @map("_id")
-  user       User     @relation(fields: [email], references: [email])
+  user       User     @relation(fields: [userID], references: [id])
   createdAt  DateTime @default(now())
   expiryDate DateTime
-  email      String
+  userID     String   @db.ObjectId
 }
