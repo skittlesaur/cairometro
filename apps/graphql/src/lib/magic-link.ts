@@ -2,7 +2,9 @@ import { PrismaClient, MagicToken, User } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function createToken(user: User) {
+export const createToken = async (user: User) => {
+
+    // let userexist = await prisma.magicToken.findUnique 
     
     const token = await prisma.magicToken.create({
         data: {
@@ -11,4 +13,7 @@ async function createToken(user: User) {
             userID:user.id,
         },
     });
+    console.log(token)
+    
+    
 }
