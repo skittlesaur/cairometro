@@ -12,7 +12,7 @@ datasource db {
 }
 
 model User {
-  id         String       @id @default(cuid()) @map("_id") @db.ObjectId
+  id         String       @id @default(cuid()) @map("_id") 
   UserRole   UserRole
   email      String       @unique
   name       String?
@@ -32,5 +32,5 @@ model MagicToken {
   user       User     @relation(fields: [userID], references: [id])
   createdAt  DateTime @default(now())
   expiryDate DateTime
-  userID     String   @db.ObjectId
+  userID     String   
 }
