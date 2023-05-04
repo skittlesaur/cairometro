@@ -9,6 +9,13 @@ import OrSeparator from '@/components/or-separator'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslation } from 'next-i18next'
 
+export type Step2Ref = {
+  isValid: ()=> boolean
+  getValues: ()=> {
+    email: string
+  }
+}
+
 const Step2 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
   const [email, setEmail] = useState<string>('')
   const { t } = useTranslation('signup')
