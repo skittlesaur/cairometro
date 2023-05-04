@@ -17,6 +17,12 @@ const DefaultSeoSettings = () => {
           href: '/manifest.json',
         },
       ]}
+      additionalMetaTags={[
+        {
+          name: 'robots',
+          content: 'index, follow',
+        },
+      ]}
       openGraph={{
         type: 'website',
         url: process.env.NEXT_PUBLIC_SITE_URL,
