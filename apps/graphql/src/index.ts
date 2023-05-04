@@ -18,9 +18,9 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 
-app.get('/ping', (_, res: Response) => {
-  res.status(200).send('pong')
-})
+// app.get('/ping', (_, res: Response) => {
+//   res.status(200).send('pong')
+// })
 
 app.use('/graphql', yoga)
 
