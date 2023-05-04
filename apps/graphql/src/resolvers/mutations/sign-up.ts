@@ -26,7 +26,7 @@ const signUp: FieldResolver<'Mutation', 'signup'> = async (_, args, ctx: Context
 
   const user = await prisma.user.create({
     data: {
-      UserRole: args.userRole.userRole,
+      role: args.userRole.userRole,
       email: args.email,
       name: args.name,
     },
