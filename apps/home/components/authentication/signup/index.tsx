@@ -86,6 +86,8 @@ const Signup = () => {
     if (data.step === 2) {
       return handleStep2Submit()
     }
+
+    // @todo handle senior documents
   }
 
   return (
