@@ -17,7 +17,7 @@ const Step1 = () => {
   const headingBreak = Math.floor(t('step1.heading').split(' ').length / 2 - 1)
 
   return (
-    <div className="flex flex-col h-full items-center justify-between gap-5">
+    <div className="flex flex-col h-full items-center justify-between gap-7">
       <h1 className="text-3xl font-bold text-center">
         {t('step1.heading').split(' ').map((line, index) => (
           <React.Fragment key={index}>
