@@ -1,15 +1,19 @@
-import { arg, mutationType, stringArg } from 'nexus'
+import { arg, mutationType, nonNull, stringArg } from 'nexus'
 
-import signup from './resolvers/mutations/signup'
+import signUp from './resolvers/mutations/sign-up'
 import UserType from './types/user'
 import UserRoleEnumArg from './types/user-role-enum-arg'
 
 const mutations = mutationType({
   definition(t) {
-    t.field('signup', {
+    t.field('signUp', {
       type: UserType,
-      args: { userRole: arg({ type: UserRoleEnumArg }), email: stringArg(), name: stringArg() },
-      resolve: signup,
+      args: {
+        userRole: nonNull(arg({ type: UserRoleEnumArg })),
+        email: nonNull(stringArg()),
+        name: nonNull(stringArg()),
+      },
+      resolve: signUp,
     })
   },
 })
