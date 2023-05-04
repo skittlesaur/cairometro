@@ -8,7 +8,7 @@ const UserType = objectType({
   name: User.$name,
   definition(t) {
     t.field(User.id)
-    t.field('UserRole', { type: UserRoleEnum })
+    t.field('role', { type: UserRoleEnum })
     t.field(User.email)
     t.field(User.name)
     t.field(User.createdAt)

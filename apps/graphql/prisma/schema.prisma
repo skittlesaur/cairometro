@@ -13,9 +13,9 @@ datasource db {
 
 model User {
   id        String   @id @default(cuid()) @map("_id")
-  UserRole  UserRole
   email     String   @unique
   name      String
+  role      UserRole
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
