@@ -1,15 +1,14 @@
-import { arg, mutationType, stringArg } from 'nexus'
-import { UserRole } from 'nexus-prisma'
+import { mutationType, stringArg } from 'nexus'
 
-import signup from './resolvers/mutations/signup'
 import UserType from './types/user'
+import example from './resolvers/mutations/example'
 
 const mutations = mutationType({
   definition(t) {
-    t.field('signup', {
+    t.field('example', {
       type: UserType,
-      args: { userRole: arg({ type: UserRole }), email: stringArg(), name: stringArg() },
-      resolve: signup,
+      args: { name: stringArg() },
+      resolve: example,
     })
   },
 })
