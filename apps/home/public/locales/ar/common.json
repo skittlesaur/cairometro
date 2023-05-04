@@ -46,5 +46,10 @@
       "github": "Github Repository"
     },
     "getTheApp": "احصل على التطبيق"
+  },
+  "components": {
+    "continueWithGoogle": {
+      "text": "تسجيل الدخول باستخدام جوجل"
+    }
   }
 }

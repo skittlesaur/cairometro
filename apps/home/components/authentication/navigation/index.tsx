@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { Button, buttonVariants } from '@/components/button'
-import { Separator } from '@/components/seperator'
+import { Separator } from '@/components/separator'
 import Logo from '@/icons/logo.svg'
 
 import { useTranslation } from 'next-i18next'

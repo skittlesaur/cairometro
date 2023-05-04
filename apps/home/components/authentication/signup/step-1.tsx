@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useState } from 'react'
 
-import { AccountType } from '@/components/authentication/signup/index'
+import { AccountType, SignupStepProps } from '@/components/authentication/signup/index'
 import { Button } from '@/components/button'
 import Input from '@/components/input'
 import { RadioGroup, RadioGroupItem } from '@/components/radio-group'
@@ -9,12 +9,32 @@ import InformationCircleIcon from '@/icons/information-circle.svg'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslation } from 'next-i18next'
 
-const Step1 = () => {
+export type Step1Ref = {
+  isValid: ()=> boolean
+  getValues: ()=> {
+    name: string
+    accountType: AccountType
+  }
+}
+
+const Step1 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
   const [accountType, setAccountType] = useState<AccountType | undefined>()
   const [name, setName] = useState<string>('')
   const { t, i18n } = useTranslation('signup')
-  
+
   const headingBreak = Math.floor(t('step1.heading').split(' ').length / 2 - 1)
+  
+  useImperativeHandle(ref, () => ({
+    isValid: () => {
+      return name.length > 0 && accountType !== undefined
+    },
+    getValues: () => {
+      return {
+        name,
+        accountType,
+      }
+    },
+  }))
 
   return (
     <div className="flex flex-col h-full items-center justify-between gap-7">
@@ -39,7 +59,7 @@ const Step1 = () => {
             <h2 className="font-semibold">
               {t('step1.accountType.adult.title')}
             </h2>
-            <p 
+            <p
               dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
               className="text-neutral-500"
             >
@@ -59,7 +79,7 @@ const Step1 = () => {
             <h2 className="font-semibold">
               {t('step1.accountType.senior.title')}
             </h2>
-            <p 
+            <p
               dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
               className="text-neutral-500"
             >
@@ -114,12 +134,15 @@ const Step1 = () => {
           className="relative z-[1] w-full"
           variant="primary"
           disabled={!accountType || !name}
+          onClick={nextStep}
         >
           {t('step1.continue')}
         </Button>
       </div>
     </div>
   )
-}
+})
+
+Step1.displayName = 'Signup-Step1'
 
 export default Step1
