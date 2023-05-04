@@ -1,6 +1,7 @@
 {
   "language": "en",
   "name": "English",
+  "title": "Cairo Metro",
   "navigation": {
     "home": "Home",
     "stations": "Stations",
@@ -23,7 +24,8 @@
       }
     },
     "login": "Login",
-    "createAccount": "Create Account"
+    "createAccount": "Create Account",
+    "createAnAccount": "Create an Account"
   },
   "footer": {
     "metro": {
