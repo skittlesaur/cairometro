@@ -1,38 +1,27 @@
 import mjml2html from 'mjml';
 import sgMail from '@sendgrid/mail';
+import getMjmlTemplate from './get-mjml-template';
 
-const apiKey = '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';
+const apiKey = process.env.SENDGRID_API_KEY ?? ''
 sgMail.setApiKey(apiKey);
 
-type EmailTemplate = 'AUTHENTICATION' | 'TICKET_UPDATE';
+enum EmailTemplate {
+  AUTHENTICATION = 'AUTHENTICATION',
+  TICKET_UPDATE = 'TICKET_UPDATE'
+}
 
 type Variables = {
   [key: string]: string;
 };
 
 const sendEmail = async (recipient: string, template: EmailTemplate, variables?: Variables) => {
-const mjmlTemplate = `<mjml>
-                    <mj-body>
-                    <mj-section>
-                        <mj-column>
+  var mjmlTemplate = getMjmlTemplate(template, variables!)
 
-                        <mj-image width="100px" src="/assets/img/logo-small.png"></mj-image>
-
-                        <mj-divider border-color="#F45E43"></mj-divider>
-
-                        <mj-text font-size="20px" color="#F45E43" font-family="helvetica">Hello ${variables!.name}</mj-text>
-                        <mj-text font-size="20px" color="#F45E43" font-family="helvetica">Your email is ${variables!.email}</mj-text>
-
-                        </mj-column>
-                    </mj-section>
-                    </mj-body>
-                    </mjml>`;
-
-const { html } = mjml2html(mjmlTemplate);
+const { html } = mjml2html(mjmlTemplate!);
 
 const message = {
     to: recipient,
-    from: 'youssef2311@gmail.com',
+    from: process.env.SENDGRID_FROM?? '',
     subject: template,
     html: html
 }
