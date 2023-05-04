@@ -82,6 +82,7 @@ const Footer = () => {
         <div className="flex flex-col items-start gap-5">
           <Link
             href="/"
+            aria-label={t('navigation.home') as string}
             className="hover:text-neutral-300 transition-colors self-center lg:self-start"
           >
             <Logo className="w-14 h-14" />

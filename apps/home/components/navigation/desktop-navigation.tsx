@@ -63,6 +63,7 @@ const DesktopNavigation = ({ activePath }: NavigationProps) => {
       <div className="flex items-start">
         <Link
           href="/"
+          aria-label={t('navigation.home') as string}
           className="text-black hover:text-black/80 transition-colors"
         >
           <div className="w-9 h-9">
