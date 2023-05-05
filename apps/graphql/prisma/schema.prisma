@@ -12,13 +12,13 @@ datasource db {
 }
 
 model User {
-  id         String       @id @default(cuid()) @map("_id") 
-  UserRole   UserRole
+  id         String       @id @default(cuid()) @map("_id")
+  userRole   UserRole
   email      String       @unique
   name       String?
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
-  MagicToken MagicToken[]
+  magicToken MagicToken[]
 }
 
 enum UserRole {
@@ -32,5 +32,5 @@ model MagicToken {
   user       User     @relation(fields: [userID], references: [id])
   createdAt  DateTime @default(now())
   expiryDate DateTime
-  userID     String   
+  userID     String
 }
