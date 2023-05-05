@@ -4,16 +4,13 @@ const prisma = new PrismaClient();
 
 export const createToken = async (user: User) => {
 
-    // let userexist = await prisma.magicToken.findUnique 
-    
     const token = await prisma.magicToken.create({
         data: {
             createdAt: new Date(),
             expiryDate: new Date(new Date().getTime() + 30 * 60000),
-            userID:user.id,
+            userID: user.id,
         },
     });
-    console.log(token)
-    
-    
+    return (token);
+
 }
