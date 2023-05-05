@@ -12,13 +12,13 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid()) @map("_id")
-  email     String   @unique
-  name      String
-  role      UserRole
+  id         String       @id @default(cuid()) @map("_id")
+  email      String       @unique
+  name       String
+  role       UserRole
   magicToken MagicToken[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
 }
 
 enum UserRole {
