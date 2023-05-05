@@ -3,10 +3,7 @@ import mjml2html from 'mjml'
 
 import getMjmlTemplate from './get-mjml-template'
 
-const apiKey = process.env.SENDGRID_API_KEY ?? ''
-sgMail.setApiKey(apiKey)
-
-enum EmailTemplate {
+export enum EmailTemplate {
   AUTHENTICATION = 'AUTHENTICATION',
   TICKET_UPDATE = 'TICKET_UPDATE'
 }
