@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Response } from 'express'
 
 import * as bodyParser from 'body-parser'
 import compression from 'compression'
@@ -17,11 +17,12 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use('/graphql', yoga)
 
-// app.get('/ping', (_, res: Response) => {
-//   res.status(200).send('pong')
-// })
+app.get('/ping', (_, res: Response) => {
+  res.status(200).send('pong')
+})
+
+app.use('/graphql', yoga)
 
 app.listen(PORT, () => {
   console.log(`GraphQL Server is listening on port ${PORT}`)
