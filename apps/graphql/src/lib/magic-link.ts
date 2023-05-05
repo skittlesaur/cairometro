@@ -1,16 +1,15 @@
-import { PrismaClient, MagicToken, User } from "@prisma/client";
+import { PrismaClient, User } from '@prisma/client'
 
-const prisma = new PrismaClient();
+const createToken = async (user: User, prisma: PrismaClient) => {
+  const token = await prisma.magicToken.create({
+    data: {
+      createdAt: new Date(),
+      expiryDate: new Date(new Date().getTime() + 30 * 60000), // 30 minutes
+      userID: user.id,
+    },
+  })
 
-export const createToken = async (user: User) => {
-
-    const token = await prisma.magicToken.create({
-        data: {
-            createdAt: new Date(),
-            expiryDate: new Date(new Date().getTime() + 30 * 60000),
-            userID: user.id,
-        },
-    });
-    return (token);
-
+  return token  
 }
+
+export default createToken
