@@ -6,7 +6,7 @@ import { NavigationProps } from '@/components/navigation/index'
 import NavigationMenuContent from '@/components/navigation/navigation-content'
 import NavigationMenu from '@/components/navigation/navigation-menu'
 import NavigationMenuTrigger from '@/components/navigation/navigation-trigger'
-import { Separator } from '@/components/seperator'
+import { Separator } from '@/components/separator'
 import AccessibleIcon from '@/icons/accessible.svg'
 import AssistWalkerIcon from '@/icons/assist-walker.svg'
 import BlindIcon from '@/icons/blind.svg'
@@ -63,6 +63,7 @@ const DesktopNavigation = ({ activePath }: NavigationProps) => {
       <div className="flex items-start">
         <Link
           href="/"
+          aria-label={t('navigation.home') as string}
           className="text-black hover:text-black/80 transition-colors"
         >
           <div className="w-9 h-9">
