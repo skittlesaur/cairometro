@@ -2014,13 +2014,6 @@
   "resolved" "https://registry.npmjs.org/@types/mjml-core/-/mjml-core-4.7.1.tgz"
   "version" "4.7.1"
 
-"@types/mjml@^4.7.1":
-  "integrity" "sha512-if/IM7j3B1ZQucsakrJI4qaU8MWBS1NzQ9PfMY3Bxj4vY1Bp2jMXmVJhAUU2eLvts0a+bFL6Efk182BB/g492Q=="
-  "resolved" "https://registry.npmjs.org/@types/mjml/-/mjml-4.7.1.tgz"
-  "version" "4.7.1"
-  dependencies:
-    "@types/mjml-core" "*"
-
 "@types/ms@*":
   "integrity" "sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA=="
   "resolved" "https://registry.npmjs.org/@types/ms/-/ms-0.7.31.tgz"
@@ -3717,7 +3710,7 @@
   "resolved" "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz"
   "version" "4.0.0"
 
-"eslint-config-custom@*", "eslint-config-custom@file:c:\\users\\youssef kheld 2\\desktop\\cairometroproject\\egymetro\\packages\\eslint-config-custom":
+"eslint-config-custom@*", "eslint-config-custom@file:C:\\Users\\youssef kheld 2\\Desktop\\cairoMetroProject\\egymetro\\packages\\eslint-config-custom":
   "resolved" "file:packages/eslint-config-custom"
   "version" "0.0.0"
   dependencies:
@@ -4641,7 +4634,7 @@
   "resolved" "https://registry.npmjs.org/graphql/-/graphql-16.6.0.tgz"
   "version" "16.6.0"
 
-"graphql@file:c:\\users\\youssef kheld 2\\desktop\\cairometroproject\\egymetro\\apps\\graphql":
+"graphql@file:C:\\Users\\youssef kheld 2\\Desktop\\cairoMetroProject\\egymetro\\apps\\graphql":
   "resolved" "file:apps/graphql"
   "version" "1.0.0"
   dependencies:
@@ -7555,7 +7548,7 @@
     "minimist" "^1.2.6"
     "strip-bom" "^3.0.0"
 
-"tsconfig@*", "tsconfig@file:c:\\users\\youssef kheld 2\\desktop\\cairometroproject\\egymetro\\packages\\tsconfig":
+"tsconfig@*", "tsconfig@file:C:\\Users\\youssef kheld 2\\Desktop\\cairoMetroProject\\egymetro\\packages\\tsconfig":
   "resolved" "file:packages/tsconfig"
   "version" "0.0.0"
 
@@ -7807,7 +7800,7 @@
   "resolved" "https://registry.npmjs.org/web-streams-polyfill/-/web-streams-polyfill-3.2.1.tgz"
   "version" "3.2.1"
 
-"web@file:c:\\users\\youssef kheld 2\\desktop\\cairometroproject\\egymetro\\apps\\home":
+"web@file:C:\\Users\\youssef kheld 2\\Desktop\\cairoMetroProject\\egymetro\\apps\\home":
   "resolved" "file:apps/home"
   "version" "1.0.0"
   dependencies:
