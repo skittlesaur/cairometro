@@ -14,14 +14,20 @@ export enum AccountType {
   SENIOR = 'SENIOR',
 }
 
+enum SignupStep {
+  ACCOUNT_TYPE_AND_NAME = 1,
+  EMAIL = 2,
+  DOCUMENTS = 3,
+}
+
 export interface SignupStepProps {
   nextStep: ()=> void
 }
 
 const Signup = () => {
   const router = useRouter()
-  const [data, setData] = useState<{ step: number, accountType?: AccountType, name: string, email: string }>({
-    step: 1,
+  const [data, setData] = useState<{ step: SignupStep, accountType?: AccountType, name: string, email: string }>({
+    step: SignupStep.ACCOUNT_TYPE_AND_NAME,
     name: '',
     email: '',
   })
@@ -41,7 +47,7 @@ const Signup = () => {
       ...prev,
       accountType,
       name,
-      step: prev.step + 1,
+      step: SignupStep.EMAIL,
     }))
   }
 
@@ -59,7 +65,7 @@ const Signup = () => {
       return setData(prev => ({
         ...prev,
         email,
-        step: prev.step + 1,
+        step: SignupStep.DOCUMENTS,
       }))
     }
 
