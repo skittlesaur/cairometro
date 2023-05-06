@@ -27,17 +27,18 @@ const RadioGroupItem = React.forwardRef<
     <RadioGroupPrimitive.Item
       ref={ref}
       className={cn(
-        'h-4 w-4 rounded-full border border-neutral-300 focus:outline-none focus:ring-1 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+        'relative h-4 w-4 rounded-full border border-neutral-300 focus:outline-none focus:ring-1 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
         className,
       )}
       {...props}
     >
-      <RadioGroupPrimitive.Indicator className="relative">
-        <CheckmarkCircleIcon className="fill-primary w-5 h-5 absolute left-0 -translate-x-1/2 top-0 -translate-y-1/2" />
+      <RadioGroupPrimitive.Indicator className="absolute inset-[-0.2em]">
+        <CheckmarkCircleIcon className="fill-primary absolute w-full left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
       </RadioGroupPrimitive.Indicator>
     </RadioGroupPrimitive.Item>
   )
 })
+
 RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName
 
 export { RadioGroup, RadioGroupItem }
