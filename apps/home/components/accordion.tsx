@@ -99,3 +99,5 @@ export const AccordionContent = React.forwardRef<
   </AnimatePresence>
 ))
 AccordionContent.displayName = AccordionPrimitive.Content.displayName
+
+// todo add animation for accordion content to smoothly close when unfocused
