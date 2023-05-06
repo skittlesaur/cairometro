@@ -1,9 +1,12 @@
+import { useTranslation } from 'next-i18next'
 import { DefaultSeo } from 'next-seo'
 
 const DefaultSeoSettings = () => {
+  const { t } = useTranslation('common')
+
   return (
     <DefaultSeo
-      title="Cairo Metro"
+      titleTemplate={`%s - ${t('title')}`}
       additionalLinkTags={[
         {
           rel: 'icon',
@@ -12,6 +15,12 @@ const DefaultSeoSettings = () => {
         {
           rel: 'manifest',
           href: '/manifest.json',
+        },
+      ]}
+      additionalMetaTags={[
+        {
+          name: 'robots',
+          content: 'index, follow',
         },
       ]}
       openGraph={{

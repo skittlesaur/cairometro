@@ -1,0 +1,35 @@
+{
+  "seo": {
+    "title": "Create a new Cairo Metro account",
+    "description": "Register now for Cairo Metro and enjoy hassle-free commutes across the city. Quick and easy sign-up process."
+  },
+  "step1": {
+    "heading": "Create your Cairo Metro Account",
+    "accountType": {
+      "adult":  {
+        "title": "Adult",
+        "description": "For passengers aged 12-59"
+      },
+      "senior": {
+        "title": "Senior",
+        "description": "For passengers aged 60+"
+      }
+    },
+    "yourName": "Your name",
+    "yourNamePlaceholder": "Enter your name",
+    "idVerification": "ID Verification is required to register a senior account",
+    "continue": "Continue"
+  },
+  "step2": {
+    "heading": "Connect your Email",
+    "emailAddress": "Email address",
+    "emailAddressPlaceholder": "Enter your email address",
+    "connectEmail": "Connect Email",
+    "or": "or"
+  },
+  "policy": {
+    "full": "By joining, you agree to our {0} and {1}",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy"
+  }
+}

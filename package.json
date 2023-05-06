@@ -7,10 +7,12 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@typescript-eslint/parser": "^5.0.1",
     "eslint": "^8.7.0",
     "eslint-config-custom": "*",
     "prettier": "^2.5.1",
-    "turbo": "latest"
+    "turbo": "latest",
+    "typescript": "^4.4.4"
   },
   "name": "turbo-template-new",
   "packageManager": "yarn@1.22.19",

@@ -1,36 +1,30 @@
 import type { NextPage } from 'next'
 
-import Home from '@/components/home'
-import AppLayout from '@/layouts/app'
+import Signup from '@/components/authentication/signup'
+import AuthenticationLayout from '@/layouts/authentication'
 
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeo } from 'next-seo'
 
-const HomePage: NextPage = () => {
-  const { t } = useTranslation('home')
+const SignupPage: NextPage = () => {
+  const { t } = useTranslation('signup')
 
   return (
-    <AppLayout
-      navigation={{
-        variant: 'blur',
-        activePath: '/',
-      }}
-    >
+    <AuthenticationLayout type="Register">
       <NextSeo
         title={t('seo.title') as string}
         description={t('seo.description') as string}
-        titleTemplate="%s"
       />
-      <Home />
-    </AppLayout>
+      <Signup />
+    </AuthenticationLayout>
   )
 }
 
 export const getStaticProps = async ({ locale }: { locale: string }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common', 'home'])),
+    ...(await serverSideTranslations(locale, ['common', 'signup'])),
   },
 })
 
-export default HomePage
+export default SignupPage
