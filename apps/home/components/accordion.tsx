@@ -77,7 +77,6 @@ export const AccordionContent = React.forwardRef<
 >(({ children, className, ...props }, forwardedRef) => (
   <AnimatePresence>
     <AccordionPrimitive.Content
-      forceMount
       asChild
       className={cn('overflow-hidden bg-[#FAFAFA] rounded px-10 ', className)}
       {...props}
