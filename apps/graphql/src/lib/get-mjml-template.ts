@@ -1,18 +1,17 @@
-import mjmlAuthTemplate from '../notifications/authentication-template'
-import mjmlTicketUpdateTemplate from '../notifications/ticket-update-template'
+import * as fs from 'fs'
+import * as Handlebars from 'handlebars'
+import * as path from 'path'
 
-type Variables = {
-    [key: string]: string;
-  };
+import { EmailTemplate, EmailVariables } from './send-email'
 
 
-const getMjmlTemplate = (template: string, variables: Variables) => {
-  if (template === 'AUTHENTICATION'){
-    return (mjmlAuthTemplate(variables))
-  }
-  if (template == 'TICKET_UPDATE'){
-    return (mjmlTicketUpdateTemplate(variables))
-  }
+const getMjmlTemplate = <T extends EmailTemplate>(template: T, variables: EmailVariables<T>) => {
+  const templateFile = path.join(__dirname, `../notifications/${template}.mjml`)
+  const templateContent = fs.readFileSync(templateFile, 'utf8')
+
+  const compiledTemplate = Handlebars.compile(templateContent.toString())(variables)
+
+  return compiledTemplate
 }
 
 export default getMjmlTemplate

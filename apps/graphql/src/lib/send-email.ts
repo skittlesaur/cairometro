@@ -4,17 +4,26 @@ import mjml2html from 'mjml'
 import getMjmlTemplate from './get-mjml-template'
 
 export enum EmailTemplate {
-  AUTHENTICATION = 'AUTHENTICATION',
-  TICKET_UPDATE = 'TICKET_UPDATE'
+  SIGNUP = 'signup',
 }
 
-type Variables = {
-  [key: string]: string;
-};
+interface SignupEmailVariables {
+  name: string;
+}
 
-const sendEmail = async (recipient: string, template: EmailTemplate, variables?: Variables) => {
-  const mjmlTemplate = getMjmlTemplate(template, variables ?? {})
-  
+interface EmailVariablesMap {
+  [EmailTemplate.SIGNUP]: SignupEmailVariables;
+}
+
+export type EmailVariables<T extends EmailTemplate> = EmailVariablesMap[T];
+
+const sendEmail = async <T extends EmailTemplate>(
+  recipient: `${string}@${string}.${string}`,
+  template: T,
+  variables: EmailVariables<T>,
+) => {
+  const mjmlTemplate = getMjmlTemplate(template, variables)
+
   if (!mjmlTemplate) throw new Error('No template found')
 
   const { html } = mjml2html(mjmlTemplate)
