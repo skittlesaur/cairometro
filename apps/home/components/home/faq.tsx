@@ -72,15 +72,3 @@ const Faq = () => {
 }
 
 export default Faq
-
-// Create a new account by registering with your personal information
-//             and a valid email address or phone number. Navigate to the
-//             <Link
-//               className="text-link-text font-semibold"
-//               href={'/subscription'}
-//             >
-//               {' '}
-//               Subscription
-//             </Link>{' '}
-//             section of the platform. Select the subscription that meets your
-//             needs and process with the payment details.
