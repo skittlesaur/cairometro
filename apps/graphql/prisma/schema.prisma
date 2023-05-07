@@ -12,11 +12,13 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid()) @map("_id")
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String       @id @default(cuid()) @map("_id")
+  email      String       @unique
+  name       String
+  role       UserRole
+  magicToken MagicToken[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
   Otp       Otp[]
 }
 
@@ -27,4 +29,18 @@ model Otp {
   createdAt  DateTime @default(now())
   expiryDate DateTime
   userId     String
+}
+
+model MagicToken {
+  id         String   @id @default(cuid()) @map("_id")
+  user       User     @relation(fields: [userID], references: [id])
+  createdAt  DateTime @default(now())
+  expiryDate DateTime
+  userID     String
+}
+
+enum UserRole {
+  ADULT
+  SENIOR
+  ADMIN
 }

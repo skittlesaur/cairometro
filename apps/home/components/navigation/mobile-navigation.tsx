@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { buttonVariants } from '@/components/button'
 import HamburgerMenu from '@/components/navigation/hamburger-menu'
 import { NavigationProps } from '@/components/navigation/index'
-import { Separator } from '@/components/seperator'
+import { Separator } from '@/components/separator'
 import ChevronDownIcon from '@/icons/chevron-down.svg'
 import DocumentTextIcon from '@/icons/document-text.svg'
 import EarthIcon from '@/icons/earth.svg'
@@ -71,6 +71,7 @@ const MobileNavigation = ({ activePath }: NavigationProps) => {
       <div className="flex items-start">
         <Link
           href="/"
+          aria-label={t('navigation.home') as string}
           className="text-black hover:text-black/80 transition-colors"
         >
           <div className="w-9 h-9">
