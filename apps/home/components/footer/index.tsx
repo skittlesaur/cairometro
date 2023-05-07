@@ -82,6 +82,7 @@ const Footer = () => {
         <div className="flex flex-col items-start gap-5">
           <Link
             href="/"
+            aria-label={t('navigation.home') as string}
             className="hover:text-neutral-300 transition-colors self-center lg:self-start"
           >
             <Logo className="w-14 h-14" />
@@ -136,12 +137,14 @@ const Footer = () => {
             <div className="flex flex-col gap-2">
               <Link
                 href="https://play.google.com/store/apps/details?id=metro.amateurapps.com.cairometro&hl=en&gl=US"
+                aria-label="Google Play"
                 target="_blank"
               >
                 <GooglePlayIcon className="w-40 hover:opacity-80 transition-opacity" />
               </Link>
               <Link
                 href="https://apps.apple.com/us/app/cairo-metro/id1559696641"
+                aria-label="App Store"
                 target="_blank"
               >
                 <AppStoreIcon className="w-40 hover:opacity-80 transition-opacity" />
