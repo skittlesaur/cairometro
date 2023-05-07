@@ -1,42 +1,32 @@
-import otpGenerator from 'otp-generator';
-import date from 'date-and-time';
-import { PrismaClient, User } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client'
+import date from 'date-and-time'
+import otpGenerator from 'otp-generator'
 
+const generateOTP = async (user: {id: string} & Partial<User>, prisma: PrismaClient) => {
+  let otpCode, existingOtp
 
-const prisma = new PrismaClient();
+  // make sure the otp code is unique
+  do {
+    otpCode = otpGenerator.generate(4, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false })
+    // eslint-disable-next-line no-await-in-loop
+    existingOtp = await prisma.otp.findUnique({
+      where: { code: otpCode },
+    })
+  } while (existingOtp !== null)
 
-const generateOtp = async (user2: User) => {
-    let otpCode = otpGenerator.generate(4, {lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false});
+  const now = new Date()
 
-    let existingOtp = await prisma.otp.findUnique({
-      where: {
-          code: otpCode
-        }
-        
-      },
-    );
+  const otp = await prisma.otp.create({
+    data: {
+      code: otpCode,
+      createdAt: now,
+      expiryDate: date.addMinutes(now, 30),
+      userId: user.id,
+    },
 
-      while(existingOtp) {
-        otpCode = otpGenerator.generate(4, { lowerCaseAlphabets: false, upperCaseAlphabets: false, specialChars: false});
-        existingOtp = await prisma.otp.findUnique({
-          where: { code: otpCode }
-        });
-      }
+  })
 
-      const now = new Date();
+  return otp
+}
 
-      const otp = await prisma.otp.create({
-        data: {
-          code: otpCode,
-          user: { connect: { id: user2.id } },
-          createdAt: now,
-          expiryDate: date.addMinutes(now, 30),
-          userId: user2.id
-        }
-          
-      });
-
-      console.log(otpCode);
-};
-
-generateOtp({email:"momen@gmail.com", name:"momen", createdAt: new Date(), updatedAt: new Date()} as User);
+export default generateOTP

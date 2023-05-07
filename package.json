@@ -10,7 +10,6 @@
     "@typescript-eslint/parser": "^5.0.1",
     "eslint": "^8.7.0",
     "eslint-config-custom": "*",
-    "otp-generator": "^4.0.1",
     "prettier": "^2.5.1",
     "turbo": "latest",
     "typescript": "^4.4.4"
