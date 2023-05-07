@@ -7,7 +7,7 @@ const Policy = () => {
   const { t } = useTranslation('signup')
 
   return (
-    <p className="text-sm text-neutral-500">
+    <p className="text-sm text-neutral-500 max-w-[calc(100%-2em)]">
       {(
         t('policy.full')
           .split(' ')

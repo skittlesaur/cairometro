@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 
+import AccountTypeAndName, { accountTypeAndNameRefType } from '@/components/authentication/signup/account-type-and-name'
+import Documents, { documentRefType } from '@/components/authentication/signup/documents'
+import Email, { emailRefType } from '@/components/authentication/signup/email'
 import Policy from '@/components/authentication/signup/policy'
-import Step1, { Step1Ref } from '@/components/authentication/signup/step-1'
-import Step2, { Step2Ref } from '@/components/authentication/signup/step-2'
 import signupMutation from '@/graphql/user/signup'
 
 import toast from 'react-hot-toast'
@@ -15,9 +16,9 @@ export enum AccountType {
 }
 
 enum SignupStep {
-  ACCOUNT_TYPE_AND_NAME = 1,
-  EMAIL = 2,
-  DOCUMENTS = 3,
+  ACCOUNT_TYPE_AND_NAME,
+  EMAIL,
+  DOCUMENTS,
 }
 
 export interface SignupStepProps {
@@ -26,22 +27,33 @@ export interface SignupStepProps {
 
 const Signup = () => {
   const router = useRouter()
-  const [data, setData] = useState<{ step: SignupStep, accountType?: AccountType, name: string, email: string }>({
+  const [data, setData] = useState<{ step: SignupStep, accountType?: AccountType, name: string, email: string, documentUrl: string }>({
     step: SignupStep.ACCOUNT_TYPE_AND_NAME,
     name: '',
     email: '',
+    documentUrl: '',
   })
 
-  const step1Ref = useRef<Step1Ref>(null)
-  const step2Ref = useRef<Step2Ref>(null)
+  const accountTypeAndNameRef = useRef<accountTypeAndNameRefType>(null)
+  const emailRef = useRef<emailRefType>(null)
+  const documentRef = useRef<documentRefType>(null)
 
-  const handleStep1Submit = async () => {
-    if (!step1Ref.current) return
+  const handleAccountTypeAndNameSubmit = async () => {
+    if (!accountTypeAndNameRef.current) return
 
-    const { isValid, getValues } = step1Ref.current
+    const { isValid, getValues } = accountTypeAndNameRef.current
     if (!isValid()) return
 
     const { accountType, name } = getValues()
+    
+    if (accountType === AccountType.SENIOR) {
+      return setData(prev => ({
+        ...prev,
+        accountType,
+        name,
+        step: SignupStep.DOCUMENTS,
+      }))
+    }
 
     return setData(prev => ({
       ...prev,
@@ -51,32 +63,23 @@ const Signup = () => {
     }))
   }
 
-  const handleStep2Submit = async () => {
-    if (!step2Ref.current) return
+  const handleEmailSubmit = async () => {
+    if (!emailRef.current) return
 
-    const { isValid, getValues } = step2Ref.current
+    const { isValid, getValues } = emailRef.current
     if (!isValid()) return
 
     const { email } = getValues()
-
-
-    // if the user is a senior they are required to upload documents so go to step 3
-    if (data.accountType === AccountType.SENIOR) {
-      return setData(prev => ({
-        ...prev,
-        email,
-        step: SignupStep.DOCUMENTS,
-      }))
-    }
 
     // if the user is an adult they are not required to upload documents so go to the verification page and mutate directly
     try {
       await signupMutation({
         userRole: {
-          userRole: AccountType.ADULT,
+          userRole: data.accountType === AccountType.ADULT ? 'ADULT' : 'SENIOR',
         },
         name: data.name,
         email,
+        documentUrl: data.documentUrl,
       })
       router.push('/auth/verify')
     } catch (error) {
@@ -84,30 +87,53 @@ const Signup = () => {
     }
   }
 
+  const handleDocumentsSubmit = () => {
+    if (!documentRef.current) return
+
+    const { isValid, getValues } = documentRef.current
+
+    if (!isValid()) return
+
+    const { documentUrl } = getValues()
+
+    setData(prev => ({
+      ...prev,
+      documentUrl,
+      step: SignupStep.EMAIL,
+    }))
+  }
   const nextStep = async () => {
-    if (data.step === 1) {
-      return handleStep1Submit()
+    if (data.step === SignupStep.ACCOUNT_TYPE_AND_NAME) {
+      return handleAccountTypeAndNameSubmit()
     }
 
-    if (data.step === 2) {
-      return handleStep2Submit()
+    if (data.step === SignupStep.EMAIL) {
+      return handleEmailSubmit()
     }
 
-    // @todo handle senior documents
+    if (data.step === SignupStep.DOCUMENTS) {
+      return handleDocumentsSubmit()
+    }
   }
 
   return (
     <div className="w-full h-screen flex flex-col gap-10 items-center justify-center">
-      <div className="min-h-[50%] flex flex-col max-w-[calc(100%-2em)] w-[26em]">
-        {data.step === 1 && (
-          <Step1
-            ref={step1Ref}
+      <div className="min-h-[50%] flex flex-col max-w-[calc(100%-2em)] w-[28em]">
+        {data.step === SignupStep.ACCOUNT_TYPE_AND_NAME && (
+          <AccountTypeAndName
+            ref={accountTypeAndNameRef}
             nextStep={nextStep}
           />
         )}
-        {data.step === 2 && (
-          <Step2
-            ref={step2Ref}
+        {data.step === SignupStep.EMAIL && (
+          <Email
+            ref={emailRef}
+            nextStep={nextStep}
+          />
+        )}
+        {data.step === SignupStep.DOCUMENTS && (
+          <Documents
+            ref={documentRef}
             nextStep={nextStep}
           />
         )}

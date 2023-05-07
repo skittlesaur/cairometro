@@ -16,7 +16,7 @@ const AuthenticationNavigation = ({ type }: AuthenticationNavigationProps) => {
   const router = useRouter()
 
   return (
-    <header className="w-full border-b p-2 fixed top-0 z-50">
+    <header className="w-full border-b p-2 fixed top-0 z-50 bg-white">
       <div className="grid max-w-screen-xl px-5 min-[1300px]:px-0 mx-auto grid-cols-2">
         <div className="flex items-start">
           <Link
