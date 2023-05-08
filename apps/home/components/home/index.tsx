@@ -1,4 +1,4 @@
-import Companion from './companion';
+import Companion from './companion'
 
 const Home = () => {
   return (
