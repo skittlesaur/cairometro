@@ -34,7 +34,7 @@ const Faq = () => {
                   {index !== 0 && ' '}
                   {word === '{0}' ? (
                     <Link
-                      className="text-primary font-semibold hover:text-red-600 transition-color"
+                      className="text-primary font-semibold hover:text-primary/80 transition-color"
                       href={'/subscription'}
                     >
                       {t('faq.question1.subscription')}

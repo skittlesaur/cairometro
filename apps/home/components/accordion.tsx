@@ -31,17 +31,17 @@ export const AccordionTrigger = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
 >(({ children, className, ...props }, forwardedRef) => (
-  <AccordionPrimitive.Header className="flex gap-2">
+  <AccordionPrimitive.Header className="flex">
     <AccordionPrimitive.Trigger
       className={cn(
-        'group flex flex-1 cursor-default items-center justify-between py-6 px-10 leading-none outline-none font-semibold text-xl rounded text-neutral-600 hover:text-neutral-800 data-[state=open]:text-neutral-800 text-left',
+        'group flex flex-1 gap-3 cursor-default items-start md:items-center justify-between py-6 px-10 leading-none outline-none font-semibold text-xl rounded text-neutral-600 hover:text-neutral-800 data-[state=open]:text-neutral-800 ltr:text-left rtl:text-right',
         className
       )}
       {...props}
       ref={forwardedRef}
     >
       {children}
-      <ChevronDownIcon className="h-5 w-5 text-neutral-400 group-hover:text-neutral-700 ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-all duration-300 group-data-[state=open]:rotate-180 group-data-[state=open]:text-neutral-700" />
+      <ChevronDownIcon className="min-h-[1.25em] min-w-[1.25em] max-h-[1.25em] max-w-[1.25em] text-neutral-400 group-hover:text-neutral-700 ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-all duration-300 group-data-[state=open]:rotate-180 group-data-[state=open]:text-neutral-700" />
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ))
