@@ -17,11 +17,11 @@ const Companion = () => {
           {t('companion.subtitle')}
         </p>
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div className="px-9 py-7 bg-neutral-50 border border-neutral-200 rounded-lg flex flex-col items-center justify-start gap-2">
           <HeartOutline className="w-12 h-12" />
           <div className="flex flex-col gap-1 items-center">
-            <p className="text-lg font-semibold">
+            <p className="text-lg font-semibold text-center">
               {t('companion.liveSupport.title')}
             </p>
             <p className="text-sm text-center">
@@ -32,7 +32,7 @@ const Companion = () => {
         <div className="px-9 py-7 bg-neutral-50 border border-neutral-200 rounded-lg flex flex-col items-center justify-start gap-2">
           <TicketOutline className="w-12 h-12" />
           <div className="flex flex-col gap-1 items-center">
-            <p className="text-lg font-semibold">
+            <p className="text-lg font-semibold text-center">
               {t('companion.easyTracking.title')}
             </p>
             <p className="text-sm text-center">
@@ -43,7 +43,7 @@ const Companion = () => {
         <div className="px-9 py-7 bg-neutral-50 border border-neutral-200 rounded-lg flex flex-col items-center justify-start gap-2">
           <TimerOutline className="w-12 h-12" />
           <div className="flex flex-col gap-1 items-center">
-            <p className="text-lg font-semibold">
+            <p className="text-lg font-semibold text-center">
               {t('companion.realtimeSchedule.title')}
             </p>
             <p className="text-sm text-center">
