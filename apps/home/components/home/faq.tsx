@@ -15,7 +15,7 @@ const Faq = () => {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <h1 className="font-semibold text-5xl text-[#000000] mb-16">
+      <h1 className="w-full font-semibold text-5xl text-[#000000] ltr:text-left rtl:text-right md:!text-center mb-16">
         {t('faq.title')}
       </h1>
       <Accordion

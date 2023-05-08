@@ -1,4 +1,5 @@
-import Faq from './faq'
+import Companion from '@/components/home/companion'
+import Faq from '@/components/home/faq'
 
 const Home = () => {
   return (
@@ -6,9 +7,7 @@ const Home = () => {
       <div className="h-[90vh] bg-neutral-50 flex items-center justify-center mx-[calc((100vw-100%)/-2+8px)]">
         hero component
       </div>
-      <div className="h-[35vh] bg-neutral-50 flex items-center justify-center">
-        companion component
-      </div>
+      <Companion />
       <Faq />
       <div className="h-[70vh] bg-neutral-50 flex items-center justify-center">
         discover component
