@@ -11,7 +11,6 @@ module.exports = {
       colors: {
         primary: '#EA3347',
         ring: '#EA3347',
-        'link-text': 'rgba(234, 51, 71, 1)',
       },
       screens: {
         xl: '1200px',

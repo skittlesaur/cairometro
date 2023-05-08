@@ -15,7 +15,7 @@ export const AccordionItem = React.forwardRef<
 >(({ children, className, ...props }, forwardedRef) => (
   <AccordionPrimitive.Item
     className={cn(
-      'rounded border border-solid border-[#E5E5E5] outline-slate-600',
+      'rounded border border-solid border-neutral-200 bg-white data-[state=open]:bg-neutral-50 transition-colors duration-300',
       className
     )}
     {...props}
@@ -34,17 +34,14 @@ export const AccordionTrigger = React.forwardRef<
   <AccordionPrimitive.Header className="flex">
     <AccordionPrimitive.Trigger
       className={cn(
-        'group flex flex-1 cursor-default items-center justify-between bg-white py-6 px-10 leading-none outline-none data-[state=open]:bg-[#FAFAFA] data-[state=open]:pb-0 font-semibold text-xl rounded text-[#525252] hover:text-[#171717] data-[state=open]:text-[#171717] transition-colors',
+        'group flex flex-1 gap-3 cursor-default items-start md:items-center justify-between py-6 px-10 leading-none outline-none font-semibold text-xl rounded text-neutral-600 hover:text-neutral-800 data-[state=open]:text-neutral-800 ltr:text-left rtl:text-right',
         className
       )}
       {...props}
       ref={forwardedRef}
     >
       {children}
-      <ChevronDownIcon
-        aria-hidden
-        className="h-5 w-5 text-[#A3A3A3] group-hover:text-[#404040] ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-all duration-300 group-data-[state=open]:rotate-180 group-data-[state=open]:text-[#404040] "
-      />
+      <ChevronDownIcon className="min-h-[1.25em] min-w-[1.25em] max-h-[1.25em] max-w-[1.25em] text-neutral-400 group-hover:text-neutral-700 ease-[cubic-bezier(0.87,_0,_0.13,_1)] transition-all duration-300 group-data-[state=open]:rotate-180 group-data-[state=open]:text-neutral-700" />
     </AccordionPrimitive.Trigger>
   </AccordionPrimitive.Header>
 ))
@@ -56,13 +53,15 @@ export const AccordionContent = React.forwardRef<
 >(({ children, className, ...props }, forwardedRef) => (
   <AccordionPrimitive.Content
     className={cn(
-      'overflow-hidden bg-[#FAFAFA] rounded px-10 data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp',
+      'overflow-hidden rounded px-10 data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp',
       className
     )}
     {...props}
     ref={forwardedRef}
   >
-    <div className="text-base text-[#525252] font-normal py-6">{children}</div>
+    <div className="text-base text-neutral-600 font-normal pb-6">
+      {children}
+    </div>
   </AccordionPrimitive.Content>
 ))
 AccordionContent.displayName = AccordionPrimitive.Content.displayName
