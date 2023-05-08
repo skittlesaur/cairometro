@@ -34,7 +34,7 @@ export const AccordionTrigger = React.forwardRef<
   <AccordionPrimitive.Header className="flex">
     <AccordionPrimitive.Trigger
       className={cn(
-        'group flex flex-1 gap-3 cursor-default items-start md:items-center justify-between py-6 px-10 leading-none outline-none font-semibold text-xl rounded text-neutral-600 hover:text-neutral-800 data-[state=open]:text-neutral-800 ltr:text-left rtl:text-right',
+        'group flex flex-1 gap-3 items-start md:items-center justify-between py-6 px-10 leading-none outline-none font-semibold text-xl rounded text-neutral-600 hover:text-neutral-800 data-[state=open]:text-neutral-800 ltr:text-left rtl:text-right',
         className
       )}
       {...props}
