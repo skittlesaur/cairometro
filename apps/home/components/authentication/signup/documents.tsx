@@ -59,8 +59,8 @@ const Documents = forwardRef(({ nextStep }: SignupStepProps, ref) => {
           headers: { 'X-Requested-With': 'XMLHttpRequest' },
         })
 
-        const { secure_url } = data
-        setDocumentUrl(secure_url)
+        const { secure_url: secureUrl } = data
+        setDocumentUrl(secureUrl)
       } catch (e) {
         toast.error(t('documents.uploadError'))
       }
