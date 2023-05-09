@@ -21,7 +21,7 @@ model User {
   updatedAt   DateTime     @updatedAt
   Otp         Otp[]
   documentUrl String?
-  verified    Boolean?    
+  documentVerified    Boolean?    
 }
 
 model Otp {
