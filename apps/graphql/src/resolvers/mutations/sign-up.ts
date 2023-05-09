@@ -33,6 +33,7 @@ const signUp: FieldResolver<'Mutation', 'signup'> = async (_, args, ctx: Context
         email: args.email,
         name: args.name,
         documentUrl: args.documentUrl,
+        verified: false,
       },
     })
   } else {
