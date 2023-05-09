@@ -12,14 +12,16 @@ datasource db {
 }
 
 model User {
-  id         String       @id @default(cuid()) @map("_id")
-  email      String       @unique
-  name       String
-  role       UserRole
-  magicToken MagicToken[]
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  Otp       Otp[]
+  id          String       @id @default(cuid()) @map("_id")
+  email       String       @unique
+  name        String
+  role        UserRole
+  magicToken  MagicToken[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Otp         Otp[]
+  documentUrl String?
+  verified    Boolean      @default(false)
 }
 
 model Otp {

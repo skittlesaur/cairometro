@@ -24,13 +24,26 @@ const signUp: FieldResolver<'Mutation', 'signup'> = async (_, args, ctx: Context
   if (args.userRole.userRole === 'ADMIN')
     throw new GraphQLError('We Caught You ;) GG!!!')
 
-  const user = await prisma.user.create({
-    data: {
-      role: args.userRole.userRole,
-      email: args.email,
-      name: args.name,
-    },
-  })
+  let user
+
+  if (args.userRole.userRole === 'SENIOR') {
+    user = await prisma.user.create({
+      data: {
+        role: args.userRole.userRole,
+        email: args.email,
+        name: args.name,
+        documentUrl: args.documentUrl,
+      },
+    })
+  } else {
+    user = await prisma.user.create({
+      data: {
+        role: args.userRole.userRole,
+        email: args.email,
+        name: args.name,
+      },
+    })
+  }
 
   // @todo: send authentication email to the user
 
