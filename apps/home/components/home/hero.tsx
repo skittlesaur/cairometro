@@ -35,7 +35,7 @@ const Hero = () => {
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent pointer-events-none" />
       </div>
-      <div className="-translate-y-1/2 gap-4 md:gap-8 flex md:flex-row justify-between flex-col items-center border border-neutral-300 rounded-lg shadow-xl bg-white px-5 py-4 md:px-9 md:py-7 mx-4 md:mx-auto md:w-full max-w-[1300px]">
+      <div className="-translate-y-1/2 -mb-28 md:-mb-10 gap-4 md:gap-8 flex md:flex-row justify-between flex-col items-center border border-neutral-300 rounded-lg shadow-xl bg-white px-5 py-4 md:px-9 md:py-7 mx-4 md:mx-auto md:w-full max-w-[1300px]">
         <div className="flex flex-col items-start w-full">
           <label className="text-base font-medium text-base-black block">
             {t('hero.from.title')}
