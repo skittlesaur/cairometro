@@ -17,8 +17,8 @@ import { FileUploader } from 'react-drag-drop-files'
 import toast from 'react-hot-toast'
 
 export type documentRefType = {
-  isValid: () => boolean
-  getValues: () => {
+  isValid: ()=> boolean
+  getValues: ()=> {
     documentUrl: string
   }
 }
