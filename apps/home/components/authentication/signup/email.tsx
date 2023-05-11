@@ -9,18 +9,18 @@ import OrSeparator from '@/components/or-separator'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslation } from 'next-i18next'
 
-export type Step2Ref = {
+export type emailRefType = {
   isValid: ()=> boolean
   getValues: ()=> {
     email: string
   }
 }
 
-const Step2 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
+const Email = forwardRef(({ nextStep }: SignupStepProps, ref) => {
   const [email, setEmail] = useState<string>('')
   const { t } = useTranslation('signup')
 
-  const headingBreak = Math.floor(t('step2.heading').split(' ').length / 2 - 1)
+  const headingBreak = Math.floor(t('email.heading').split(' ').length / 2 - 1)
 
   const isEmailValid = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -41,7 +41,7 @@ const Step2 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
   return (
     <div className="flex flex-col h-full items-center justify-between gap-7">
       <h1 className="text-3xl font-bold text-center">
-        {t('step2.heading').split(' ').map((line, index) => (
+        {t('email.heading').split(' ').map((line, index) => (
           <React.Fragment key={index}>
             {line} {' '}
             {index === headingBreak && <br />}
@@ -54,12 +54,12 @@ const Step2 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
             className="text-sm font-medium text-neutral-500"
             htmlFor="email"
           >
-            {t('step2.emailAddress')}
+            {t('email.emailAddress')}
           </label>
           <Input
             id="name"
             type="email"
-            placeholder={t('step2.emailAddressPlaceholder') as string}
+            placeholder={t('email.emailAddressPlaceholder') as string}
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
@@ -80,13 +80,13 @@ const Step2 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
                 disabled={!isEmailValid()}
                 onClick={nextStep}
               >
-                {t('step2.connectEmail')}
+                {t('email.connectEmail')}
               </Button>
             </motion.div>
           )}
         </AnimatePresence>
         <OrSeparator>
-          {t('step2.or')}
+          {t('email.or')}
         </OrSeparator>
         <ContinueWithGoogle />
       </div>
@@ -94,6 +94,6 @@ const Step2 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
   )
 })
 
-Step2.displayName = 'Signup-Step2'
+Email.displayName = 'Signup-Email'
 
-export default Step2
+export default Email

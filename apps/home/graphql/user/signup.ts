@@ -8,11 +8,12 @@ interface SignUpMutationVariables extends Variables {
   }
   email: string
   name: string
+  documentUrl?: string
 }
 
 const SIGNUP_MUTATION = /* GraphQL */ `
-mutation signUp($userRole: UserRoleEnumArg!, $email: String!, $name: String!) {
-  signUp(userRole: $userRole, email: $email, name: $name) {
+mutation signUp($userRole: UserRoleEnumArg!, $email: String!, $name: String!, $documentUrl: String) {
+  signUp(userRole: $userRole, email: $email, name: $name, documentUrl: $documentUrl) {
     id
   }
 }

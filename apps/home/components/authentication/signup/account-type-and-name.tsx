@@ -9,7 +9,7 @@ import InformationCircleIcon from '@/icons/information-circle.svg'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslation } from 'next-i18next'
 
-export type Step1Ref = {
+export type accountTypeAndNameRefType = {
   isValid: ()=> boolean
   getValues: ()=> {
     name: string
@@ -17,12 +17,12 @@ export type Step1Ref = {
   }
 }
 
-const Step1 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
+const AccountTypeAndName = forwardRef(({ nextStep }: SignupStepProps, ref) => {
   const [accountType, setAccountType] = useState<AccountType | undefined>()
   const [name, setName] = useState<string>('')
   const { t, i18n } = useTranslation('signup')
 
-  const headingBreak = Math.floor(t('step1.heading').split(' ').length / 2 - 1)
+  const headingBreak = Math.floor(t('accountTypeAndName.heading').split(' ').length / 2 - 1)
   
   useImperativeHandle(ref, () => ({
     isValid: () => {
@@ -39,7 +39,7 @@ const Step1 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
   return (
     <div className="flex flex-col h-full items-center justify-between gap-7">
       <h1 className="text-3xl font-bold text-center">
-        {t('step1.heading').split(' ').map((line, index) => (
+        {t('accountTypeAndName.heading').split(' ').map((line, index) => (
           <React.Fragment key={index}>
             {line} {' '}
             {index === headingBreak && <br />}
@@ -57,13 +57,13 @@ const Step1 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
         >
           <div className="flex flex-col rtl:items-end gap-0.5">
             <h2 className="font-semibold">
-              {t('step1.accountType.adult.title')}
+              {t('accountTypeAndName.accountType.adult.title')}
             </h2>
             <p
               dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
               className="text-neutral-500"
             >
-              {t('step1.accountType.adult.description')}
+              {t('accountTypeAndName.accountType.adult.description')}
             </p>
           </div>
           <RadioGroupItem
@@ -77,13 +77,13 @@ const Step1 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
         >
           <div className="flex flex-col rtl:items-end gap-0.5">
             <h2 className="font-semibold">
-              {t('step1.accountType.senior.title')}
+              {t('accountTypeAndName.accountType.senior.title')}
             </h2>
             <p
               dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
               className="text-neutral-500"
             >
-              {t('step1.accountType.senior.description')}
+              {t('accountTypeAndName.accountType.senior.description')}
             </p>
           </div>
           <RadioGroupItem
@@ -97,12 +97,12 @@ const Step1 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
           className="text-sm font-medium text-neutral-500"
           htmlFor="name"
         >
-          {t('step1.yourName')}
+          {t('accountTypeAndName.yourName')}
         </label>
         <Input
           id="name"
           type="text"
-          placeholder={t('step1.yourNamePlaceholder') as string}
+          placeholder={t('accountTypeAndName.yourNamePlaceholder') as string}
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
@@ -116,11 +116,11 @@ const Step1 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 3 }}
               transition={{ duration: 0.2 }}
-              className="flex items-center gap-1 text-neutral-500 h-4"
+              className="flex items-center gap-1 text-neutral-500 h-4 mb-4 min-[410px]:mb-0"
             >
               <InformationCircleIcon className="w-4 h-4" />
               <p className="text-sm">
-                {t('step1.idVerification')}
+                {t('accountTypeAndName.idVerification')}
               </p>
             </motion.div>
           ) : (
@@ -136,13 +136,13 @@ const Step1 = forwardRef(({ nextStep }: SignupStepProps, ref) => {
           disabled={!accountType || !name}
           onClick={nextStep}
         >
-          {t('step1.continue')}
+          {t('accountTypeAndName.continue')}
         </Button>
       </div>
     </div>
   )
 })
 
-Step1.displayName = 'Signup-Step1'
+AccountTypeAndName.displayName = 'Signup-AccountTypeAndName'
 
-export default Step1
+export default AccountTypeAndName

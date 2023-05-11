@@ -1,5 +1,6 @@
 import express, { Response } from 'express'
 
+import sgMail from '@sendgrid/mail'
 import * as bodyParser from 'body-parser'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
@@ -16,6 +17,9 @@ app.use(compression())
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+
+const apiKey = process.env.SENDGRID_API_KEY ?? ''
+sgMail.setApiKey(apiKey)
 
 
 app.get('/ping', (_, res: Response) => {
