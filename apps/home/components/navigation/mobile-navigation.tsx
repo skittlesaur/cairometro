@@ -6,13 +6,13 @@ import { buttonVariants } from '@/components/button'
 import HamburgerMenu from '@/components/navigation/hamburger-menu'
 import { NavigationProps } from '@/components/navigation/index'
 import { Separator } from '@/components/separator'
+import ChatbubblesIcon from '@/icons/chatbubbles.svg'
 import ChevronDownIcon from '@/icons/chevron-down.svg'
 import DocumentTextIcon from '@/icons/document-text.svg'
 import EarthIcon from '@/icons/earth.svg'
 import HomeIcon from '@/icons/home.svg'
 import Logo from '@/icons/logo.svg'
 import TicketIcon from '@/icons/ticket.svg'
-import TrainIcon from '@/icons/train.svg'
 import useWindowSize from '@/lib/use-window-size'
 
 import cn from 'classnames'
@@ -32,11 +32,6 @@ const MobileNavigation = ({ activePath }: NavigationProps) => {
       name: t('navigation.home'),
       href: '/',
       Icon: HomeIcon,
-    },
-    {
-      name: t('navigation.stations'),
-      href: '/stations',
-      Icon: TrainIcon,
     },
     {
       name: t('navigation.subscriptions'),
@@ -106,7 +101,10 @@ const MobileNavigation = ({ activePath }: NavigationProps) => {
               <Link
                 href="/login"
                 className={buttonVariants({
-                  variant: 'ghost', size: 'sm', padding: 'sm', className: 'hover:bg-gray-400/10 hover:border-gray-700/20',
+                  variant: 'ghost',
+                  size: 'sm',
+                  padding: 'sm',
+                  className: 'hover:bg-gray-400/10 hover:border-gray-700/20',
                 })}
               >
                 {t('navigation.login')}
@@ -161,6 +159,16 @@ const MobileNavigation = ({ activePath }: NavigationProps) => {
                 </div>
                 <ChevronDownIcon className="w-5 h-5 fill-current" />
               </button>
+              <Link
+                href="/support"
+                className={`flex items-center gap-2 text-lg py-2 px-4 rounded transition-colors ${cn({
+                  'text-white font-medium bg-gray-400/10 border border-gray-700/20': activePath === '/support',
+                  'text-neutral-400 hover:bg-gray-500/10 border border-transparent hover:border-gray-600/20': activePath !== '/support',
+                })}`}
+              >
+                <ChatbubblesIcon className="w-5 h-5 fill-current" />
+                {t('navigation.support')}
+              </Link>
             </div>
           </motion.div>
         </motion.nav>
