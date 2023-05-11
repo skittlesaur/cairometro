@@ -1,4 +1,10 @@
-import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useState } from 'react'
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from 'react'
 import Link from 'next/link'
 
 import { SignupStepProps } from '@/components/authentication/signup/index'
@@ -36,27 +42,31 @@ const Documents = forwardRef(({ nextStep }: SignupStepProps, ref) => {
     },
   }))
 
-  const fileUploaderHandleChange = useCallback(async (file: string) => {
-    setIsLoading(true)
+  const fileUploaderHandleChange = useCallback(
+    async (file: string) => {
+      setIsLoading(true)
 
-    const CLOUDINARY_UPLOAD_PRESET = 'cairo-metro'
-    const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/dy9mp2tho/image/upload'
+      const CLOUDINARY_UPLOAD_PRESET = 'cairo-metro'
+      const CLOUDINARY_UPLOAD_URL =
+        'https://api.cloudinary.com/v1_1/dy9mp2tho/image/upload'
 
-    const formData = new FormData()
-    formData.append('file', file)
-    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET)
 
-    try {
-      const { data } = await axios.post(CLOUDINARY_UPLOAD_URL, formData, {
-        headers: { 'X-Requested-With': 'XMLHttpRequest' },
-      })
+      try {
+        const { data } = await axios.post(CLOUDINARY_UPLOAD_URL, formData, {
+          headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        })
 
-      const { url } = data
-      setDocumentUrl(url)
-    } catch (e) {
-      toast.error(t('documents.uploadError'))
-    }
-  }, [t])
+        const { secure_url: secureUrl } = data
+        setDocumentUrl(secureUrl)
+      } catch (e) {
+        toast.error(t('documents.uploadError'))
+      }
+    },
+    [t]
+  )
 
   useEffect(() => {
     if (documentUrl) {
@@ -68,12 +78,13 @@ const Documents = forwardRef(({ nextStep }: SignupStepProps, ref) => {
     <div className="flex flex-col h-full items-center justify-between gap-7">
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold text-center">
-          {t('documents.heading').split(' ').map((line, index) => (
-            <React.Fragment key={index}>
-              {line} {' '}
-              {index === headingBreak && <br />}
-            </React.Fragment>
-          ))}
+          {t('documents.heading')
+            .split(' ')
+            .map((line, index) => (
+              <React.Fragment key={index}>
+                {line} {index === headingBreak && <br />}
+              </React.Fragment>
+            ))}
         </h1>
         <div>
           <p className="text-sm text-neutral-500 inline ltr:mr-2 rtl:ml-2">
@@ -100,18 +111,18 @@ const Documents = forwardRef(({ nextStep }: SignupStepProps, ref) => {
           classes="-mx-8"
         >
           <div
-            className={`cursor-pointer p-10 transition-colors text-neutral-500 hover:text-neutral-600 group aspect-video w-full grow rounded-2xl border-2 border-dashed border-neutral-300 hover:border-neutral-400 flex flex-col items-center justify-center gap-2 ${cn({
-              'cursor-not-allowed': isLoading || !!documentUrl,
-            })}`}
+            className={`cursor-pointer p-10 transition-colors text-neutral-500 hover:text-neutral-600 group aspect-video w-full grow rounded-2xl border-2 border-dashed border-neutral-300 hover:border-neutral-400 flex flex-col items-center justify-center gap-2 ${cn(
+              {
+                'cursor-not-allowed': isLoading || !!documentUrl,
+              }
+            )}`}
           >
             <CloudUploadOutline
               className={`w-24 h-24 ${cn({
                 'animate-arrow': isLoading,
               })}`}
             />
-            <p className="font-medium">
-              {t('documents.dragAndDrop')}
-            </p>
+            <p className="font-medium">{t('documents.dragAndDrop')}</p>
           </div>
         </FileUploader>
       </div>
