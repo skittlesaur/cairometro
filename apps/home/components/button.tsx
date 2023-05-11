@@ -15,12 +15,13 @@ const buttonVariants = cva(
         ghost: 'hover:bg-gray-100 border border-transparent hover:border-gray-200',
         link: 'underline-offset-4 hover:underline',
         linkSecondary: 'text-neutral-600 hover:text-black',
-        ticket: 'bg-primary text-white border border-transparent hover:border-primary hover:bg-transparent hover:text-primary transition-colors',
+        ticket: 'bg-primary text-white border border-transparent hover:border-primary hover:bg-transparent hover:text-primary transition-colors ',
       },
       size: {
         default: 'h-10',
         sm: 'h-9 rounded-md',
         lg: 'h-11 rounded-md',
+        xl: 'h-12 w-40 rounded',
       },
       padding: {
         default: 'px-4 py-2',
