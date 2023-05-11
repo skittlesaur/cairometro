@@ -12,6 +12,7 @@ const navigationVariants = cva(
         default: 'bg-white border-gray-200',
         transparent: 'bg-transparent',
         blur: 'before:absolute before:inset-0 before:z-[-1] before:bg-white/80 before:backdrop-blur border-gray-200',
+        'blur-sm': 'before:absolute before:inset-0 before:z-[-1] before:bg-white/80 before:backdrop-blur-sm border-gray-200',
       },
     },
     defaultVariants: {
