@@ -53,7 +53,7 @@ const MobileNavigation = ({ activePath }: NavigationProps) => {
     closed: {
       clipPath: `circle(0px at ${i18n.language === 'ar' ? '7vw' : '90vw'} 25px)`,
       transition: {
-        delay: 0.5,
+        delay: 0.1,
         type: 'spring',
         stiffness: 400,
         damping: 40,
@@ -82,7 +82,7 @@ const MobileNavigation = ({ activePath }: NavigationProps) => {
         >
           <button
             className={`relative z-[1] ${cn({
-              'text-black hover:text-black/80 transition-colors delay-[650ms]': !hambugerMenuOpen,
+              'text-black hover:text-black/80 transition-colors delay-[280ms]': !hambugerMenuOpen,
               'text-white hover:text-white/80 transition-colors': hambugerMenuOpen,
             })}`}
             onClick={() => setHamburgerMenuOpen(prev => !prev)}
