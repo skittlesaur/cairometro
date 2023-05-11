@@ -10,9 +10,9 @@ const Home = () => {
       <Hero />
       <Companion />
       <Faq />
-      <div className="h-[70vh] bg-neutral-50 flex items-center justify-center">
-        <Discover />
-      </div>
+      
+      <Discover />
+      
     </div>
   )
 }
