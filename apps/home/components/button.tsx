@@ -15,7 +15,7 @@ const buttonVariants = cva(
         ghost: 'hover:bg-gray-100 border border-transparent hover:border-gray-200',
         link: 'underline-offset-4 hover:underline',
         linkSecondary: 'text-neutral-600 hover:text-black',
-        ticket: 'bg-primary text-white border border-transparent hover:border-primary hover:bg-transparent hover:text-primary transition-colors ',
+        ticket: 'transition-all duration-150 bg-primary text-white border border-transparent hover:border-primary hover:bg-transparent hover:text-primary transition-colors group-hover:border-primary group-hover:bg-transparent group-hover:text-primary',
       },
       size: {
         default: 'h-10',
