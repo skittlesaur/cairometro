@@ -8,14 +8,14 @@ const Discover = ()=>{
 
     <div className="w-full flex flex-col items-center">
       <div className="">
-        <h1 className="text-5xl font-semibold ">Not sure where to discover?</h1>
+        <h1 className="text-5xl text-center font-semibold ">Not sure where to discover?</h1>
         <h2 className="text-xl text-center font-normal text-neutral-400  ">Here are some suggestions based on your current location</h2>
       </div>
       <Link
         href="#"
-        className="transition ease-in-out delay 150ms hover:transition-all flex flex-col items-center bg-white border border-gray-300 rounded-2xl shadow lg:flex-row hover:-translate-y-1 w-full py-8 px-16 gap-8 justify-between"
+        className="delay 150ms flex items-center bg-white border border-gray-300 rounded-2xl shadow  hover:shadow-lg w-full py-8 px-16 gap-8 justify-between"
       >
-        <div className=" w-[60%]  lg:flex">
+        <div className=" w-[62%]  lg:flex">
           <div className="flex w-full items-center gap-8">
             <div className="">
               <p className="text-lg-medium text-center ">Sadat</p>
@@ -25,7 +25,7 @@ const Discover = ()=>{
             <div className="rounded-full bg-white border border-gray-300 min-w-[0.75em] max-w-[0.75em] min-h-[0.75em] max-h-[0.75em]"></div>
             <div className="flex flex-col relative w-full">
               <hr className="w-full my-8 border-t-2 border-dashed border-gray-200" />
-              <p className="absolute left-1/2 -translate-x-1/2 top-1/2">7 Stations</p>
+              <p className="absolute left-1/2 -translate-x-1/2 top-1/2 text-center">7 Stations</p>
             </div>
             
             <div className="rounded-full bg-gray-300 min-w-[0.75em] max-w-[0.75em] min-h-[0.75em] max-h-[0.75em]"></div>
