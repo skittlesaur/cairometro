@@ -14,12 +14,13 @@ const AppLayout = ({ children, navigation }: AppLayoutProps) => {
   return (
     <div
       dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
+      className="max-w-screen overflow-x-hidden"
     >
       <Navigation
         activePath={navigation.activePath}
         variant={navigation.variant}
       />
-      <div className="max-w-screen-xl mx-auto">
+      <div className="max-w-screen-xl mx-4 min-[1300px]:mx-auto">
         {children}
       </div>
       <Footer />

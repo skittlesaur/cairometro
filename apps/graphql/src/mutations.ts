@@ -12,6 +12,7 @@ const mutations = mutationType({
         userRole: nonNull(arg({ type: UserRoleEnumArg })),
         email: nonNull(stringArg()),
         name: nonNull(stringArg()),
+        documentUrl: stringArg(),
       },
       resolve: signUp,
     })

@@ -4,7 +4,7 @@
   "title": "Cairo Metro",
   "navigation": {
     "home": "Home",
-    "stations": "Stations",
+    "support": "Support",
     "subscriptions": "Subscriptions",
     "instructions": {
       "title": "Instructions",
@@ -17,9 +17,9 @@
           "title": "Rules & Code of Conduct",
           "description": "Rules and regulations to be followed by the commuters"
         },
-        "schedule": {
-          "title": "Schedule",
-          "description": "Schedule of the trains"
+        "linesAndSchedule": {
+          "title": "Lines and Schedule",
+          "description": "Lines and schedule of the metro"
         }
       }
     },
