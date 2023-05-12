@@ -1,3 +1,13 @@
 {
-  "seo": { "title": "Sign in to Cairo Metro" }
+  "seo": {
+    "title": "Sign in to Cairo Metro",
+    "description": "Login page for Egy Metro"
+  },
+  "login": "Login",
+  "email": "Email Address",
+  "or": "OR",
+  "signupinstead": {
+    "question": "You don’t have an account yet? {0}",
+    "signup": "Sign up"
+  }
 }
