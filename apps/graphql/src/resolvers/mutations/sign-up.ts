@@ -67,7 +67,9 @@ const signUp: FieldResolver<'Mutation', 'signup'> = async (_, args, ctx: Context
         magicLink: `${process.env.FRONTEND_URL}/magic-link/${magicLink.id}`,
       }
     )
-    return true
+    return {
+      id: user.id,
+    }
   } catch (error) {
     throw new GraphQLError('Error sending email, please try again')
   }
