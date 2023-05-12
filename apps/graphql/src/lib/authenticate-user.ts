@@ -35,7 +35,6 @@ const authenticateUser = async (prisma: PrismaClient, req: Request): Promise<Use
     const user = await findUser(prisma, userId)
     return user
   } catch (error) {
-    console.error(error)
     return null
   }
 }
