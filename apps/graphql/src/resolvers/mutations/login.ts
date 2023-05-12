@@ -34,6 +34,7 @@ const login: FieldResolver<'Mutation', 'login'> =
     try {
       await sendEmail<EmailTemplate.LOGIN>(
         user.email,
+        'Login to Cairo Metro',
         EmailTemplate.LOGIN,
         {
           name: user.name,

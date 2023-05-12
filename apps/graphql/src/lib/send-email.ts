@@ -10,12 +10,10 @@ export enum EmailTemplate {
 }
 
 interface SignupEmailVariables {
-  subject?: 'Verify your Cairo Metro account'
   name: string;
 }
 
 interface LoginEmailVariables {
-  subject?: 'Login to Cairo Metro'
   name: string;
   otp: Array<number>;
   magicLink: string;
@@ -31,6 +29,7 @@ export type EmailVariables<T extends EmailTemplate> = EmailVariablesMap[T];
 
 const sendEmail = async <T extends EmailTemplate>(
   recipient: `${string}@${string}.${string}`,
+  subject: string,
   template: T,
   variables: EmailVariables<T>,
 ) => {
@@ -44,7 +43,7 @@ const sendEmail = async <T extends EmailTemplate>(
   const message = {
     to: recipient,
     from: process.env.SENDGRID_FROM ?? '',
-    subject: variables.subject,
+    subject,
     html: html,
   }
   
