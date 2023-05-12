@@ -83,6 +83,7 @@ const Signup = () => {
       console.log(result)
       router.push('/auth/verify')
     } catch (error) {
+      console.log('error', error)
       toast.error('Something went wrong')
     }
   }
