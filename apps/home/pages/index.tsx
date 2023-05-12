@@ -13,7 +13,7 @@ const HomePage: NextPage = () => {
   return (
     <AppLayout
       navigation={{
-        variant: 'blur-sm',
+        variant: 'blur',
         activePath: '/',
       }}
     >
