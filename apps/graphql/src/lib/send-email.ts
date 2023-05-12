@@ -5,14 +5,23 @@ import getMjmlTemplate from './get-mjml-template'
 
 export enum EmailTemplate {
   SIGNUP = 'signup',
+  LOGIN = 'login'
 }
 
 interface SignupEmailVariables {
   name: string;
 }
 
+interface LoginEmailVariables {
+  name: string;
+  otp: Array<number>;
+  magicLink: string;
+  helpEmail: string;
+}
+
 interface EmailVariablesMap {
   [EmailTemplate.SIGNUP]: SignupEmailVariables;
+  [EmailTemplate.LOGIN]: LoginEmailVariables;
 }
 
 export type EmailVariables<T extends EmailTemplate> = EmailVariablesMap[T];
