@@ -1,10 +1,9 @@
 import Link from 'next/link'
 
+import { Button } from '@/components/button'
 import WindowSizeWrapper from '@/components/window-size-wrapper'
 
 import { useTranslation } from 'next-i18next'
-
-import { Button } from './button'
 
 interface TicketProps {
   departure: string
