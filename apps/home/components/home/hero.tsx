@@ -18,7 +18,7 @@ const Hero = () => {
 
 
   return (
-    <div className="w-screen -translate-x-4 md:translate-x-0 md:mx-[calc((100vw-100%)/-2+8px)]">
+    <div className="w-screen -mx-4 md:mx-[calc((100vw-100%)/-2+8px)]">
       <div className="relative">
         {isLoaded ? (
           <GoogleMap
