@@ -1,12 +1,11 @@
 import { GraphQLError } from 'graphql/error'
 
-import { User } from '@prisma/client'
 import { FieldResolver } from 'nexus'
 
 import { Context } from '../../context'
 import isEmailValid from '../../lib/is-email-valid'
 
-const signUp: FieldResolver<'Mutation', 'signup'> = async (_, args, ctx: Context): Promise<Partial<User>> => {
+const signUp: FieldResolver<'Mutation', 'signup'> = async (_, args, ctx: Context) => {
   const { prisma } = ctx
 
   const checkIfUserExists = await prisma.user.findUnique({
@@ -51,10 +50,11 @@ const signUp: FieldResolver<'Mutation', 'signup'> = async (_, args, ctx: Context
     })
   }
 
+  console.log(user.email)
+
   // @todo: send authentication email to the user
 
-  return user
-
+  return true
 }
 
 
