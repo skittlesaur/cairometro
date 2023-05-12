@@ -1,44 +1,31 @@
-import Ticket from '../ticket'
+import Ticket from '@/components/ticket'
 
-const Discover = ()=>{
+import { useTranslation } from 'next-i18next'
 
+const Discover = () => {
+  const { t } = useTranslation('home')
+  
   return (
-
-    <div className="w-full flex flex-col items-center gap-8">
-      <div className="">
-        <h1 className="text-5xl text-center font-semibold ">Not sure where to discover?</h1>
-        <h2 className="text-xl text-center font-normal text-neutral-400  ">Here are some suggestions based on your current location</h2>
+    <div className="w-full flex flex-col items-center gap-16">
+      <div className="flex flex-col gap-2 text-left md:text-center">
+        <h1 className="text-5xl font-semibold">
+          {t('discover.title')}
+        </h1>
+        <h2 className="text-xl text-neutral-400">
+          {t('discover.subtitle')}
+        </h2>
       </div>
-      <Ticket
-        departure="Sadat"
-        arrival="Maadi"
-        arrivalTime="12:30 pm"
-        departureTime="12:07 pm"
-        href="#"
-        price={5}
-        stations={7}
-      /> 
-
-      <Ticket
-        departure="Kit-Kat"
-        departureTime="11:26pm"
-        arrival="Adly Mansour"
-        arrivalTime="12:12am"
-        href="#"
-        price={10}
-        stations={23}
-      />
-
-      <Ticket
-        departure="Safaa Hegazi"
-        departureTime="11:30pm"
-        arrival="Shubra El-Kheima"
-        arrivalTime="11:59pm"
-        href="#"
-        price={7}
-        stations={11}
-      />
-      
+      <div className="w-full flex flex-col gap-5">
+        <Ticket
+          departure="Sadat"
+          arrival="Maadi"
+          arrivalTime={new Date()}
+          departureTime={new Date()}
+          href="#"
+          price={5}
+          stations={7}
+        />
+      </div>
     </div>
   )
 }
