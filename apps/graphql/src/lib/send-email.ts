@@ -10,12 +10,12 @@ export enum EmailTemplate {
 }
 
 interface SignupEmailVariables {
-  subject: 'Verify your Cairo Metro account'
+  subject?: 'Verify your Cairo Metro account'
   name: string;
 }
 
 interface LoginEmailVariables {
-  subject: 'Login to Cairo Metro'
+  subject?: 'Login to Cairo Metro'
   name: string;
   otp: Array<number>;
   magicLink: string;
