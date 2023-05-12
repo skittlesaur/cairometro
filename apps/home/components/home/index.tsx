@@ -1,6 +1,8 @@
 import Companion from '@/components/home/companion'
+import Discover from '@/components/home/discover'
 import Faq from '@/components/home/faq'
 import Hero from '@/components/home/hero'
+
 
 const Home = () => {
   return (
@@ -8,9 +10,7 @@ const Home = () => {
       <Hero />
       <Companion />
       <Faq />
-      <div className="h-[70vh] bg-neutral-50 flex items-center justify-center">
-        discover component
-      </div>
+      <Discover />
     </div>
   )
 }

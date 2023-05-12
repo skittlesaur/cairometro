@@ -61,5 +61,12 @@
       "title": "Can you take food and drink onto the trains?",
       "answer": "Eating and drinking are not allowed on the Cairo Metro trains. However, passengers are allowed to carry bottled water or other non-alcoholic drinks with them. It is recommended to keep the train cars clean and dispose of any trash properly."
     }
+  },
+  "discover": {
+    "title": "Not sure where to discover?",
+    "subtitle": "Here are some suggestions based on your current location",
+    "viewDetails": "View Details",
+    "egp": "EGP",
+    "stations": "Stations"
   }
 }
