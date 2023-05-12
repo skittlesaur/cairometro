@@ -14,12 +14,11 @@ const AuthenticationLayout = ({ children, type }: AuthenticationProps) => {
 
   return (
     <div
+      className="max-w-screen overflow-hidden"
       dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
     >
       <AuthenticationNavigation type={type} />
-      <div className="max-w-screen-xl mx-auto">
-        {children}
-      </div>
+      <div className="max-w-screen-xl mx-auto">{children}</div>
     </div>
   )
 }
