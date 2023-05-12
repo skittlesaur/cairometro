@@ -2,12 +2,13 @@ import { arg, mutationType, nonNull, stringArg } from 'nexus'
 
 import login from './resolvers/mutations/login'
 import signUp from './resolvers/mutations/sign-up'
+import UserType from './types/user'
 import UserRoleEnumArg from './types/user-role-enum-arg'
 
 const mutations = mutationType({
   definition(t) {
     t.field('login', {
-      type: 'Boolean',
+      type: UserType,
       args: {
         email: nonNull(stringArg()),
       },
@@ -15,7 +16,7 @@ const mutations = mutationType({
     })
 
     t.field('signUp', {
-      type: 'Boolean',
+      type: UserType,
       args: {
         userRole: nonNull(arg({ type: UserRoleEnumArg })),
         email: nonNull(stringArg()),
