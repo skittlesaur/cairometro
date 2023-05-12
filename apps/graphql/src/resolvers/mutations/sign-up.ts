@@ -56,18 +56,21 @@ const signUp: FieldResolver<'Mutation', 'signup'> = async (_, args, ctx: Context
   const otp = await generateOTP(user, prisma)
   const magicLink = await generateMagicLink(user, prisma)
 
-  sendEmail<EmailTemplate.SIGNUP>(
-    user.email,
-    'Verify your Cairo Metro account',
-    EmailTemplate.SIGNUP,
-    {
-      name: user.name,
-      otp: otp.code.split('').map((num) => parseInt(num)),
-      magicLink: `${process.env.FRONTEND_URL}/magic-link/${magicLink.id}`,
-    }
-  )
-  return {
-    id: user.id,
+  try {
+    await sendEmail<EmailTemplate.SIGNUP>(
+      user.email,
+      'Verify your Cairo Metro account',
+      EmailTemplate.SIGNUP,
+      {
+        name: user.name,
+        otp: otp.code.split('').map((num) => parseInt(num)),
+        magicLink: `${process.env.FRONTEND_URL}/magic-link/${magicLink.id}`,
+      }
+    )
+
+    return true
+  } catch (error) {
+    throw new GraphQLError('Something went wrong, please try again later')
   }
 }
 

@@ -42,6 +42,7 @@ const login: FieldResolver<'Mutation', 'login'> =
           magicLink: `${process.env.FRONTEND_URL}/magic-link/${magicLink.id}`,
         }
       )
+
       return true
     } catch (error) {
       throw new GraphQLError('Error sending email, please try again')

@@ -45,7 +45,7 @@ const Signup = () => {
     if (!isValid()) return
 
     const { accountType, name } = getValues()
-    
+
     if (accountType === AccountType.SENIOR) {
       return setData(prev => ({
         ...prev,
@@ -72,7 +72,7 @@ const Signup = () => {
     const { email } = getValues()
 
     try {
-      const result = await signupMutation({
+      await signupMutation({
         userRole: {
           userRole: data.accountType === AccountType.ADULT ? 'ADULT' : 'SENIOR',
         },
@@ -80,10 +80,8 @@ const Signup = () => {
         email,
         documentUrl: data.documentUrl,
       })
-      console.log(result)
-      router.push('/auth/verify')
+      router.push(`/auth/verify?email=${email}`, '/auth/verify')
     } catch (error) {
-      console.log('error', error)
       toast.error('Something went wrong')
     }
   }
