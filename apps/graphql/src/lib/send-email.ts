@@ -9,6 +9,8 @@ export enum EmailTemplate {
 
 interface SignupEmailVariables {
   name: string;
+  otp: number;
+  magicLink: string;
 }
 
 interface EmailVariablesMap {
