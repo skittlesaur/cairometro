@@ -1,6 +1,7 @@
 import sgMail from '@sendgrid/mail'
 import mjml2html from 'mjml'
 
+import getEmailDefaultVariables from './email-defaults'
 import getMjmlTemplate from './get-mjml-template'
 
 export enum EmailTemplate {
@@ -9,14 +10,16 @@ export enum EmailTemplate {
 }
 
 interface SignupEmailVariables {
+  subject: 'Verify your Cairo Metro account'
   name: string;
 }
 
 interface LoginEmailVariables {
+  subject: 'Login to Cairo Metro'
   name: string;
   otp: Array<number>;
   magicLink: string;
-  helpEmail: string;
+  helpEmail?: string;
 }
 
 interface EmailVariablesMap {
@@ -31,6 +34,7 @@ const sendEmail = async <T extends EmailTemplate>(
   template: T,
   variables: EmailVariables<T>,
 ) => {
+  variables = getEmailDefaultVariables(variables)
   const mjmlTemplate = getMjmlTemplate(template, variables)
 
   if (!mjmlTemplate) throw new Error('No template found')
@@ -40,12 +44,12 @@ const sendEmail = async <T extends EmailTemplate>(
   const message = {
     to: recipient,
     from: process.env.SENDGRID_FROM ?? '',
-    subject: template,
+    subject: variables.subject,
     html: html,
   }
-  sgMail.send(message)
-    .then(() => console.log('email has been sent.'))
-    .catch((err: { message: string }) => console.log(err.message))
+  
+  await sgMail.send(message)
+  console.log(`Email sent to ${recipient}`)
 }
 
 export default sendEmail

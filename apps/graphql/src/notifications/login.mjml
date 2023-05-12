@@ -2,38 +2,51 @@
   <mj-body background-color="#F3F4F6">
     <mj-section>
       <mj-column>
-      <mj-image width="100px" src="https://i.imgur.com/UHHCEoE.png" alt="img" />
-        <mj-text font-size="18px" align="center" font-weight="400">Hi <span style="font-weight: 600;">{{name}}</span>, <br />
-you have requested access to login to your account.</mj-text>
+        <mj-image width="100px" src="https://cairometro.baraa.app/assets/logo.png" alt="img"/>
+        <mj-text font-size="18px" align="center" font-weight="400">Hi <span style="font-weight: 600;">{{name}}</span>,
+          <br/>
+          you have requested access to login to your account.
+        </mj-text>
       </mj-column>
-      </mj-section>
-    
+    </mj-section>
+
     <mj-wrapper border-radius="10px" background-color="#FFFFFF">
       <mj-section padding-top="20px" padding-bottom="0px" padding-left="30px" padding-right="30px">
         <mj-column>
-          <mj-image width="200px" src="https://cairometro.baraa.app/assets/emails/login.png" alt="img" />
-          <mj-text font-size="16px" color="#737373" align="center" line-height="24px" font-weight="400">Here's a magic link that lets you immediately access your account</mj-text>
-          <mj-text color="#EA3347" font-weight="600" line-height="24px" align="center"><a href={{magicLink}} style="color: #EA3347; text-decoration: none;">{{magicLink}}</a></mj-text>
+          <mj-image width="200px" src="https://cairometro.baraa.app/assets/emails/login.png" alt="img"/>
+          <mj-text font-size="16px" color="#737373" align="center" line-height="24px" font-weight="400">Here's a magic
+            link that lets you immediately access your account
+          </mj-text>
+          <mj-text color="#EA3347" font-weight="600" line-height="24px" align="center">
+            <a href={{magicLink}} style="color: #EA3347; text-decoration: none;">{{magicLink}}</a>
+          </mj-text>
           <mj-divider border-color="#E5E5E5" width="326.51px" border-width="1px"></mj-divider>
-          <mj-text font-size="12px" color="#737373" align="center" line-height="16px" font-weight="400">Or login with One-Time Password instead</mj-text>
+          <mj-text font-size="12px" color="#737373" align="center" line-height="16px" font-weight="400">Or login with
+            One-Time Password instead
+          </mj-text>
         </mj-column>
       </mj-section>
 
       <mj-section>
-      {{#each otp}}
-      <mj-column width="36px" background-color="#F3F4F6" border="1px solid #E5E5E5" border-radius="5px">
-            <mj-text line-height="28px" color="#525252" font-weight="400" align="center" padding="6px" font-size="18px">{{this}}</mj-text>
+        {{#each otp}}
+        <mj-column width="36px" background-color="#F3F4F6" border="1px solid #E5E5E5" border-radius="5px">
+          <mj-text line-height="28px" color="#525252" font-weight="400" align="center" padding="6px" font-size="18px">
+            {{this}}
+          </mj-text>
         </mj-column>
         <mj-column width="10px"></mj-column>
-      {{/each}}
+        {{/each}}
       </mj-section>
-      </mj-wrapper>
-      <mj-section>
+    </mj-wrapper>
+    <mj-section>
       <mj-column>
-      <mj-text line-height="20px" color="#737373" font-weight="400" align="center" font-size="14px">Need help? Email us at {{helpEmail}}</mj-text>
-      <mj-text line-height="24px" color="#000000" font-weight="500" align="center" font-size="16px">Cairo Metro</mj-text>
+        <mj-text line-height="20px" color="#737373" font-weight="400" align="center" font-size="14px">Need help? Email
+          us at {{helpEmail}}
+        </mj-text>
+        <mj-text line-height="24px" color="#000000" font-weight="500" align="center" font-size="16px">Cairo Metro
+        </mj-text>
       </mj-column>
-      </mj-section>
-      
+    </mj-section>
+
   </mj-body>
 </mjml>
