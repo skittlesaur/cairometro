@@ -11,8 +11,9 @@ export enum EmailTemplate {
 
 interface SignupEmailVariables {
   name: string;
-  otp: number;
+  otp: Array<number>;
   magicLink: string;
+  helpEmail?: string;
 }
 
 interface LoginEmailVariables {
@@ -30,7 +31,7 @@ interface EmailVariablesMap {
 export type EmailVariables<T extends EmailTemplate> = EmailVariablesMap[T];
 
 const sendEmail = async <T extends EmailTemplate>(
-  recipient: `${string}@${string}.${string}`,
+  recipient: string,
   subject: string,
   template: T,
   variables: EmailVariables<T>,
