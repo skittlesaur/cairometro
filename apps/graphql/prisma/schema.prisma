@@ -12,19 +12,25 @@ datasource db {
 }
 
 model User {
-  id         String       @id @default(cuid()) @map("_id")
-  email      String       @unique
-  name       String
-  role       UserRole
-  magicToken MagicToken[]
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
+  id          String       @id @default(cuid()) @map("_id")
+  email       String       @unique
+  name        String
+  role        UserRole
+  magicToken  MagicToken[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Otp         Otp[]
+  documentUrl String?
+  documentVerified    Boolean?    
 }
 
-enum UserRole {
-  ADULT
-  SENIOR
-  ADMIN
+model Otp {
+  id         String   @id @default(cuid()) @map("_id")
+  code       String   @unique
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+  expiryDate DateTime
+  userId     String
 }
 
 model MagicToken {
@@ -33,4 +39,10 @@ model MagicToken {
   createdAt  DateTime @default(now())
   expiryDate DateTime
   userID     String
+}
+
+enum UserRole {
+  ADULT
+  SENIOR
+  ADMIN
 }

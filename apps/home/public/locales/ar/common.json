@@ -4,7 +4,7 @@
   "title": "مترو القاهرة",
   "navigation": {
     "home": "الرئيسية",
-    "stations": "المحطات",
+    "support": "الدعم",
     "subscriptions": "الاشتراكات",
     "instructions": {
       "title": "التعليمات",
@@ -17,9 +17,9 @@
           "title": "القوانين وقواعد السلوك",
           "description": "القواعد والأنظمة التي يجب أن يتبعها المسافرون"
         },
-        "schedule": {
-          "title": "جدول القطارات",
-          "description": "مواعيد القطارات والمحطات"
+        "linesAndSchedule": {
+          "title": "الخطوط وجدول القطارات",
+          "description": "الخطوط وجدول القطارات"
         }
       }
     },
