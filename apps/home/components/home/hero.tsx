@@ -7,6 +7,7 @@ import { useTranslation } from 'next-i18next'
 import * as process from 'process'
 
 import { Separator } from '../separator'
+import Passengers from '../passengers'
 
 const Hero = () => {
   const { t } = useTranslation('home')
@@ -16,7 +17,7 @@ const Hero = () => {
 
   const center = useMemo(() => ({ lat: 30.0444, lng: 31.2357 }), [])
 
-
+  
   return (
     <div className="w-screen -mx-4 md:mx-[calc((100vw-100%)/-2+8px)]">
       <div className="relative">
@@ -75,15 +76,7 @@ const Hero = () => {
           vertical
           className="hidden md:block w-[1px] h-10 bg-neutral-200"
         />
-        <div className="flex flex-col items-start w-full">
-          <label className="text-base font-medium text-base-black block">
-            {t('hero.passengers.title')}
-          </label>
-          <input
-            placeholder={t('hero.passengers.placeholder') as string}
-            className="font-normal text-sm leading-5 text-neutral-500"
-          />
-        </div>
+        <Passengers />
         <div className="flex flex-col items-start w-full">
           <Button
             size={'lg'}
