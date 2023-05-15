@@ -12,8 +12,7 @@
     "eslint-config-custom": "*",
     "prettier": "^2.5.1",
     "turbo": "latest",
-    "typescript": "^4.4.4",
-    "dotenv": "^16.0.3"
+    "typescript": "^4.4.4"
   },
   "name": "turbo-template-new",
   "packageManager": "yarn@1.22.19",
