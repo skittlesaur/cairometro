@@ -5,7 +5,7 @@
         <mj-image width="100px" src="https://cairometro.baraa.app/assets/logo.png" alt="img"/>
         <mj-text font-size="18px" align="center" font-weight="400">Hi <span style="font-weight: 600;">{{name}}</span>,
           <br/>
-          one more step to access your Cairo Metro account
+          you have requested access to login to your account.
         </mj-text>
       </mj-column>
     </mj-section>
@@ -13,16 +13,16 @@
     <mj-wrapper border-radius="10px" background-color="#FFFFFF">
       <mj-section padding-top="20px" padding-bottom="0px" padding-left="30px" padding-right="30px">
         <mj-column>
-          <mj-image width="200px" src="https://cairometro.baraa.app/assets/emails/signup.png" alt="img"/>
+          <mj-image width="200px" src="https://cairometro.baraa.app/assets/emails/login.png" alt="img"/>
           <mj-text font-size="16px" color="#737373" align="center" line-height="24px" font-weight="400">Here's a magic
-            Here's a magic link that lets you immediately verify your account
+            link that lets you immediately access your account
           </mj-text>
           <mj-text color="#EA3347" font-weight="600" line-height="24px" align="center">
             <a href={{magicLink}} style="color: #EA3347; text-decoration: none;">{{magicLink}}</a>
           </mj-text>
           <mj-divider border-color="#E5E5E5" width="326.51px" border-width="1px"></mj-divider>
-          <mj-text font-size="12px" color="#737373" align="center" line-height="16px" font-weight="400">
-            Or verify with One-Time Password instead
+          <mj-text font-size="12px" color="#737373" align="center" line-height="16px" font-weight="400">Or login with
+            One-Time Password instead
           </mj-text>
         </mj-column>
       </mj-section>
