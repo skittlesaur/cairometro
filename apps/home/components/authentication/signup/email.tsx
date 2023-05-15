@@ -75,6 +75,7 @@ const Email = forwardRef(({ nextStep }: SignupStepProps, ref) => {
               transition={{ duration: 0.2 }}
             >
               <Button
+                useLoading
                 className="relative z-[1] w-full"
                 variant="primary"
                 disabled={!isEmailValid()}

@@ -5,6 +5,7 @@
   },
   "login": "Login",
   "email": "Email Address",
+  "placeholder": "Enter an email address",
   "or": "OR",
   "signupInstead": {
     "question": "You don’t have an account yet? {0}",

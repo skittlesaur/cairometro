@@ -21,9 +21,8 @@ const LoginForm = () => {
       const isEmailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)
       if (!isEmailValid) return toast.error(`${t('invalidEmail')}`)
 
-      const login = await loginMutation({ email: email })
-
-      if (login) router.push('/auth/verify')
+      await loginMutation({ email: email })
+      await router.push(`/auth/verify?email=${email}`, '/auth/verify')
     } catch (error) {
       const errorMessage = JSON.parse(JSON.stringify(error)).response.errors[0]
         .message
@@ -50,6 +49,7 @@ const LoginForm = () => {
               </p>
               <Input
                 dir="ltr"
+                placeholder={t('placeholder') as string}
                 onChange={(e) => setEmail(e.target.value)}
               >
               </Input>
