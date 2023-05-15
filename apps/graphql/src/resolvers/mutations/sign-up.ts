@@ -4,6 +4,9 @@ import { FieldResolver } from 'nexus'
 
 import { Context } from '../../context'
 import isEmailValid from '../../lib/is-email-valid'
+import generateMagicLink from '../../lib/magic-link'
+import generateOTP from '../../lib/otp'
+import sendEmail, { EmailTemplate } from '../../lib/send-email'
 
 const signUp: FieldResolver<'Mutation', 'signup'> = async (_, args, ctx: Context) => {
   const { prisma } = ctx
@@ -50,11 +53,25 @@ const signUp: FieldResolver<'Mutation', 'signup'> = async (_, args, ctx: Context
     })
   }
 
-  console.log(user.email)
+  const otp = await generateOTP(user, prisma)
+  const magicLink = await generateMagicLink(user, prisma)
 
-  // @todo: send authentication email to the user
+  try {
+    await sendEmail<EmailTemplate.SIGNUP>(
+      user.email,
+      'Verify your Cairo Metro account',
+      EmailTemplate.SIGNUP,
+      {
+        name: user.name,
+        otp: otp.code.split('').map((num) => parseInt(num)),
+        magicLink: `${process.env.FRONTEND_URL}/magic-link/${magicLink.id}`,
+      }
+    )
 
-  return true
+    return true
+  } catch (error) {
+    throw new GraphQLError('Something went wrong, please try again later')
+  }
 }
 
 

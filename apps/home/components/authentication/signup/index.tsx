@@ -45,7 +45,7 @@ const Signup = () => {
     if (!isValid()) return
 
     const { accountType, name } = getValues()
-    
+
     if (accountType === AccountType.SENIOR) {
       return setData(prev => ({
         ...prev,
@@ -71,7 +71,6 @@ const Signup = () => {
 
     const { email } = getValues()
 
-    // if the user is an adult they are not required to upload documents so go to the verification page and mutate directly
     try {
       await signupMutation({
         userRole: {
@@ -81,7 +80,7 @@ const Signup = () => {
         email,
         documentUrl: data.documentUrl,
       })
-      router.push('/auth/verify')
+      router.push(`/auth/verify?email=${email}`, '/auth/verify')
     } catch (error) {
       toast.error('Something went wrong')
     }
