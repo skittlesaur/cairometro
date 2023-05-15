@@ -62,11 +62,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const [loading, setLoading] = useState(false)
 
     const onButtonClick = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
-      if (useLoading) setLoading(true)
+      try {
+        if (useLoading) setLoading(true)
 
-      if (props.onClick) await props.onClick(event)
-
-      if (useLoading) setLoading(false)
+        if (props.onClick) await props.onClick(event)
+      } finally {
+        if (useLoading) setLoading(false)
+      }
     }, [props, useLoading])
 
     return (

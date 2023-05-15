@@ -23,9 +23,9 @@ const LoginForm = () => {
 
       await loginMutation({ email: email })
       await router.push(`/auth/verify?email=${email}`, '/auth/verify')
-    } catch (error) {
-      const errorMessage = JSON.parse(JSON.stringify(error)).response.errors[0]
-        .message
+    } catch (errors) {
+      const error = (errors as { message: string }[])[0]
+      const errorMessage = error.message
 
       if (errorMessage.match(/user not found/i)) {
         toast.error(`${t('userNotFound')}`)
