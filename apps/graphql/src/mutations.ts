@@ -1,6 +1,7 @@
 import { arg, mutationType, nonNull, stringArg } from 'nexus'
 
 import login from './resolvers/mutations/login'
+import magicLinkVerify from './resolvers/mutations/magic-link-verifier'
 import signUp from './resolvers/mutations/sign-up'
 import UserRoleEnumArg from './types/user-role-enum-arg'
 
@@ -24,6 +25,16 @@ const mutations = mutationType({
       },
       resolve: signUp,
     })
+    t.field('magicLinkVerification', {
+      type: 'Boolean',
+      args: {
+        link: nonNull(stringArg()),
+      },
+      resolve: magicLinkVerify
+      ,
+    })
+    
+
   },
 })
 
