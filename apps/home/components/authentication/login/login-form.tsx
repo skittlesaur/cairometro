@@ -1,15 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { Button } from '@/components/button'
 import ContinueWithGoogle from '@/components/continue-with-google'
 import Input from '@/components/input'
 import OrSeparator from '@/components/or-separator'
+import loginMutation from '@/graphql/user/login'
 
 import { useTranslation } from 'next-i18next'
+import { toast } from 'react-hot-toast'
 
 const LoginForm = () => {
   const { t } = useTranslation('login')
+  const [email, setEmail] = useState('')
+  const router = useRouter()
+
+  const handleEmailSubmission = async (email: string) => {
+    try {
+      const login = await loginMutation({ email: email })
+
+      if (login) router.push('/auth/verify')
+    } catch (error) {
+      const errorMessage = JSON.parse(JSON.stringify(error)).response.errors[0]
+        .message
+      toast.error(`${errorMessage}`)
+    }
+  }
 
   return (
     <div className="w-[calc(50%-6em)] h-screen flex flex-col gap-10 items-center justify-center">
@@ -23,9 +40,11 @@ const LoginForm = () => {
               <p className="text-sm font-medium text-neutral-500">
                 {t('email')}
               </p>
-              <Input></Input>
+              <Input onChange={(e) => setEmail(e.target.value)}></Input>
             </div>
-            <Button>{t('login')}</Button>
+            <Button onClick={() => handleEmailSubmission(email)}>
+              {t('login')}
+            </Button>
           </div>
           <OrSeparator>{t('or')}</OrSeparator>
           <ContinueWithGoogle></ContinueWithGoogle>
