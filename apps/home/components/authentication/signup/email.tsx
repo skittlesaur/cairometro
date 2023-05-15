@@ -39,7 +39,14 @@ const Email = forwardRef(({ nextStep }: SignupStepProps, ref) => {
   }))
 
   return (
-    <div className="flex flex-col h-full items-center justify-between gap-7">
+    <motion.div
+      key="email"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ ease: 'easeIn', duration: 0.25 }}
+      className="flex flex-col h-full items-center justify-between gap-7"
+    >
       <h1 className="text-3xl font-bold text-center">
         {t('email.heading').split(' ').map((line, index) => (
           <React.Fragment key={index}>
@@ -91,7 +98,7 @@ const Email = forwardRef(({ nextStep }: SignupStepProps, ref) => {
         </OrSeparator>
         <ContinueWithGoogle />
       </div>
-    </div>
+    </motion.div>
   )
 })
 

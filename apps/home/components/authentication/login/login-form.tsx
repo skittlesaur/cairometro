@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 import { Button } from '@/components/button'
 import ContinueWithGoogle from '@/components/continue-with-google'
@@ -11,10 +10,13 @@ import loginMutation from '@/graphql/user/login'
 import { useTranslation } from 'next-i18next'
 import { toast } from 'react-hot-toast'
 
-const LoginForm = () => {
+interface LoginFormProps {
+  nextView: (email: string)=> void
+}
+
+const LoginForm = ({ nextView }: LoginFormProps) => {
   const { t } = useTranslation('login')
   const [email, setEmail] = useState('')
-  const router = useRouter()
 
   const handleEmailSubmission = async (email: string) => {
     try {
@@ -22,7 +24,7 @@ const LoginForm = () => {
       if (!isEmailValid) return toast.error(`${t('invalidEmail')}`)
 
       await loginMutation({ email: email })
-      await router.push(`/auth/verify?email=${email}`, '/auth/verify')
+      nextView(email)
     } catch (errors) {
       const error = (errors as { message: string }[])[0]
       const errorMessage = error.message
