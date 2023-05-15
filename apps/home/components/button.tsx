@@ -1,4 +1,7 @@
 import * as React from 'react'
+import { MouseEvent, useCallback, useState } from 'react'
+
+import Loader from '@/components/loader'
 
 import { cva, VariantProps } from 'class-variance-authority'
 import cn from 'classnames'
@@ -35,25 +38,57 @@ const buttonVariants = cva(
       size: 'default',
       padding: 'default',
     },
-  }
+  },
 )
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+    VariantProps<typeof buttonVariants> {
+  useLoading?: boolean
+}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({
-    className, variant, size, padding, ...props 
-  }, ref) => {
+    className,
+    variant,
+    size, 
+    padding, 
+    useLoading = false, 
+    children,
+    disabled,
+    ...props
+  },
+  ref) => {
+    const [loading, setLoading] = useState(false)
+
+    const onButtonClick = useCallback(async (event: MouseEvent<HTMLButtonElement>) => {
+      if (useLoading) setLoading(true)
+
+      if (props.onClick) await props.onClick(event)
+
+      if (useLoading) setLoading(false)
+    }, [props, useLoading])
+
     return (
       <button
         ref={ref}
+        disabled={disabled || loading}
+        data-loading={useLoading ? loading : undefined}
         className={cn(buttonVariants({
-          variant, size, padding, className, 
+          variant, size, padding, className,
         }))}
         {...props}
-      />
+        onClick={onButtonClick}
+      >
+        {useLoading && loading ? (
+          <Loader
+            color={(!variant || variant === 'primary') ? 'white' : 'primary'}
+            size="sm"
+          />
+        ) : (
+          children
+        )}
+      </button>
     )
   }
 )
