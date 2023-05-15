@@ -27,7 +27,7 @@ model User {
 model Otp {
   id         String   @id @default(cuid()) @map("_id")
   code       String   @unique
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
   expiryDate DateTime
   userId     String
@@ -35,7 +35,7 @@ model Otp {
 
 model MagicToken {
   id         String   @id @default(cuid()) @map("_id")
-  user       User     @relation(fields: [userID], references: [id])
+  user       User     @relation(fields: [userID], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
   expiryDate DateTime
   userID     String
