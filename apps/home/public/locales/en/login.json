@@ -6,8 +6,11 @@
   "login": "Login",
   "email": "Email Address",
   "or": "OR",
-  "signupinstead": {
+  "signupInstead": {
     "question": "You don’t have an account yet? {0}",
     "signup": "Sign up"
-  }
+  },
+  "userNotFound": "User not found, please sign up",
+  "invalidEmail": "Invalid email address",
+  "somethingWentWrong": "Something went wrong, please try again"
 }

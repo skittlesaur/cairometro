@@ -18,13 +18,21 @@ const LoginForm = () => {
 
   const handleEmailSubmission = async (email: string) => {
     try {
+      const isEmailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)
+      if (!isEmailValid) return toast.error(`${t('invalidEmail')}`)
+
       const login = await loginMutation({ email: email })
 
       if (login) router.push('/auth/verify')
     } catch (error) {
       const errorMessage = JSON.parse(JSON.stringify(error)).response.errors[0]
         .message
-      toast.error(`${errorMessage}`)
+
+      if (errorMessage.match(/user not found/i)) {
+        toast.error(`${t('userNotFound')}`)
+      } else {
+        toast.error(`${t('somethingWentWrong')}`)
+      }
     }
   }
 
@@ -40,9 +48,16 @@ const LoginForm = () => {
               <p className="text-sm font-medium text-neutral-500">
                 {t('email')}
               </p>
-              <Input onChange={(e) => setEmail(e.target.value)}></Input>
+              <Input
+                dir="ltr"
+                onChange={(e) => setEmail(e.target.value)}
+              >
+              </Input>
             </div>
-            <Button onClick={() => handleEmailSubmission(email)}>
+            <Button
+              useLoading
+              onClick={() => handleEmailSubmission(email)}
+            >
               {t('login')}
             </Button>
           </div>
@@ -50,7 +65,7 @@ const LoginForm = () => {
           <ContinueWithGoogle></ContinueWithGoogle>
         </div>
         <div className="text-sm text-neutral-600 self-center">
-          {t('signupinstead.question')
+          {t('signupInstead.question')
             .split(' ')
             .map((word, index) => (
               <React.Fragment key={index}>
@@ -60,7 +75,7 @@ const LoginForm = () => {
                     className="text-primary font-semibold hover:text-primary/80 transition-color"
                     href={'/signup'}
                   >
-                    {t('signupinstead.signup')}
+                    {t('signupInstead.signup')}
                   </Link>
                 ) : (
                   word
