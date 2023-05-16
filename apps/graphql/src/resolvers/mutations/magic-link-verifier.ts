@@ -39,19 +39,13 @@ async (_, args, ctx) =>
   }
   const token = generateAccessToken({ id: userID } )
   await ctx.request.cookieStore?.set({
-    name: 'AccessToken', 
+    name: 'access', 
     value: token,
+    // domain: accessTokenCookieDomain,
     httpOnly: true,
     expires: Date.now() + (1000 * 60 * 60 * 24 * 7),
   })
 
-  const cookies = await ctx.request.cookieStore.getAll()
-  if (cookies) {
-    console.log(cookies)
-  } else {
-    console.log('Cookie not found')
-  }
-  
   return true
 
 }
