@@ -12,6 +12,7 @@ import CloudUploadOutline from '@/icons/cloud-upload-outline.svg'
 
 import axios from 'axios'
 import cn from 'classnames'
+import { motion } from 'framer-motion'
 import { useTranslation } from 'next-i18next'
 import { FileUploader } from 'react-drag-drop-files'
 import toast from 'react-hot-toast'
@@ -75,7 +76,14 @@ const Documents = forwardRef(({ nextStep }: SignupStepProps, ref) => {
   }, [documentUrl, nextStep])
 
   return (
-    <div className="flex flex-col h-full items-center justify-between gap-7">
+    <motion.div
+      key="documents"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ ease: 'easeIn', duration: 0.25 }}
+      className="flex flex-col h-full items-center justify-between gap-7"
+    >
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold text-center">
           {t('documents.heading')
@@ -126,7 +134,7 @@ const Documents = forwardRef(({ nextStep }: SignupStepProps, ref) => {
           </div>
         </FileUploader>
       </div>
-    </div>
+    </motion.div>
   )
 })
 
