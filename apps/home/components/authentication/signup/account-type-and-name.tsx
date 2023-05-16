@@ -37,7 +37,14 @@ const AccountTypeAndName = forwardRef(({ nextStep }: SignupStepProps, ref) => {
   }))
 
   return (
-    <div className="flex flex-col h-full items-center justify-between gap-7">
+    <motion.div 
+      key="account-type-and-name"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ ease: 'easeIn', duration: 0.25 }}
+      className="flex flex-col h-full items-center justify-between gap-7"
+    >
       <h1 className="text-3xl font-bold text-center">
         {t('accountTypeAndName.heading').split(' ').map((line, index) => (
           <React.Fragment key={index}>
@@ -139,7 +146,7 @@ const AccountTypeAndName = forwardRef(({ nextStep }: SignupStepProps, ref) => {
           {t('accountTypeAndName.continue')}
         </Button>
       </div>
-    </div>
+    </motion.div>
   )
 })
 

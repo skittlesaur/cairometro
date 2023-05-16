@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react'
-import { useRouter } from 'next/router'
 
 import AccountTypeAndName, { accountTypeAndNameRefType } from '@/components/authentication/signup/account-type-and-name'
 import Documents, { documentRefType } from '@/components/authentication/signup/documents'
 import Email, { emailRefType } from '@/components/authentication/signup/email'
 import Policy from '@/components/authentication/signup/policy'
+import MagicLink from '@/components/authentication/verify/magic-link'
+import Otp from '@/components/authentication/verify/otp'
 import signupMutation from '@/graphql/user/signup'
 
+import { AnimatePresence } from 'framer-motion'
 import toast from 'react-hot-toast'
 
 
@@ -19,6 +21,8 @@ enum SignupStep {
   ACCOUNT_TYPE_AND_NAME,
   EMAIL,
   DOCUMENTS,
+  VERIFY_MAGIC_LINK,
+  VERIFY_OTP,
 }
 
 export interface SignupStepProps {
@@ -26,7 +30,6 @@ export interface SignupStepProps {
 }
 
 const Signup = () => {
-  const router = useRouter()
   const [data, setData] = useState<{ step: SignupStep, accountType?: AccountType, name: string, email: string, documentUrl: string }>({
     step: SignupStep.ACCOUNT_TYPE_AND_NAME,
     name: '',
@@ -80,7 +83,12 @@ const Signup = () => {
         email,
         documentUrl: data.documentUrl,
       })
-      router.push(`/auth/verify?email=${email}`, '/auth/verify')
+      
+      setData(prev => ({
+        ...prev,
+        email,
+        step: SignupStep.VERIFY_MAGIC_LINK,
+      }))
     } catch (error) {
       toast.error('Something went wrong')
     }
@@ -116,29 +124,50 @@ const Signup = () => {
   }
 
   return (
-    <div className="w-full h-screen flex flex-col gap-10 items-center justify-center">
-      <div className="min-h-[50%] flex flex-col max-w-[calc(100%-2em)] w-[28em]">
-        {data.step === SignupStep.ACCOUNT_TYPE_AND_NAME && (
-          <AccountTypeAndName
-            ref={accountTypeAndNameRef}
-            nextStep={nextStep}
-          />
-        )}
-        {data.step === SignupStep.EMAIL && (
-          <Email
-            ref={emailRef}
-            nextStep={nextStep}
-          />
-        )}
-        {data.step === SignupStep.DOCUMENTS && (
-          <Documents
-            ref={documentRef}
-            nextStep={nextStep}
-          />
-        )}
-      </div>
-      <Policy />
-    </div>
+    <AnimatePresence mode="wait">
+      {[SignupStep.ACCOUNT_TYPE_AND_NAME, SignupStep.EMAIL, SignupStep.DOCUMENTS].includes(data.step) && (
+        <div className="w-full h-screen flex flex-col gap-10 items-center justify-center">
+          <div className="min-h-[50%] flex flex-col max-w-[calc(100%-2em)] w-[28em]">
+            {data.step === SignupStep.ACCOUNT_TYPE_AND_NAME && (
+              <AccountTypeAndName
+                key="account-type-and-name"
+                ref={accountTypeAndNameRef}
+                nextStep={nextStep}
+              />
+            )}
+            {data.step === SignupStep.EMAIL && (
+              <Email
+                key="email"
+                ref={emailRef}
+                nextStep={nextStep}
+              />
+            )}
+            {data.step === SignupStep.DOCUMENTS && (
+              <Documents
+                key="documents"
+                ref={documentRef}
+                nextStep={nextStep}
+              />
+            )}
+          </div>
+          <Policy />
+        </div>
+      )}
+      {data.step === SignupStep.VERIFY_MAGIC_LINK && (
+        <MagicLink
+          key="magic-link"
+          email={data.email}
+          setViewOtp={() => setData(prev => ({ ...prev, step: SignupStep.VERIFY_OTP }))}
+        />
+      )}
+      {data.step === SignupStep.VERIFY_OTP && (
+        <Otp 
+          key="otp"
+          email={data.email}
+          setViewMagicLink={() => setData(prev => ({ ...prev, step: SignupStep.VERIFY_MAGIC_LINK }))}
+        />
+      )}
+    </AnimatePresence>
   )
 }
 
