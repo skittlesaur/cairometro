@@ -42,7 +42,6 @@ async (_, args, ctx) =>
     name: 'AccessToken', 
     value: token,
     httpOnly: true,
-    sameSite: 'lax',
     expires: Date.now() + (1000 * 60 * 60 * 24 * 7),
   })
 
