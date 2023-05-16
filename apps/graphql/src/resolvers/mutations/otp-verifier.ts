@@ -25,7 +25,7 @@ async (_, args, ctx) =>
     },
   })
   if (!otp){
-    throw new GraphQLError('otp')
+    return false
   }
   const expiryDate = otp?.expiryDate as Date
   const userID = otp?.userID as string
@@ -35,7 +35,7 @@ async (_, args, ctx) =>
         id: otp.id,
       },
     })
-    throw new GraphQLError('link is expired please try again')
+    throw new GraphQLError('otp expired please try again')
   }
   const token = generateAccessToken({ id: userID } )
   await ctx.request.cookieStore?.set({
