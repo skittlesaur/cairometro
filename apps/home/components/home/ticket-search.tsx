@@ -8,6 +8,8 @@ import * as Menubar from '@radix-ui/react-menubar'
 import { useTranslation } from 'next-i18next'
 import toast from 'react-hot-toast'
 
+import DatePicker from '../calendar/calendar'
+
 export type TicketSearchRefType = {
   getResult: ()=> unknown
 }
@@ -16,8 +18,10 @@ const TicketSearch = () => {
   const { t } = useTranslation('home')
   
   const passengersRef = useRef<TicketSearchRefType>(null)
+  const datePickerRef = useRef<TicketSearchRefType>(null)
 
   const onSearchClick = useCallback((_: MouseEvent<HTMLButtonElement>) => {
+    console.log(datePickerRef.current?.getResult() as {date: Date})
     if (!passengersRef.current) return
     const passengers = passengersRef.current?.getResult() as {adults: number, seniors: number, children: number}
     
@@ -63,9 +67,8 @@ const TicketSearch = () => {
         <label className="text-base font-medium text-base-black block">
           {t('hero.travelTime.title')}
         </label>
-        <input
-          placeholder={t('hero.travelTime.placeholder') as string}
-          className="font-normal text-sm leading-5 text-neutral-500"
+        <DatePicker
+          ref={datePickerRef}
         />
       </div>
       <Separator
