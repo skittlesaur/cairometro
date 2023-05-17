@@ -1,58 +1,81 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
+// what does this do (next 13 stuff?)-> "use client"
+
+import React from 'react'
 
 import cn from 'classnames'
-import { format } from 'date-fns'
+import { DateFormatter, DayPicker } from 'react-day-picker'
 
-import CalendarIcon from '../../icons/calendar.svg'
+import ChevronLeft from '../../icons/chevron-left.svg'
+import ChevronRight from '../../icons/chevron-right.svg'
 
-import { Calendar } from './calendar-components'
-import { Popover, PopoverContent, PopoverTrigger } from './calendar-popover'
-import TimePicker from './time-picker'
+export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
-const DatePicker = forwardRef((_, ref) => {
-  const [date, setDate] = useState<Date>()
-  
-  const yesterday = new Date()
-  yesterday.setDate(new Date().getDate() - 1)
-  const disabledDays = { from: new Date(2023, 4, 1), to: yesterday }
+const Calendar = ({
+  className,
+  classNames,
+  showOutsideDays = true,
+  ...props
+}: CalendarProps) => {
 
-  useImperativeHandle(ref, () => ({
-    getResult: () => ({
-      date,
-    }),
-  }))
+
+  const formatWeekdayName: DateFormatter = (weekday) => {
+    switch (weekday.getDay()){
+    case 0:
+      return 'SUN'
+    case 1:
+      return 'MON'
+    case 2:
+      return 'TUE'
+    case 3:
+      return 'WED'
+    case 4:
+      return 'THU'
+    case 5:
+      return 'FRI'
+    case 6:
+      return 'SAT'
+    }
+  }
+
 
   return (
-    <Popover>
-      <PopoverTrigger
-        asChild
-        className="hover:bg-black"
-      >
-        <button
-          className={cn(
-            'w-[280px] justify-start text-left font-normal', 'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background', 'border border-input hover:bg-black hover:text-white', 'h-10 py-2 px-4',
-            !date && 'text-black'
-          )}
-        >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, 'd MMMM') + ' at time' : <span>Pick a date</span>}
-        </button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <Calendar
-          initialFocus
-          mode="single"
-          fromMonth={new Date()}
-          disabled={disabledDays}
-          selected={date}
-          onSelect={setDate}
-        />
-        <TimePicker />
-      </PopoverContent>
-    </Popover>
+    <DayPicker
+      formatters={{ formatWeekdayName }}
+      // fixedWeeks
+      showOutsideDays={showOutsideDays}
+      className={cn('', className)}
+      classNames={{
+        months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
+        month: 'space-y-2',
+        caption: 'flex flow-row  relative items-center',
+        caption_label: 'pl-1 text-sm font-semibold',
+        nav: 'space-x-1 flex items-center',
+        nav_button_previous: 'absolute right-6 rounded-full hover:bg-neutral-100',
+        nav_button_next: 'absolute right-1 rounded-full hover:bg-neutral-100',
+        table: 'w-full border-collapse space-y-1',
+        head_row: 'flex gap-1',
+        head_cell: 'text-neutral-400/60 w-9 font-normal text-xs',
+        row: 'flex w-full mt-1 gap-1',
+        cell: 'text-center text-large p-0 relative focus-within:relative focus-within:z-20',
+        day: 'h-9 w-9 p-0 aria-selected:opacity-100 rounded-full hover:bg-neutral-100 hover:font-medium',
+        day_selected:
+          'text-primary font-medium bg-primary/10 rounded-full hover:bg-primary/10 hover:font-medium',
+        day_today: 'text-primary',
+        day_outside: 'invisible',
+        day_disabled: 'text-neutral-400 hover:bg-white hover:font-normal',
+        day_range_middle:
+          '',
+        day_hidden: 'invisible',
+        ...classNames,
+      }}
+      components={{
+        IconLeft: ({ ...props }) => <ChevronLeft className={cn('h-4 w-4 text-primary')} />,
+        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4 text-primary" />,
+      }}
+      {...props}
+    />
   )
-})
+}
+Calendar.displayName = 'Calendar'
 
-DatePicker.displayName = 'DatePicker'
-
-export default DatePicker
+export { Calendar }
