@@ -4,9 +4,12 @@ import sgMail from '@sendgrid/mail'
 import * as bodyParser from 'body-parser'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
+import dotenv from 'dotenv'
 
 import cors from './utils/cors'
 import yoga from './utils/yoga'
+
+dotenv.config()
 
 const PORT = process.env.PORT ?? 1111
 

@@ -22,7 +22,7 @@ const getAccessToken = (req: Request): string => {
   const accessToken = accessTokenCookie?.split('=')[1]
   if (accessToken) return accessToken
   
-  const xAccessToken = req.headers.get('x-access-token')
+  const xAccessToken = req.headers.get('x-access-access')
   if (xAccessToken) return xAccessToken
   
   throw new Error('No access token found')
