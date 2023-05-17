@@ -1,4 +1,4 @@
-import { intArg, queryType } from 'nexus'
+import { queryType } from 'nexus'
 
 import me from './resolvers/queries/me'
 import stations from './resolvers/queries/stations'
@@ -10,10 +10,6 @@ const queries = queryType({
   definition(t){
     t.list.field('stations', {
       type: StationType,
-      args: {
-        page: intArg({ default: 1 }),
-        take: intArg({ default: 10 }),
-      },
       resolve: stations,
     })
     
