@@ -7,15 +7,23 @@ import { Calendar } from './calendar'
 import { Popover, PopoverContent, PopoverTrigger } from './calendar-popover'
 import TimeField from './time-field'
 
-const DateTimePicker = forwardRef((_, ref) => {
+interface DateTimePickerProps {
+  from?: Date,
+  to?: Date 
+}
+
+const DateTimePicker = forwardRef(({ from, to, ..._ }: DateTimePickerProps, ref) => {
   const [date, setDate] = useState<Date>()
   const [meridiem, setMeridiem] = useState(true)
-  const [hours, setHours] = useState('00')
+  const [hours, setHours] = useState('01')
   const [minutes, setMinutes] = useState('00')
 
   const yesterday = new Date()
   yesterday.setDate(new Date().getDate() - 1)
-  const disabledDays = { from: new Date(2023, 4, 1), to: yesterday }
+
+  const firstDayOfCurrentMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+
+  const disabledDays = { from: from ?? firstDayOfCurrentMonth, to: to ?? yesterday }
 
   useImperativeHandle(ref, () => ({
     getResult: () => ({
@@ -34,7 +42,7 @@ const DateTimePicker = forwardRef((_, ref) => {
       >
         <button
           className={cn(
-            'w-[280px] text-left font-normal inline-flex items-center justify-center rounded-md text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-input hover:bg-black text-neutral-500 hover:text-white h-10 py-2 px-4',
+            'w-[240px] text-left font-normal inline-flex items-center justify-center rounded-md text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-input hover:bg-primary text-neutral-500 hover:text-white h-10 py-2 px-4',
             !date && 'text-black'
           )}
         >
@@ -47,6 +55,7 @@ const DateTimePicker = forwardRef((_, ref) => {
           initialFocus
           mode="single"
           fromMonth={new Date()}
+          toMonth={new Date(new Date().setFullYear(new Date().getFullYear() + 1))}
           disabled={disabledDays}
           selected={date}
           onSelect={setDate}

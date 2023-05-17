@@ -1,4 +1,4 @@
-import { ChangeEvent, useRef } from 'react'
+import { KeyboardEvent, useRef, useState } from 'react'
 
 import cn from 'classnames'
 import { motion } from 'framer-motion'
@@ -15,73 +15,80 @@ interface TimeFieldProps {
 const TimeField = ({
   meridiem, setMeridiem, hours, setHours, minutes, setMinutes, ..._ 
 }: TimeFieldProps) => {
+  const [hour, setHour] = useState('')
+  const [minute, setMinute] = useState('')
   const minutesRef = useRef<HTMLInputElement>(null)
+  const hoursRef = useRef<HTMLInputElement>(null)
 
-  const hoursChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const hour = e.target.value
+  const hoursChangeHandler = () => {
 
-    if (parseInt(hour) <= 9 && parseInt(hour) > 1 && Number.isNaN(parseInt(hours))) {
-      setHours(`0${hour}`)
-      minutesRef.current?.focus()
-      return
-    }
-
-    if (parseInt(hour) === 1 && Number.isNaN(parseInt(hours))) {
+    if (parseInt(hour) === 1 && hours != '01') {
       setHours('01')
       return
     }
 
-    if (parseInt(hour) === 10){
+    if (parseInt(hour) === 0 && hours === '01'){
       console.log(hour)
       console.log(parseInt(hours))
       setHours('10')
       minutesRef.current?.focus()
       return
-    } else if (parseInt(hour) === 11){
+    } else if (parseInt(hour) === 1){
       setHours('11')
       minutesRef.current?.focus()
       return
-    } else if (parseInt(hour) === 12){
+    } else if (parseInt(hour) === 2 && hours === '01'){
       setHours('12')
       minutesRef.current?.focus()
       return
     }  
+
+    if (parseInt(hour) <= 9 && parseInt(hour) > 1) {
+      setHours(`0${hour}`)
+      minutesRef.current?.focus()
+      return
+    }
+
   }
 
-  const minutesChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    const minutesInput = e.target.value 
+  const minutesChangeHandler = () => {
+    if (!parseInt(minute) && parseInt(minute) != 0) return 
     
-    if (Number.isNaN(parseInt(minutes))){
-      switch (Number.isNaN(parseInt(minutes))){
-      case (parseInt(minutesInput) === 6):
-        setMinutes(`0${minutesInput}`)
+    if (minutes === '00' || parseInt(minutes) >= 6){
+      switch (parseInt(minute)){
+      case 0:
+        setMinutes(`0${minute}`)
         minutesRef.current?.blur()
         return
-      case (parseInt(minutesInput) === 7):
-        setMinutes(`0${minutesInput}`)
+      case 6:
+        setMinutes(`0${minute}`)
         minutesRef.current?.blur()
         return
-      case (parseInt(minutesInput) === 8):
-        setMinutes(`0${minutesInput}`)
+      case 7:
+        setMinutes(`0${minute}`)
         minutesRef.current?.blur()
         return
-      case (parseInt(minutesInput) === 9):
-        setMinutes(`0${minutesInput}`)
+      case 8:
+        setMinutes(`0${minute}`)
+        minutesRef.current?.blur()
+        return
+      case 9:
+        setMinutes(`0${minute}`)
         minutesRef.current?.blur()
         return
       default: 
-        setMinutes(`0${minutesInput}`)
+        setMinutes(`0${minute}`)
         return
       }}
 
-    if (parseInt(minutes) < 6) {
-      setMinutes((prevState: string) =>
-      { 
-        return `${parseInt(prevState)}${minutesInput[2]}`
-      })
-      minutesRef.current?.blur()
-      return
-    }
+    
+    setMinutes((prevState: string) =>
+    { 
+      return `${parseInt(prevState)}${minute}`
+    })
+    minutesRef.current?.blur()
+    return
+    
 
   }
 
@@ -91,22 +98,19 @@ const TimeField = ({
       <div className="flex flex-row gap-2">
         <div className="bg-neutral-100 rounded-md text-sm px-2 py-1">
           <input
+            ref={hoursRef}
             className="w-5 bg-transparent text-center focus-visible:ring-0 focus-visible:ring-offset-0"
             value={hours}
-            onClick={() => setHours('')}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              hoursChangeHandler(e)}
+            onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => setHour(e.key)}
+            onChange={hoursChangeHandler}
           />
           :
           <input
             ref={minutesRef}
             className="w-5 bg-transparent text-center focus-visible:ring-0 focus-visible:ring-offset-0"
             value={minutes}
-            onFocus={() => setMinutes('')}
-            onClick={() => setMinutes('')}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            {minutesChangeHandler(e) 
-            }}
+            onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => setMinute(e.key)}
+            onChange={minutesChangeHandler}
           />
         </div>
         <div className="flex w-20 bg-neutral-100 rounded-md text-sm text-black relative z-[0] justify-center items-center">
