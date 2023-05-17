@@ -22,6 +22,7 @@
     "class-variance-authority": "^0.6.0",
     "classnames": "^2.3.2",
     "framer-motion": "^10.12.4",
+    "fuse.js": "^6.6.2",
     "graphql": "^16.6.0",
     "graphql-request": "^6.0.0",
     "i18next": "^22.4.15",
@@ -37,7 +38,8 @@
     "react-hot-toast": "^2.4.0",
     "react-i18next": "^12.2.2",
     "swr": "^2.1.4",
-    "tailwindcss-dir": "^4.0.0"
+    "tailwindcss-dir": "^4.0.0",
+    "turnstone": "^2.2.0"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.3",
