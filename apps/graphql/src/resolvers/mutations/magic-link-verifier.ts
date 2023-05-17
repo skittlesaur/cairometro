@@ -9,7 +9,7 @@ const magicLinkVerify: FieldResolver<'Mutation', 'magicLinkVerification'> =
   async (_, args, ctx) => {
     const { prisma } = ctx
     const { link } = args
-    // const accessTokenCookieDomain = process.env.accessTokenCookieDomain
+    const accessTokenCookieDomain = process.env.accessTokenCookieDomain ?? ''
 
     const magicLink = await prisma.magicToken.findUnique({
       where: {
@@ -38,7 +38,7 @@ const magicLinkVerify: FieldResolver<'Mutation', 'magicLinkVerification'> =
     await ctx.request.cookieStore?.set({
       name: 'access',
       value: token,
-      // domain: accessTokenCookieDomain,
+      domain: accessTokenCookieDomain,
       httpOnly: true,
       expires: Date.now() + (1000 * 60 * 60 * 24 * 7),
       sameSite: 'none',
