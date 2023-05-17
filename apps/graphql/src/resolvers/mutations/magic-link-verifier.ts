@@ -41,6 +41,7 @@ const magicLinkVerify: FieldResolver<'Mutation', 'magicLinkVerification'> =
       // domain: accessTokenCookieDomain,
       httpOnly: true,
       expires: Date.now() + (1000 * 60 * 60 * 24 * 7),
+      sameSite: 'none',
     })
 
     return true
