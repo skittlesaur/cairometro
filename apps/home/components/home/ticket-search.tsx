@@ -8,6 +8,8 @@ import * as Menubar from '@radix-ui/react-menubar'
 import { useTranslation } from 'next-i18next'
 import toast from 'react-hot-toast'
 
+import AutoComplete from './auto-complete'
+
 export type TicketSearchRefType = {
   getResult: ()=> unknown
 }
@@ -37,10 +39,7 @@ const TicketSearch = () => {
         <label className="text-base font-medium text-base-black block">
           {t('hero.from.title')}
         </label>
-        <input
-          placeholder={t('hero.from.placeholder') as string}
-          className="font-normal text-sm leading-5 text-neutral-500"
-        />
+        <AutoComplete />
       </div>
       <Separator
         vertical

@@ -37,6 +37,7 @@
     "react-drag-drop-files": "^2.3.10",
     "react-hot-toast": "^2.4.0",
     "react-i18next": "^12.2.2",
+    "react-search-autocomplete": "^8.5.2",
     "swr": "^2.1.4",
     "tailwindcss-dir": "^4.0.0",
     "turnstone": "^2.2.0"
