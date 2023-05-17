@@ -15,7 +15,7 @@ const LinkPage: NextPage = () => {
         if (!magicLink) return
         
         await magicLinkMutation({ link: magicLink })
-        window.close()
+        // window.close()
       } catch (e) {
         console.log(e)
       }
