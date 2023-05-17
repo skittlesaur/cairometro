@@ -41,7 +41,6 @@ const Calendar = ({
   return (
     <DayPicker
       formatters={{ formatWeekdayName }}
-      // fixedWeeks
       showOutsideDays={showOutsideDays}
       className={cn('', className)}
       classNames={{
@@ -50,8 +49,8 @@ const Calendar = ({
         caption: 'flex flow-row  relative items-center',
         caption_label: 'pl-1 text-sm font-semibold',
         nav: 'space-x-1 flex items-center',
-        nav_button_previous: 'absolute right-6 rounded-full hover:bg-neutral-100',
-        nav_button_next: 'absolute right-1 rounded-full hover:bg-neutral-100',
+        nav_button_previous: 'absolute right-6 rounded-full hover:bg-neutral-100 group',
+        nav_button_next: 'absolute right-1 rounded-full hover:bg-neutral-100 group',
         table: 'w-full border-collapse space-y-1',
         head_row: 'flex gap-1',
         head_cell: 'text-neutral-400/60 w-9 font-normal text-xs',
@@ -69,8 +68,8 @@ const Calendar = ({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ ..._ }) => <ChevronLeft className={cn('h-4 w-4 text-primary')} />,
-        IconRight: ({ ..._ }) => <ChevronRight className="h-4 w-4 text-primary" />,
+        IconLeft: ({ ..._ }) => <ChevronLeft className={cn('h-4 w-4 text-primary group-disabled:text-neutral-400 group-disabled:hover:bg-white group-disabled:hover:rounded-full group-disabled:opacity-100')} />,
+        IconRight: ({ ..._ }) => <ChevronRight className="h-4 w-4 text-primary group-disabled:text-neutral-400 group-disabled:hover:bg-white group-disabled:hover:rounded-full group-disabled:opacity-100" />,
       }}
       {...props}
     />

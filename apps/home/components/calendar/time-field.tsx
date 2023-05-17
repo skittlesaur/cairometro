@@ -82,10 +82,7 @@ const TimeField = ({
       }}
 
     
-    setMinutes((prevState: string) =>
-    { 
-      return `${parseInt(prevState)}${minute}`
-    })
+    setMinutes(`${parseInt(minutes)}${minute}`)
     minutesRef.current?.blur()
     return
     
