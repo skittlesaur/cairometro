@@ -7,13 +7,16 @@ const useWindowSize = () => {
   })
 
   useEffect(() => {
-    const handleResize = () =>
+    const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight,
       })
+    }
 
-    handleResize() // update on mount
+    handleResize()
+
+    window.addEventListener('resize', handleResize)
 
     return () => window.removeEventListener('resize', handleResize)
   }, [])

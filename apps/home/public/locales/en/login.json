@@ -1,0 +1,17 @@
+{
+  "seo": {
+    "title": "Sign in to Cairo Metro",
+    "description": "Login page for Egy Metro"
+  },
+  "login": "Login",
+  "email": "Email Address",
+  "placeholder": "Enter an email address",
+  "or": "OR",
+  "signupInstead": {
+    "question": "You don’t have an account yet? {0}",
+    "signup": "Sign up"
+  },
+  "userNotFound": "User not found, please sign up",
+  "invalidEmail": "Invalid email address",
+  "somethingWentWrong": "Something went wrong, please try again"
+}

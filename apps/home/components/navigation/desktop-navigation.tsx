@@ -28,10 +28,6 @@ const DesktopNavigation = ({ activePath }: NavigationProps) => {
       href: '/',
     },
     {
-      name: t('navigation.stations'),
-      href: '/stations',
-    },
-    {
       name: t('navigation.subscriptions'),
       href: '/subscriptions',
     },
@@ -51,9 +47,9 @@ const DesktopNavigation = ({ activePath }: NavigationProps) => {
         href: '/instructions/rules',
       },
       {
-        name: t('navigation.instructions.content.schedule.title'),
-        description: t('navigation.instructions.content.schedule.description'),
-        href: '/instructions/schedule',
+        name: t('navigation.instructions.content.linesAndSchedule.title'),
+        description: t('navigation.instructions.content.linesAndSchedule.description'),
+        href: '/instructions/lines-and-schedule',
       },
     ],
   }
@@ -152,6 +148,19 @@ const DesktopNavigation = ({ activePath }: NavigationProps) => {
               ))}
             </ul>
           </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink asChild>
+            <Link
+              href="/support"
+              className={`text-sm transition-colors py-2 px-3 ${cn({
+                'text-black font-medium': '/support' === activePath,
+                'text-neutral-600 hover:text-black': '/support' !== activePath,
+              })}`}
+            >
+              {t('navigation.support')}
+            </Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenu>
       <div className="flex justify-end gap-3">
