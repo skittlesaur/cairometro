@@ -7,6 +7,8 @@ import NavigationMenuContent from '@/components/navigation/navigation-content'
 import NavigationMenu from '@/components/navigation/navigation-menu'
 import NavigationMenuTrigger from '@/components/navigation/navigation-trigger'
 import { Separator } from '@/components/separator'
+import UserAvatar from '@/components/user-avatar'
+import useUser from '@/graphql/user/me'
 import AccessibleIcon from '@/icons/accessible.svg'
 import AssistWalkerIcon from '@/icons/assist-walker.svg'
 import BlindIcon from '@/icons/blind.svg'
@@ -20,6 +22,7 @@ import { useTranslation } from 'next-i18next'
 const DesktopNavigation = ({ activePath }: NavigationProps) => {
   const { t, i18n } = useTranslation('common')
   const router = useRouter()
+  const { data: user, isLoading: userLoading } = useUser()
 
 
   const links = [
@@ -53,7 +56,7 @@ const DesktopNavigation = ({ activePath }: NavigationProps) => {
       },
     ],
   }
-  
+
   return (
     <div className="hidden lg:grid max-w-screen-xl px-5 min-[1300px]:px-0 mx-auto grid-cols-3">
       <div className="flex items-start">
@@ -163,37 +166,48 @@ const DesktopNavigation = ({ activePath }: NavigationProps) => {
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenu>
-      <div className="flex justify-end gap-3">
-        <Button
-          variant="linkSecondary"
-          size="sm"
-          padding="none"
-          onClick={() => {
-            const { pathname, asPath, query } = router
-            const locale = i18n.language === 'ar' ? 'en' : 'ar'
-            router.push({ pathname, query }, asPath, { locale })
-          }}
-        >
-          {i18n.language === 'ar' ? 'English' : 'العربية'}
-        </Button>
-        <Separator vertical />
-        <div className="flex items-center gap-3">
-          <Link
-            className={buttonVariants({
-              variant: 'linkSecondary', size: 'sm', padding: 'none', className: 'text-black',
-            })}
-            href="/login"
-          >
-            {t('navigation.login')}
-          </Link>
-          <Link
-            href="/signup"
-            className={buttonVariants({ variant: 'primary', size: 'sm' })}
-          >
-            {t('navigation.createAccount')}
-          </Link>
-        </div>
-      </div>
+      {!userLoading && (
+        user ? (
+          <div className="flex items-center justify-end">
+            <UserAvatar
+              id={user.id}
+              name={user.name}
+            />
+          </div>
+        ) : (
+          <div className="flex justify-end gap-3">
+            <Button
+              variant="linkSecondary"
+              size="sm"
+              padding="none"
+              onClick={() => {
+                const { pathname, asPath, query } = router
+                const locale = i18n.language === 'ar' ? 'en' : 'ar'
+                router.push({ pathname, query }, asPath, { locale })
+              }}
+            >
+              {i18n.language === 'ar' ? 'English' : 'العربية'}
+            </Button>
+            <Separator vertical />
+            <div className="flex items-center gap-3">
+              <Link
+                className={buttonVariants({
+                  variant: 'linkSecondary', size: 'sm', padding: 'none', className: 'text-black',
+                })}
+                href="/login"
+              >
+                {t('navigation.login')}
+              </Link>
+              <Link
+                href="/signup"
+                className={buttonVariants({ variant: 'primary', size: 'sm' })}
+              >
+                {t('navigation.createAccount')}
+              </Link>
+            </div>
+          </div>
+        )
+      )}
     </div>
   )
 }
