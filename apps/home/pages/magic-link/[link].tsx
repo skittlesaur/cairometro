@@ -4,43 +4,37 @@ import { useRouter } from 'next/router'
 
 import magicLinkMutation from '@/graphql/user/magic-link'
 
-
-
 const LinkPage: NextPage = () => {
-
   const router = useRouter()
   const magicLink = router.query.link as string
 
-  
-  
-  useEffect(()=>{
-    const VerifyMagicLink = async () =>{
+  useEffect(() => {
+    const VerifyMagicLink = async () => {
 
       try {
-        if (magicLink){
-          await magicLinkMutation({ link: magicLink })
-        }
-
-      }
-      catch (e){
+        if (!magicLink) return
+        
+        await magicLinkMutation({ link: magicLink })
+        window.close()
+      } catch (e) {
         console.log(e)
-          
-      }  
-    } 
-    VerifyMagicLink ()
+      }
+    }
+    VerifyMagicLink()
   }, [magicLink])
+
   return (
     <div>
 
-    
+
       in development
-      
-            
+
+
     </div>
   )
 
-  
+
 }
-  
- 
+
+
 export default LinkPage
