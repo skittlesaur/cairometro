@@ -1,5 +1,3 @@
-// what does this do (next 13 stuff?)-> "use client"
-
 import React from 'react'
 
 import cn from 'classnames'
@@ -46,11 +44,11 @@ const Calendar = ({
       classNames={{
         months: 'flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0',
         month: 'space-y-2',
-        caption: 'flex flow-row  relative items-center',
-        caption_label: 'pl-1 text-sm font-semibold',
-        nav: 'space-x-1 flex items-center',
-        nav_button_previous: 'absolute right-6 rounded-full hover:bg-neutral-100 group',
-        nav_button_next: 'absolute right-1 rounded-full hover:bg-neutral-100 group',
+        caption: 'flex flow-row justify-between pl-1 pr-1',
+        caption_label: 'text-sm font-semibold',
+        nav: 'flex flex-row flex items-center gap-2',
+        nav_button_previous: 'rounded-full hover:bg-neutral-100 group',
+        nav_button_next: 'rounded-full hover:bg-neutral-100 group',
         table: 'w-full border-collapse space-y-1',
         head_row: 'flex gap-1',
         head_cell: 'text-neutral-400/60 w-9 font-normal text-xs',
