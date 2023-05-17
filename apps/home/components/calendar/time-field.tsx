@@ -1,26 +1,21 @@
-import { ChangeEvent, forwardRef, useImperativeHandle, useRef, useState } from 'react'
+import { ChangeEvent, useRef } from 'react'
 
 import cn from 'classnames'
 import { motion } from 'framer-motion'
 
-const TimeField = forwardRef((_, ref) => {
-  const [selectedMeridiem, setSelectedMeridiem] = useState(true)
-  const [hours, setHours] = useState('00')
-  const [minutes, setMinutes] = useState('00')
+interface TimeFieldProps {
+  meridiem: boolean,
+  setMeridiem: (meridiem: boolean)=> void,
+  hours: string,
+  setHours: (hour: string)=> void,
+  minutes: string,
+  setMinutes: (minute: string)=> void
+}
+
+const TimeField = ({
+  meridiem, setMeridiem, hours, setHours, minutes, setMinutes, ..._ 
+}: TimeFieldProps) => {
   const minutesRef = useRef<HTMLInputElement>(null)
-
-  useImperativeHandle(ref, () => ({
-    getMeridiem: () => ({
-      selectedMeridiem,
-    }),
-    getHours: () => ({
-      hours,
-    }),
-    getMinutes: () => ({
-      minutes,
-    }),
-  }))
-
 
   const hoursChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const hour = e.target.value
@@ -80,7 +75,8 @@ const TimeField = forwardRef((_, ref) => {
       }}
 
     if (parseInt(minutes) < 6) {
-      setMinutes((prevState) => { 
+      setMinutes((prevState: string) =>
+      { 
         return `${parseInt(prevState)}${minutesInput[2]}`
       })
       minutesRef.current?.blur()
@@ -115,7 +111,7 @@ const TimeField = forwardRef((_, ref) => {
         </div>
         <div className="flex w-20 bg-neutral-100 rounded-md text-sm text-black relative z-[0] justify-center items-center">
           <motion.div
-            animate={{ x: selectedMeridiem ? '0%' : '100%' }}
+            animate={{ x: meridiem ? '0%' : '100%' }}
             transition={{
               type: 'spring',
               damping: 10,
@@ -127,17 +123,17 @@ const TimeField = forwardRef((_, ref) => {
           </motion.div>
           <button
             className={cn('px-2 py-0.5 transition-all', {
-              'font-semibold': selectedMeridiem,
+              'font-semibold': meridiem,
             })}
-            onClick={() => setSelectedMeridiem(true)}
+            onClick={() => setMeridiem(true)}
           >
             AM
           </button>
           <button
             className={cn('px-2 py-0.5 transition-all', {
-              'font-semibold': !selectedMeridiem,
+              'font-semibold': !meridiem,
             })}
-            onClick={() => setSelectedMeridiem(false)}
+            onClick={() => setMeridiem(false)}
           >
             PM
           </button>
@@ -145,8 +141,6 @@ const TimeField = forwardRef((_, ref) => {
       </div>
     </div>
   )
-})
-
-TimeField.displayName = 'TimeField'
+}
 
 export default TimeField

@@ -1,33 +1,21 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useState } from 'react'
 
 import cn from 'classnames'
 import { format } from 'date-fns'
-
-import CalendarIcon from '../../icons/calendar.svg'
 
 import { Calendar } from './calendar'
 import { Popover, PopoverContent, PopoverTrigger } from './calendar-popover'
 import TimeField from './time-field'
 
-export type DatePickerRefType = {
-  getMeridiem: ()=> boolean
-  getHours: ()=> string
-  getMinutes: ()=> string
-}
-
 const DateTimePicker = forwardRef((_, ref) => {
   const [date, setDate] = useState<Date>()
-  
-  
+  const [meridiem, setMeridiem] = useState(true)
+  const [hours, setHours] = useState('00')
+  const [minutes, setMinutes] = useState('00')
+
   const yesterday = new Date()
   yesterday.setDate(new Date().getDate() - 1)
   const disabledDays = { from: new Date(2023, 4, 1), to: yesterday }
-
-  const timeFieldRef = useRef<DatePickerRefType>(null)
-
-  const meridiem = timeFieldRef.current?.getMeridiem()
-  const hours = timeFieldRef.current?.getHours()
-  const minutes = timeFieldRef.current?.getMinutes()
 
   useImperativeHandle(ref, () => ({
     getResult: () => ({
@@ -51,7 +39,7 @@ const DateTimePicker = forwardRef((_, ref) => {
           )}
         >
           {/* <CalendarIcon className="mr-2 h-4 w-4" /> */}
-          {date ? format(date, 'd MMMM') + ' at ' + `${hours.hours}:${minutes.minutes} ${meridiem ? 'AM' : 'PM'}` : <span>Pick a date</span>}
+          {date ? format(date, 'd MMMM') + ' at ' + `${hours}:${minutes} ${meridiem ? 'AM' : 'PM'}` : <span>Pick a date</span>}
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
@@ -63,7 +51,14 @@ const DateTimePicker = forwardRef((_, ref) => {
           selected={date}
           onSelect={setDate}
         />
-        <TimeField  ref={timeFieldRef} />
+        <TimeField
+          meridiem={meridiem}
+          setMeridiem={setMeridiem}
+          hours={hours}
+          setHours={setHours}
+          minutes={minutes}
+          setMinutes={setMinutes}
+        />
       </PopoverContent>
     </Popover>
   )

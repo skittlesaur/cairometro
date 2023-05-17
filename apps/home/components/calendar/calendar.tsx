@@ -69,8 +69,8 @@ const Calendar = ({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className={cn('h-4 w-4 text-primary')} />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4 text-primary" />,
+        IconLeft: ({ ..._ }) => <ChevronLeft className={cn('h-4 w-4 text-primary')} />,
+        IconRight: ({ ..._ }) => <ChevronRight className="h-4 w-4 text-primary" />,
       }}
       {...props}
     />
