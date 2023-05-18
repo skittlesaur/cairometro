@@ -2,11 +2,12 @@ import { GraphQLError } from 'graphql/error'
 
 import { FieldResolver } from 'nexus'
 
+import { Context } from '../../context'
 import generateAccessToken from '../../lib/generate-access-token'
 
 
 const magicLinkVerify: FieldResolver<'Mutation', 'magicLinkVerification'> =
-  async (_, args, ctx) => {
+  async (_, args, ctx: Context) => {
     const { prisma } = ctx
     const { link } = args
     const accessTokenCookieDomain = process.env.ACCESS_TOKEN_COOKIE ?? ''
@@ -35,11 +36,11 @@ const magicLinkVerify: FieldResolver<'Mutation', 'magicLinkVerification'> =
       throw new GraphQLError('link is expired please try again')
     }
     const token = generateAccessToken({ id: userID })
-    await ctx.request.cookieStore?.set({
-      name: 'access',
-      value: token,
+
+    ctx.res.cookie('access', token, {
+      httpOnly: true,
       domain: accessTokenCookieDomain,
-      expires: Date.now() + (1000 * 60 * 60 * 24 * 7),
+      maxAge: 1000 * 60 * 60 * 24 * 365,
     })
 
     return true

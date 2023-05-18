@@ -5,7 +5,7 @@ import cors, { CorsOptions } from 'cors'
  */
 export default cors((req, callback) => {
   const corsOptions: CorsOptions = {
-    origin: req.headers.origin || req.headers.host,
+    origin: process.env.FRONTEND_URL ?? '',
     credentials: true,
   }
 
