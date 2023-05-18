@@ -100,7 +100,7 @@ const TimeField = ({
       <div
         className={cn(
           'text-sm font-semibold',
-          language === 'ar' ? 'pr-2' : 'pl-1' 
+          language === 'ar' ? 'pr-2' : 'pl-1'
         )}
       >
         {language === 'ar' ? 'الوقت' : 'Time'}
@@ -130,7 +130,7 @@ const TimeField = ({
         </div>
         <div className="flex w-20 bg-neutral-100 rounded-md text-sm text-black relative z-[0] justify-center items-center">
           <motion.div
-            animate={{ x: meridiem ? '0%' : '100%' }}
+            animate={{ x: language === 'ar' ? meridiem ? '100%' : '0%' : meridiem ? '0%' : '100%'  }}
             transition={{
               type: 'spring',
               damping: 10,
@@ -140,22 +140,45 @@ const TimeField = ({
             className="absolute z-[-1] top-0.5 bottom-0.5 right-1/2 left-0.5 bg-white border border-transparent rounded"
           >
           </motion.div>
-          <button
-            className={cn('px-2 py-0.5 transition-all', {
-              'font-semibold': meridiem,
-            })}
-            onClick={() => setMeridiem(true)}
-          >
-            {language === 'ar' ? 'ص' : 'AM'}
-          </button>
-          <button
-            className={cn('px-2 py-0.5 transition-all', {
-              'font-semibold': !meridiem,
-            })}
-            onClick={() => setMeridiem(false)}
-          >
-            {language === 'ar' ? 'م' : 'PM'}
-          </button>
+          {language === 'ar' ? (
+            <div>
+              <button
+                className={cn('px-2 py-0.5 transition-all', {
+                  'font-semibold': !meridiem,
+                })}
+                onClick={() => setMeridiem(false)}
+              >
+                {'م'}
+              </button>
+              <button
+                className={cn('px-2 py-0.5 transition-all', {
+                  'font-semibold': meridiem,
+                })}
+                onClick={() => setMeridiem(true)}
+              >
+                {'ص'}
+              </button>
+            </div>
+          ) : (
+            <div>
+              <button
+                className={cn('px-2 py-0.5 transition-all', {
+                  'font-semibold': meridiem,
+                })}
+                onClick={() => setMeridiem(true)}
+              >
+                {'AM'}
+              </button>
+              <button
+                className={cn('px-2 py-0.5 transition-all', {
+                  'font-semibold': !meridiem,
+                })}
+                onClick={() => setMeridiem(false)}
+              >
+                {'PM'}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>
