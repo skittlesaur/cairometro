@@ -2,7 +2,7 @@ import React, { forwardRef, useImperativeHandle, useState } from 'react'
 
 import cn from 'classnames'
 import { format } from 'date-fns'
-import { ar, enUS } from 'date-fns/locale'
+import { ar } from 'date-fns/locale'
 import { useTranslation } from 'react-i18next'
 
 import { Calendar } from './calendar'
