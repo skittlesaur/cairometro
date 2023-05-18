@@ -7,6 +7,7 @@ export default cors((req, callback) => {
   const corsOptions: CorsOptions = {
     origin: process.env.FRONTEND_URL ?? '',
     credentials: true,
+    exposedHeaders: ['Set-Cookie'],
   }
 
   callback(null, corsOptions)
