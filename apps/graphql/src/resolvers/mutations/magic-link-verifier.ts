@@ -4,6 +4,7 @@ import { FieldResolver } from 'nexus'
 
 import { Context } from '../../context'
 import generateAccessToken from '../../lib/generate-access-token'
+import { isDev } from '../../utils/is-dev'
 
 
 const magicLinkVerify: FieldResolver<'Mutation', 'magicLinkVerification'> =
@@ -37,10 +38,14 @@ const magicLinkVerify: FieldResolver<'Mutation', 'magicLinkVerification'> =
     }
     const token = generateAccessToken({ id: userID })
 
-    ctx.res.cookie('access', token, {
-      httpOnly: true,
+    await ctx.request?.cookieStore?.set({
+      name: 'access',
+      value: token,
       domain: accessTokenCookieDomain,
-      maxAge: 1000 * 60 * 60 * 24 * 365,
+      path: '/',
+      sameSite: 'lax',
+      secure: !isDev,
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
     })
 
     return true
