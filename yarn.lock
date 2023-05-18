@@ -1901,6 +1901,17 @@
     "@babel/runtime" "^7.13.10"
     "@radix-ui/react-primitive" "1.0.2"
 
+"@radix-ui/react-avatar@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-avatar/-/react-avatar-1.0.2.tgz#c72209882e191db00ac0bfa16a9d9c025f0958f0"
+  integrity sha512-XRL8z2l9V7hRLCPjHWg/34RBPZUGpmOjmsRSNvIh2DI28GyIWDChbcsDUVc63MzOItk6Q83Ob2KK8k2FUlXlGA==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/react-context" "1.0.0"
+    "@radix-ui/react-primitive" "1.0.2"
+    "@radix-ui/react-use-callback-ref" "1.0.0"
+    "@radix-ui/react-use-layout-effect" "1.0.0"
+
 "@radix-ui/react-collapsible@1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-collapsible/-/react-collapsible-1.0.2.tgz#0583470c7caa8cd1ab6f606416288d19b3baf777"
@@ -2939,6 +2950,14 @@
     "@typescript-eslint/types" "5.59.2"
     eslint-visitor-keys "^3.3.0"
 
+"@whatwg-node/cookie-store@0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@whatwg-node/cookie-store/-/cookie-store-0.0.1.tgz#1893f861706f35c5d0475d85f3793f9f568e4fd6"
+  integrity sha512-uoti8QU5xd+X+9PULOGpPpOqPDdwkz+ukMc4kyQG1GwXeKVGktr4FSllr6dBotjOjNVPSBPpmj5V6zrUdDcLaw==
+  dependencies:
+    "@whatwg-node/events" "^0.0.3"
+    tslib "^2.3.1"
+
 "@whatwg-node/events@0.0.2":
   version "0.0.2"
   resolved "https://registry.npmjs.org/@whatwg-node/events/-/events-0.0.2.tgz"
@@ -2969,6 +2988,14 @@
     busboy "^1.6.0"
     fast-querystring "^1.1.1"
     fast-url-parser "^1.1.3"
+    tslib "^2.3.1"
+
+"@whatwg-node/server-plugin-cookies@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@whatwg-node/server-plugin-cookies/-/server-plugin-cookies-0.0.6.tgz#1c0375b139048cecd088580fccd426d08f080474"
+  integrity sha512-v2nhAypIlyImMg2F4+lKzEL/5f+XDndlxWvwLcCX1PKFXO/jFJ688tRzE50cuV706US1R5DV5qj4EKhjICSVjg==
+  dependencies:
+    "@whatwg-node/cookie-store" "0.0.1"
     tslib "^2.3.1"
 
 "@whatwg-node/server@^0.7.3":
@@ -4567,7 +4594,7 @@ dot-prop@^5.1.0:
 
 dotenv@^16.0.3:
   version "16.0.3"
-  resolved "https://registry.npmjs.org/dotenv/-/dotenv-16.0.3.tgz"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
   integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
 
 dset@^3.1.1:
@@ -5721,6 +5748,15 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11,
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
+gradient-avatar@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/gradient-avatar/-/gradient-avatar-1.0.2.tgz#42bb408e402b1f21aafba3878858721055515224"
+  integrity sha512-Od9KI2YImV60wnsvU/u6GEyBm2fiHUUHgiLySE243GYl/T/tiJMJ5QYey8o7tepugmlnUGQRaCItHv19UnUjUg==
+  dependencies:
+    hsl-rgb "^1.0.0"
+    hsl-triad "^1.0.0"
+    string-hash "^1.1.3"
+
 grapheme-splitter@^1.0.4:
   version "1.0.4"
   resolved "https://registry.npmjs.org/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz"
@@ -5902,6 +5938,16 @@ hosted-git-info@^6.0.0, hosted-git-info@^6.1.1:
   integrity sha512-r0EI+HBMcXadMrugk0GCQ+6BQV39PiWAZVfq7oIckeGiN7sjRGyQxPdft3nQekFTCQbYxLBH+/axZMeH8UX6+w==
   dependencies:
     lru-cache "^7.5.1"
+
+hsl-rgb@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/hsl-rgb/-/hsl-rgb-1.0.0.tgz#05ca49f6d960c9d8e237f27d7bdf284b656de5ab"
+  integrity sha512-cNq+7sfwzSDoiG/jiu8wZpOmjScUZrMKiI33tH3aQ1MZsXWQd0yJjMpPwu2OZFYa4D/bOT1aCbB5gS1kOqFx1A==
+
+hsl-triad@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/hsl-triad/-/hsl-triad-1.0.0.tgz#0d27f397f75e8beb6cf9c361970ffbe104652220"
+  integrity sha512-PKnjrMugS6sHC5dVh4VQZYOHEKG2QILjVwbpEtNjEV19RyswuIxrIiGhumVJjya/FjK/p9gX6+zRMXFGTvaQAA==
 
 html-minifier@^4.0.0:
   version "4.0.0"
@@ -9718,6 +9764,11 @@ streamsearch@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/streamsearch/-/streamsearch-1.1.0.tgz"
   integrity sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==
+
+string-hash@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/string-hash/-/string-hash-1.1.3.tgz#e8aafc0ac1855b4666929ed7dd1275df5d6c811b"
+  integrity sha512-kJUvRUFK49aub+a7T1nNE66EJbZBMnBgoC1UbCZ5n6bsZKBRga4KgBRTMn/pFkeCZSYtNeSyMxPDM0AXWELk2A==
 
 "string-width-cjs@npm:string-width@^4.2.0":
   version "4.2.3"

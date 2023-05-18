@@ -2,12 +2,13 @@ import { GraphQLError } from 'graphql/error'
 
 import { FieldResolver } from 'nexus'
 
+import { Context } from '../../context'
 import generateMagicLink from '../../lib/magic-link'
 import generateOTP from '../../lib/otp'
 import sendEmail, { EmailTemplate } from '../../lib/send-email'
 
 const login: FieldResolver<'Mutation', 'login'> =
-  async (_, args, ctx) => {
+  async (_, args, ctx: Context) => {
     const { email } = args
     const { prisma } = ctx
 

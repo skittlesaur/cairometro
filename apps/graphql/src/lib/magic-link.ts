@@ -1,6 +1,6 @@
 import { PrismaClient, User } from '@prisma/client'
 
-const generateMagicLink = async (user: User, prisma: PrismaClient) => {
+const generateMagicLink = async (user: {id: string} & Partial<User>, prisma: PrismaClient) => {
   const token = await prisma.magicToken.create({
     data: {
       createdAt: new Date(),

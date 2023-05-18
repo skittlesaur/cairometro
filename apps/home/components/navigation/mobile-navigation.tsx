@@ -6,6 +6,8 @@ import { buttonVariants } from '@/components/button'
 import HamburgerMenu from '@/components/navigation/hamburger-menu'
 import { NavigationProps } from '@/components/navigation/index'
 import { Separator } from '@/components/separator'
+import UserAvatar from '@/components/user-avatar'
+import useUser from '@/graphql/user/me'
 import ChatbubblesIcon from '@/icons/chatbubbles.svg'
 import ChevronDownIcon from '@/icons/chevron-down.svg'
 import DocumentTextIcon from '@/icons/document-text.svg'
@@ -25,6 +27,7 @@ const MobileNavigation = ({ activePath }: NavigationProps) => {
 
   const { t, i18n } = useTranslation('common')
   const router = useRouter()
+  const { data: user } = useUser()
 
 
   const links = [
@@ -98,27 +101,41 @@ const MobileNavigation = ({ activePath }: NavigationProps) => {
               color="bg-neutral-800"
             />
             <div className="grid grid-cols-2 gap-4">
-              <Link
-                href="/login"
-                className={buttonVariants({
-                  variant: 'ghost',
-                  size: 'sm',
-                  padding: 'sm',
-                  className: 'hover:bg-gray-400/10 hover:border-gray-700/20',
-                })}
-              >
-                {t('navigation.login')}
-              </Link>
-              <Link
-                href="/signup"
-                className={buttonVariants({
-                  variant: 'secondary', size: 'sm', padding: 'sm', className: 'text-black',
-                })}
-              >
-                {t('navigation.createAccount')}
-              </Link>
+              {user ? (
+                <div className="flex items-center w-full gap-3">
+                  <UserAvatar
+                    id={user.id}
+                    name={user.name}
+                  />
+                  <p>
+                    {user.name}
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    className={buttonVariants({
+                      variant: 'ghost',
+                      size: 'sm',
+                      padding: 'sm',
+                      className: 'hover:bg-gray-400/10 hover:border-gray-700/20',
+                    })}
+                  >
+                    {t('navigation.login')}
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className={buttonVariants({
+                      variant: 'secondary', size: 'sm', padding: 'sm', className: 'text-black',
+                    })}
+                  >
+                    {t('navigation.createAccount')}
+                  </Link>
+                </>
+              )}
               <button
-                className="text-neutral-300 hover:text-white transition-colors flex items-center gap-2 col-span-2 flex-row-reverse"
+                className={`text-neutral-300 hover:text-white transition-colors flex items-center gap-2 ${user ? '' : 'col-span-2'} flex-row-reverse`}
                 onClick={() => {
                   const { pathname, asPath, query } = router
                   const locale = i18n.language === 'ar' ? 'en' : 'ar'

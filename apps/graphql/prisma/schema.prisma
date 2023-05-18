@@ -12,22 +12,22 @@ datasource db {
 }
 
 model User {
-  id          String       @id @default(cuid()) @map("_id")
-  email       String       @unique
-  name        String
-  role        UserRole
-  magicToken  MagicToken[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  Otp         Otp[]
-  documentUrl String?
-  documentVerified    Boolean?    
+  id               String       @id @default(cuid()) @map("_id")
+  email            String       @unique
+  name             String
+  role             UserRole
+  magicToken       MagicToken[]
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+  Otp              Otp[]
+  documentUrl      String?
+  documentVerified Boolean?
 }
 
 model Otp {
   id         String   @id @default(cuid()) @map("_id")
   code       String   @unique
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
   expiryDate DateTime
   userId     String
@@ -35,10 +35,48 @@ model Otp {
 
 model MagicToken {
   id         String   @id @default(cuid()) @map("_id")
-  user       User     @relation(fields: [userID], references: [id])
+  user       User     @relation(fields: [userID], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
   expiryDate DateTime
   userID     String
+}
+
+model Line {
+  id         String     @id @default(cuid()) @map("_id")
+  name       String
+  name_ar    String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  stations   Station[]  @relation(fields: [stationIds], references: [id])
+  stationIds String[]
+  Schedule   Schedule[]
+}
+
+model Station {
+  id                 String     @id @default(cuid()) @map("_id")
+  name               String
+  name_ar            String
+  lines              Line[]     @relation(fields: [lineIds], references: [id])
+  lineIds            String[]
+  location           String?
+  departureSchedules Schedule[] @relation("departureSchedules")
+  arrivalSchedules   Schedule[] @relation("arrivalSchedules")
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+}
+
+model Schedule {
+  id                 String   @id @default(cuid()) @map("_id")
+  line               Line     @relation(fields: [lineId], references: [id])
+  lineId             String
+  departureTime      DateTime
+  departureStation   Station  @relation("departureSchedules", fields: [departureStationId], references: [id])
+  departureStationId String
+  arrivalTime        DateTime
+  arrivalStation     Station  @relation("arrivalSchedules", fields: [arrivalStationId], references: [id])
+  arrivalStationId   String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 
 enum UserRole {

@@ -1,6 +1,8 @@
 import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
 
 import Login from '@/components/authentication/login'
+import useUser from '@/graphql/user/me'
 import AuthenticationLayout from '@/layouts/authentication'
 
 import { useTranslation } from 'next-i18next'
@@ -9,6 +11,12 @@ import { NextSeo } from 'next-seo'
 
 const LoginPage: NextPage = () => {
   const { t } = useTranslation('login')
+  const { data, isLoading, error } = useUser()
+  const router = useRouter()
+  
+  if (data && !isLoading && !error) {
+    router.push('/')
+  }
 
   return (
     <AuthenticationLayout type="Login">
