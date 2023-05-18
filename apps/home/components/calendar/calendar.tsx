@@ -1,7 +1,8 @@
-import React from 'react'
-
 import cn from 'classnames'
-import { DateFormatter, DayPicker } from 'react-day-picker'
+import { format } from 'date-fns'
+import { ar, enUS } from 'date-fns/locale'
+import { DateFormatter, DayPicker, WeekNumberFormatter } from 'react-day-picker'
+import { useTranslation } from 'react-i18next'
 
 import ChevronLeft from '../../icons/chevron-left.svg'
 import ChevronRight from '../../icons/chevron-right.svg'
@@ -15,6 +16,7 @@ const Calendar = ({
   ...props
 }: CalendarProps) => {
 
+  const { language } = useTranslation('home').i18n
 
   const formatWeekdayName: DateFormatter = (weekday) => {
     switch (weekday.getDay()){
@@ -35,10 +37,26 @@ const Calendar = ({
     }
   }
 
+  const NU_LOCALE = 'ar-u-nu-arab'
+
+  const formatDay: DateFormatter = (day) =>
+    day.getDate().toLocaleString(NU_LOCALE)
+
+  const formatWeekNumber: WeekNumberFormatter = (weekNumber) => {
+    return weekNumber.toLocaleString(NU_LOCALE)
+  }
+
+  const formatCaption: DateFormatter = (date, options) => {
+    const y = date.getFullYear().toLocaleString(NU_LOCALE)
+    const m = format(date, 'LLLL', { locale: options?.locale })
+    return `${m} ${y.replace('٬', '')}`
+  }
 
   return (
     <DayPicker
-      formatters={{ formatWeekdayName }}
+      locale={language === 'ar' ? ar : enUS}
+      dir={language === 'ar' ? 'rtl' : 'ltr'}
+      formatters={language === 'ar' ? { formatDay, formatCaption, formatWeekNumber } : { formatWeekdayName }}
       showOutsideDays={showOutsideDays}
       className={cn('', className)}
       classNames={{
@@ -66,8 +84,8 @@ const Calendar = ({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ ..._ }) => <ChevronLeft className={cn('h-4 w-4 text-primary group-disabled:text-neutral-400 group-disabled:hover:bg-white group-disabled:hover:rounded-full group-disabled:opacity-100')} />,
-        IconRight: ({ ..._ }) => <ChevronRight className="h-4 w-4 text-primary group-disabled:text-neutral-400 group-disabled:hover:bg-white group-disabled:hover:rounded-full group-disabled:opacity-100" />,
+        IconLeft: ({ ..._ }) => <ChevronLeft className={cn('h-4 w-4 text-primary translate-x-[-0.75px] group-disabled:text-neutral-400 group-disabled:hover:bg-white group-disabled:hover:rounded-full group-disabled:opacity-100')} />,
+        IconRight: ({ ..._ }) => <ChevronRight className="h-4 w-4 text-primary translate-x-[0.75px] group-disabled:text-neutral-400 group-disabled:hover:bg-white group-disabled:hover:rounded-full group-disabled:opacity-100" />,
       }}
       {...props}
     />

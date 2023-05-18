@@ -2,60 +2,63 @@ import { KeyboardEvent, useRef, useState } from 'react'
 
 import cn from 'classnames'
 import { motion } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 
 interface TimeFieldProps {
-  meridiem: boolean,
-  setMeridiem: (meridiem: boolean)=> void,
-  hours: string,
-  setHours: (hour: string)=> void,
-  minutes: string,
+  meridiem: boolean
+  setMeridiem: (meridiem: boolean)=> void
+  hours: string
+  setHours: (hour: string)=> void
+  minutes: string
   setMinutes: (minute: string)=> void
 }
 
 const TimeField = ({
-  meridiem, setMeridiem, hours, setHours, minutes, setMinutes, ..._ 
+  meridiem,
+  setMeridiem,
+  hours,
+  setHours,
+  minutes,
+  setMinutes,
+  ..._
 }: TimeFieldProps) => {
+  const { language } = useTranslation('home').i18n
+
   const [hour, setHour] = useState('')
   const [minute, setMinute] = useState('')
   const minutesRef = useRef<HTMLInputElement>(null)
   const hoursRef = useRef<HTMLInputElement>(null)
 
+  const hoursAccordingToLocale =
+    language === 'ar'
+      ? parseInt(hours).toLocaleString('ar-EG').padStart(2, '٠')
+      : hours
+
+  const minutesAccordingToLocale =
+    language === 'ar'
+      ? parseInt(minutes).toLocaleString('ar-EG').padStart(2, '٠')
+      : minutes
+
   const hoursChangeHandler = () => {
-
-    if (parseInt(hour) === 1 && hours != '01') {
-      setHours('01')
-      return
-    }
-
-    if (parseInt(hour) === 0 && hours === '01'){
-      console.log(hour)
-      console.log(parseInt(hours))
-      setHours('10')
+    if (parseInt(hour) < 3 && hours === '01') {
+      setHours(`1${hour}`)
       minutesRef.current?.focus()
       return
-    } else if (parseInt(hour) === 1){
-      setHours('11')
-      minutesRef.current?.focus()
+    } else if (parseInt(hour) === 1) {
+      setHours(`0${hour}`)
       return
-    } else if (parseInt(hour) === 2 && hours === '01'){
-      setHours('12')
-      minutesRef.current?.focus()
-      return
-    }  
-
-    if (parseInt(hour) <= 9 && parseInt(hour) > 1) {
+    } else if (parseInt(hour) <= 9) {
       setHours(`0${hour}`)
       minutesRef.current?.focus()
       return
     }
-
   }
 
   const minutesChangeHandler = () => {
-    if (!parseInt(minute) && parseInt(minute) != 0) return 
-    
-    if (minutes === '00' || parseInt(minutes) >= 6){
-      switch (parseInt(minute)){
+    if (!parseInt(minute) && parseInt(minute) != 0) return
+
+    if (minutes === '00' || parseInt(minutes) >= 6) {
+      switch (parseInt(minute)) {
       case 0:
         setMinutes(`0${minute}`)
         minutesRef.current?.blur()
@@ -76,28 +79,43 @@ const TimeField = ({
         setMinutes(`0${minute}`)
         minutesRef.current?.blur()
         return
-      default: 
+      default:
         setMinutes(`0${minute}`)
         return
-      }}
+      }
+    }
 
-    
     setMinutes(`${parseInt(minutes)}${minute}`)
     minutesRef.current?.blur()
     return
-    
-
   }
 
   return (
-    <div className="flex flex-row justify-between items-center mt-2">
-      <div className="pl-1 text-sm font-semibold">Time</div>
-      <div className="flex flex-row gap-2">
+    <div
+      className={cn(
+        'flex justify-between items-center mt-2',
+        language === 'ar' ? 'flex-row-reverse' : 'flex-row'
+      )}
+    >
+      <div
+        className={cn(
+          'text-sm font-semibold',
+          language === 'ar' ? 'pr-2' : 'pl-1' 
+        )}
+      >
+        {language === 'ar' ? 'الوقت' : 'Time'}
+      </div>
+      <div
+        className={cn(
+          'flex flex-row gap-2',
+          language === 'ar' ? 'flex-row-reverse' : 'flex-row'
+        )}
+      >
         <div className="bg-neutral-100 rounded-md text-sm px-2 py-1">
           <input
             ref={hoursRef}
             className="w-5 bg-transparent text-center focus-visible:ring-0 focus-visible:ring-offset-0"
-            value={hours}
+            value={hoursAccordingToLocale}
             onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => setHour(e.key)}
             onChange={hoursChangeHandler}
           />
@@ -105,7 +123,7 @@ const TimeField = ({
           <input
             ref={minutesRef}
             className="w-5 bg-transparent text-center focus-visible:ring-0 focus-visible:ring-offset-0"
-            value={minutes}
+            value={minutesAccordingToLocale}
             onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => setMinute(e.key)}
             onChange={minutesChangeHandler}
           />
@@ -128,7 +146,7 @@ const TimeField = ({
             })}
             onClick={() => setMeridiem(true)}
           >
-            AM
+            {language === 'ar' ? 'ص' : 'AM'}
           </button>
           <button
             className={cn('px-2 py-0.5 transition-all', {
@@ -136,7 +154,7 @@ const TimeField = ({
             })}
             onClick={() => setMeridiem(false)}
           >
-            PM
+            {language === 'ar' ? 'م' : 'PM'}
           </button>
         </div>
       </div>

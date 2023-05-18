@@ -2,6 +2,8 @@ import React, { forwardRef, useImperativeHandle, useState } from 'react'
 
 import cn from 'classnames'
 import { format } from 'date-fns'
+import { ar, enUS } from 'date-fns/locale'
+import { useTranslation } from 'react-i18next'
 
 import { Calendar } from './calendar'
 import { Popover, PopoverContent, PopoverTrigger } from './calendar-popover'
@@ -13,6 +15,9 @@ interface DateTimePickerProps {
 }
 
 const DateTimePicker = forwardRef(({ from, to, ..._ }: DateTimePickerProps, ref) => {
+  
+  const { language } = useTranslation('home').i18n
+
   const [date, setDate] = useState<Date>()
   const [meridiem, setMeridiem] = useState(true)
   const [hours, setHours] = useState('01')
@@ -34,6 +39,8 @@ const DateTimePicker = forwardRef(({ from, to, ..._ }: DateTimePickerProps, ref)
     }),
   }))
 
+  const popoverText =  language === 'ar' ? date ? format(date, 'd MMMM', { locale: ar }) + ' في ' + `${parseInt(hours).toLocaleString('ar-EG').padStart(2, '٠')}:${parseInt(minutes).toLocaleString('ar-EG').padStart(2, '٠')} ${meridiem ? 'ص' : 'م'}` : <span>Pick a date</span> : date ? format(date, 'd MMMM') + ' at ' + `${hours}:${minutes} ${meridiem ? 'AM' : 'PM'}` : <span>Pick a date</span> 
+
   return (
     <Popover>
       <PopoverTrigger
@@ -47,7 +54,7 @@ const DateTimePicker = forwardRef(({ from, to, ..._ }: DateTimePickerProps, ref)
           )}
         >
           {/* <CalendarIcon className="mr-2 h-4 w-4" /> */}
-          {date ? format(date, 'd MMMM') + ' at ' + `${hours}:${minutes} ${meridiem ? 'AM' : 'PM'}` : <span>Pick a date</span>}
+          {popoverText}
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
