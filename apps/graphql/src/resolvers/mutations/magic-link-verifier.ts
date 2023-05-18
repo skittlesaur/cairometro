@@ -48,6 +48,8 @@ const magicLinkVerify: FieldResolver<'Mutation', 'magicLinkVerification'> =
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
     })
 
+    ctx.res.setHeader('access-control-expose-headers', 'Set-Cookie')
+
     return true
   }
 
