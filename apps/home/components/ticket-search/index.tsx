@@ -1,8 +1,10 @@
 import { MouseEvent, useCallback, useRef } from 'react'
+import { useRouter } from 'next/router'
 
 import { Button } from '@/components/button'
-import Passengers from '@/components/passengers'
 import { Separator } from '@/components/separator'
+import DateTimePicker from '@/components/ticket-search/calendar/date-time-picker'
+import Passengers from '@/components/ticket-search/passengers'
 
 import * as Menubar from '@radix-ui/react-menubar'
 import { useTranslation } from 'next-i18next'
@@ -14,10 +16,31 @@ export type TicketSearchRefType = {
 
 const TicketSearch = () => {
   const { t } = useTranslation('home')
+  const router = useRouter()
   
   const passengersRef = useRef<TicketSearchRefType>(null)
+  const travelTimeRef = useRef<TicketSearchRefType>(null)
 
   const onSearchClick = useCallback((_: MouseEvent<HTMLButtonElement>) => {
+    if (!travelTimeRef.current) return
+    const travelTime = travelTimeRef.current?.getResult() as {date: Date, meridiem: boolean, hours: string, minutes: string} 
+    
+    if (!travelTime.date
+      || !travelTime.hours
+      || !travelTime.minutes
+    ){
+      toast.error('Please select a valid travel time')
+      return
+    }
+
+    const date = new Date(
+      travelTime.date.getFullYear(),
+      travelTime.date.getMonth(),
+      travelTime.date.getDate(),
+      travelTime.meridiem ? parseInt(travelTime.hours) : parseInt(travelTime.hours) + 12,
+      parseInt(travelTime.minutes),
+    )
+
     if (!passengersRef.current) return
     const passengers = passengersRef.current?.getResult() as {adults: number, seniors: number, children: number}
     
@@ -29,7 +52,17 @@ const TicketSearch = () => {
       toast.error('Please select at least one passenger')
       return
     }
-  }, [])
+    
+    router.push({
+      pathname: '/tickets',
+      query: {
+        date: date.toISOString(),
+        adults: passengers.adults,
+        seniors: passengers.seniors,
+        children: passengers.children,
+      },
+    })
+  }, [router])
 
   return (
     <Menubar.Root className="-translate-y-1/2 -mb-28 md:-mb-10 gap-4 md:gap-8 flex md:flex-row justify-between flex-col items-center border border-neutral-300 rounded-lg shadow-xl bg-white px-5 py-4 md:px-9 md:py-7 mx-4 md:mx-auto md:w-full max-w-[1300px]">
@@ -63,9 +96,8 @@ const TicketSearch = () => {
         <label className="text-base font-medium text-base-black block">
           {t('hero.travelTime.title')}
         </label>
-        <input
-          placeholder={t('hero.travelTime.placeholder') as string}
-          className="font-normal text-sm leading-5 text-neutral-500"
+        <DateTimePicker
+          ref={travelTimeRef}
         />
       </div>
       <Separator

@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import TicketSearch from '@/components/home/ticket-search'
+import TicketSearch from '@/components/ticket-search'
 
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api'
 import * as process from 'process'
@@ -13,7 +13,7 @@ const Hero = () => {
 
   const center = useMemo(() => ({ lat: 30.0444, lng: 31.2357 }), [])
 
-  
+
   return (
     <div className="w-screen -mx-4 md:mx-[calc((100vw-100%)/-2+8px)]">
       <div className="relative">
