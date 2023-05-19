@@ -9,27 +9,22 @@ const LinkPage: NextPage = () => {
   const magicLink = router.query.link as string
 
   useEffect(() => {
-    const VerifyMagicLink = async () => {
-
+    const verifyMagicLink = async () => {
       try {
         if (!magicLink) return
-        
         await magicLinkMutation({ link: magicLink })
-        // window.close()
+        // close window
+        window.close()
       } catch (e) {
-        console.log(e)
+        // navigate to login page
+        router.push('/login?error=invalid-link')
       }
     }
-    VerifyMagicLink()
-  }, [magicLink])
+    verifyMagicLink()
+  }, [magicLink, router])
 
   return (
     <div>
-
-
-      in development
-
-
     </div>
   )
 

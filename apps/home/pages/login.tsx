@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
@@ -8,6 +9,7 @@ import AuthenticationLayout from '@/layouts/authentication'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { NextSeo } from 'next-seo'
+import toast from 'react-hot-toast'
 
 const LoginPage: NextPage = () => {
   const { t } = useTranslation('login')
@@ -17,6 +19,12 @@ const LoginPage: NextPage = () => {
   if (data && !isLoading && !error) {
     router.push('/')
   }
+  
+  useEffect(() => {
+    if (router.query.error === 'invalid-link') {
+      toast.error(t('errors.invalidLink'))
+    }
+  }, [router.query.error, t])
 
   return (
     <AuthenticationLayout type="Login">

@@ -47,6 +47,12 @@ const magicLinkVerify: FieldResolver<'Mutation', 'magicLinkVerification'> =
       secure: !isDev,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
     })
+    
+    await prisma.magicToken.delete({
+      where: {
+        id: magicLink.id,
+      },
+    })
 
     return true
   }

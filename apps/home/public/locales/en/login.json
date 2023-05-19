@@ -13,5 +13,8 @@
   },
   "userNotFound": "User not found, please sign up",
   "invalidEmail": "Invalid email address",
-  "somethingWentWrong": "Something went wrong, please try again"
+  "somethingWentWrong": "Something went wrong, please try again",
+  "errors": {
+    "invalidLink": "Magic link is invalid or expired"
+  }
 }
