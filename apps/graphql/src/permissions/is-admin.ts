@@ -1,7 +1,9 @@
-import { User } from "@prisma/client"
+import { rule } from 'graphql-shield'
 
-const isAdmin = (user: User) => {
-    return user.role == "ADMIN"    
-}
+import { UserRole } from '@prisma/client'
+
+const isAdmin = rule()(async (parent, args, ctx) => {
+  return ctx.user?.role === UserRole.ADMIN
+})
 
 export default isAdmin
