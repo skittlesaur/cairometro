@@ -14,7 +14,7 @@ const AppLayout = ({ children, navigation }: AppLayoutProps) => {
   return (
     <div
       dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
-      className="max-w-screen overflow-x-hidden"
+      className="relative max-w-screen overflow-x-hidden"
     >
       <Navigation
         activePath={navigation.activePath}
