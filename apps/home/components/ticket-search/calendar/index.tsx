@@ -1,11 +1,11 @@
+import ChevronLeft from '@/icons/chevron-left.svg'
+import ChevronRight from '@/icons/chevron-right.svg'
+
 import cn from 'classnames'
 import { format } from 'date-fns'
 import { ar, enUS } from 'date-fns/locale'
 import { DateFormatter, DayPicker, WeekNumberFormatter } from 'react-day-picker'
 import { useTranslation } from 'react-i18next'
-
-import ChevronLeft from '../../icons/chevron-left.svg'
-import ChevronRight from '../../icons/chevron-right.svg'
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
@@ -91,6 +91,7 @@ const Calendar = ({
     />
   )
 }
+
 Calendar.displayName = 'Calendar'
 
-export { Calendar }
+export default Calendar

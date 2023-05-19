@@ -1,13 +1,13 @@
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
 
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ticket-search/calendar/calendar-popover'
+import Calendar from '@/components/ticket-search/calendar/index'
+import TimeField from '@/components/ticket-search/calendar/time-field'
+
 import cn from 'classnames'
 import { format } from 'date-fns'
 import { ar } from 'date-fns/locale'
 import { useTranslation } from 'react-i18next'
-
-import { Calendar } from './calendar'
-import { Popover, PopoverContent, PopoverTrigger } from './calendar-popover'
-import TimeField from './time-field'
 
 interface DateTimePickerProps {
   from?: Date,
