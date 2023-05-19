@@ -22,7 +22,7 @@ const navigationVariants = cva(
 )
 
 export interface NavigationProps extends VariantProps<typeof navigationVariants> {
-  activePath?: '/' | '/support' | '/subscriptions' | '/instructions'
+  activePath?: '/' | '/support' | '/subscriptions' | '/instructions' | `/${string}`
 }
 
 const Navigation = ({ activePath, variant }: NavigationProps) => {
