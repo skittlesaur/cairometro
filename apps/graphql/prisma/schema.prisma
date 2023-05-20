@@ -59,7 +59,7 @@ model Station {
   name_ar               String
   lines                 Line[]                  @relation(fields: [lineIds], references: [id])
   lineIds               String[]
-  location              String?
+  location              String
   departureSchedules    Schedule[]              @relation("departureSchedules")
   arrivalSchedules      Schedule[]              @relation("arrivalSchedules")
   createdAt             DateTime                @default(now())

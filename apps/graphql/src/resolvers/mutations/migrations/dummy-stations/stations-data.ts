@@ -281,14 +281,6 @@ export const line2StationsData = [
 
 export const line3StationsData = [
   {
-    'name': 'Airport',
-    'name_ar': 'المطار',
-  },
-  {
-    'name': 'Ahmed Galal',
-    'name_ar': 'أحمد جلال',
-  },
-  {
     'name': 'Adly Mansour',
     'name_ar': 'عدلي منصور',
     'location': '30°8′49″N 31°25′17″E',
@@ -404,41 +396,9 @@ export const line3StationsData = [
     'location': '30°4′0″N 31°12′47″E',
   },
   {
-    'name': 'Sudan Street',
-    'name_ar': 'السودان',
-  },
-  {
     'name': 'Imbaba',
     'name_ar': 'إمبابة',
     'location': '30°4′38″N 31°13′4″E',
-  },
-  {
-    'name': 'El-Bohy',
-    'name_ar': 'البوهي',
-  },
-  {
-    'name': 'El-Kawmeya Al-Arabiya',
-    'name_ar': 'القومية العربية',
-  },
-  {
-    'name': 'Ring Road',
-    'name_ar': 'الطريق الدائري',
-  },
-  {
-    'name': 'Rod El-Farag Axis',
-    'name_ar': 'محور روض الفرج',
-  },
-  {
-    'name': 'El-Tawfikeya',
-    'name_ar': 'التوفيقية',
-  },
-  {
-    'name': 'Wadi El-Nil',
-    'name_ar': 'وادي النيل',
-  },
-  {
-    'name': 'Gamaat El Dowal Al-Arabiya',
-    'name_ar': 'جامعة الدول العربية',
   },
   {
     'name': 'Bulaq El-Dakroor',
