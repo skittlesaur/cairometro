@@ -42,17 +42,17 @@ const DesktopNavigation = ({ activePath }: NavigationProps) => {
       {
         name: t('navigation.instructions.content.specialNeeds.title'),
         description: t('navigation.instructions.content.specialNeeds.description'),
-        href: '/instructions/special-needs',
+        href: '/help/instructions/special-needs',
       },
       {
         name: t('navigation.instructions.content.rules.title'),
         description: t('navigation.instructions.content.rules.description'),
-        href: '/instructions/rules',
+        href: '/help/instructions/rules',
       },
       {
         name: t('navigation.instructions.content.linesAndSchedule.title'),
         description: t('navigation.instructions.content.linesAndSchedule.description'),
-        href: '/instructions/lines-and-schedule',
+        href: '/help/instructions/lines-and-schedule',
       },
     ],
   }
@@ -155,7 +155,7 @@ const DesktopNavigation = ({ activePath }: NavigationProps) => {
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link
-              href="/support"
+              href="/help/chat"
               className={`text-sm transition-colors py-2 px-3 ${cn({
                 'text-black font-medium': '/support' === activePath,
                 'text-neutral-600 hover:text-black': '/support' !== activePath,
