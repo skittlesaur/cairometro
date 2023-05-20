@@ -1,4 +1,4 @@
-import { Line, Station } from '@prisma/client'
+import { Line, Schedule, Station } from '@prisma/client'
 import { FieldResolver } from 'nexus'
 
 import { line1StationsData, line2StationsData, line3StationsData } from './stations-data'
@@ -49,15 +49,28 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
       },
     })
     
-    const stations2: Partial<Station> & {lineIds: {set: string[]}}[] = line2StationsData.map((station) => {
+    const stations2 = line2StationsData.map(async (station) => {
       const line1Station = line1Stations.find((line1Station: Station) => line1Station.name === station.name)
 
       const lineIds = [line2.id]
 
       if (line1Station) {
         lineIds.unshift(line1.id)
+        // update line1Station
+        await prisma.station.update({
+          where: {
+            id: line1Station.id,
+          },
+          data: {
+            lineIds: {
+              set: lineIds,
+            },
+          },
+        })
+
+        return
       }
-      
+
       return {
         ...station,
         lineIds: {
@@ -65,8 +78,9 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
         },
       }
     })
-    
-    await prisma.station.createMany({ data: stations2 })
+      .filter(Boolean)
+
+    await prisma.station.createMany({ data: await Promise.all(stations2) })
     const line2Stations = await prisma.station.findMany({
       where: {
         lineIds: {
@@ -75,7 +89,7 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
       },
     })
 
-    const stations3: Partial<Station> & {lineIds: {set: string[]}}[] = line3StationsData.map((station) => {
+    const stations3 = line3StationsData.map(async (station) => {
       const line1Station = line1Stations.find((line1Station: Station) => line1Station.name === station.name)
       const line2Station = line2Stations.find((line2Station: Station) => line2Station.name === station.name)
 
@@ -89,6 +103,23 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
         lineIds.unshift(line1.id)
       }
       
+      if (lineIds.length > 1 ) {
+        const id = line1Station?.id || line2Station?.id
+        
+        await prisma.station.update({
+          where: {
+            id,
+          },
+          data: {
+            lineIds: {
+              set: lineIds,
+            },
+          },
+        })
+
+        return
+      }
+      
       return {
         ...station,
         lineIds: {
@@ -96,8 +127,9 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
         },
       }
     })
+      .filter(Boolean)
     
-    await prisma.station.createMany({ data: stations3 })
+    await prisma.station.createMany({ data: await Promise.all(stations3) })
     const line3Stations = await prisma.station.findMany({
       where: {
         lineIds: {
@@ -106,57 +138,140 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
       },
     })
 
-    // 5am
-    const currentTime = new Date(new Date().setHours(5, 0, 0, 0))
-    const endOfDay = new Date(new Date().setHours(23, 59, 59))
-    const travelTimePerStation = 5 // minutes
-    const trainWaitingTime = 3 // minutes
-    const schedules = []
-    let i = 0, j = 0, k = 0
+    // simulate schedule
+    // from 5 am till 12 am
+    // each station takes 4 minutes
+    // a train starts every 15 minutes
 
-    while (currentTime < endOfDay) {
-      const station1 = line1Stations.find((station: Station) => station.name === line1StationsData[i].name)
-      const nextStation1 = line1Stations.find((station: Station) => station.name === line1StationsData[i + 1].name)
+    const startTime = new Date().setHours(5, 0, 0, 0)
+    const endTime = new Date().setHours(24, 0, 0, 0)
+    const interval = 15 // minutes
+    const durationPerStation = 4 // minutes
 
-      const station2 = line2Stations.find((station: Station) => station.name === line2StationsData[j].name)
-      const nextStation2 = line2Stations.find((station: Station) => station.name === line2StationsData[j + 1].name)
+    let currentDepartureTime = startTime
 
-      const station3 = line3Stations.find((station: Station) => station.name === line3StationsData[k].name)
-      const nextStation3 = line3Stations.find((station: Station) => station.name === line3StationsData[k + 1].name)
+    const schedules1: Partial<Schedule>[] = []
+    const schedules2: Partial<Schedule>[] = []
+    const schedules3: Partial<Schedule>[] = []
 
-      const arrivalTime = new Date(currentTime.getTime() + travelTimePerStation * 60 * 1000)
-      
-      schedules.push({
-        lineId: line1.id,
-        departureTime: currentTime,
-        departureStationId: station1.id,
-        arrivalTime,
-        arrivalStationId: nextStation1.id,
-      })
-      
-      schedules.push({
-        lineId: line2.id,
-        departureTime: currentTime,
-        departureStationId: station2.id,
-        arrivalTime,
-        arrivalStationId: nextStation2.id,
-      })
-      
-      schedules.push({
-        lineId: line3.id,
-        departureTime: currentTime,
-        departureStationId: station3.id,
-        arrivalTime,
-        arrivalStationId: nextStation3.id,
-      })
-      
-      currentTime.setMinutes(currentTime.getMinutes() + trainWaitingTime)
-      i = line1Stations.length - 2 ? i = 0 : i++
-      j = line2Stations.length - 2 ? j = 0 : j++
-      k = line3Stations.length - 2 ? k = 0 : k++
+    while (currentDepartureTime < endTime) {
+      let currentStationIndex = 0
+      while (currentStationIndex < line1Stations.length - 2) {
+        const departureTime = new Date(currentDepartureTime)
+        const arrivalTime = new Date(currentDepartureTime + durationPerStation * 60000)
+
+        const currentStation = line1Stations[currentStationIndex]
+        const nextStation = line1Stations[currentStationIndex + 1]
+
+        const currentStationRev = line1Stations[line1Stations.length - currentStationIndex - 1]
+        const nextStationRev = line1Stations[line1Stations.length - currentStationIndex - 2]
+
+        schedules1.push({
+          departureTime,
+          arrivalTime,
+          departureStationId: currentStation.id,
+          arrivalStationId: nextStation.id,
+          lineId: line1.id,
+        })
+
+        schedules1.push({
+          departureTime,
+          arrivalTime,
+          departureStationId: currentStationRev.id,
+          arrivalStationId: nextStationRev.id,
+          lineId: line1.id,
+        })
+
+        currentStationIndex++
+        currentDepartureTime += interval * 60000
+      }
+
+      currentStationIndex = 0
+      while (currentStationIndex < line2Stations.length - 2) {
+        const departureTime = new Date(currentDepartureTime)
+        const arrivalTime = new Date(currentDepartureTime + durationPerStation * 60000)
+
+        const currentStation = line2Stations[currentStationIndex]
+        const nextStation = line2Stations[currentStationIndex + 1]
+
+        const currentStationRev = line1Stations[line1Stations.length - currentStationIndex - 1]
+        const nextStationRev = line1Stations[line1Stations.length - currentStationIndex - 2]
+
+        schedules2.push({
+          departureTime,
+          arrivalTime,
+          departureStationId: currentStation.id,
+          arrivalStationId: nextStation.id,
+          lineId: line2.id,
+        })
+
+        schedules2.push({
+          departureTime,
+          arrivalTime,
+          departureStationId: currentStationRev.id,
+          arrivalStationId: nextStationRev.id,
+          lineId: line2.id,
+        })
+
+        currentStationIndex++
+        currentDepartureTime += interval * 60000
+      }
+
+      currentStationIndex = 0
+      while (currentStationIndex < line3Stations.length - 2) {
+        const departureTime = new Date(currentDepartureTime)
+        const arrivalTime = new Date(currentDepartureTime + durationPerStation * 60000)
+
+        const currentStation = line3Stations[currentStationIndex]
+        const nextStation = line3Stations[currentStationIndex + 1]
+
+        const currentStationRev = line1Stations[line1Stations.length - currentStationIndex - 1]
+        const nextStationRev = line1Stations[line1Stations.length - currentStationIndex - 2]
+
+        schedules3.push({
+          departureTime,
+          arrivalTime,
+          departureStationId: currentStation.id,
+          arrivalStationId: nextStation.id,
+          lineId: line3.id,
+        })
+
+        schedules3.push({
+          departureTime,
+          arrivalTime,
+          departureStationId: currentStationRev.id,
+          arrivalStationId: nextStationRev.id,
+          lineId: line3.id,
+        })
+
+        currentStationIndex++
+        currentDepartureTime += interval * 60000
+      }
     }
 
-    await prisma.schedule.createMany({ data: schedules })
+    await prisma.schedule.createMany({ data: schedules1 })
+    await prisma.schedule.createMany({ data: schedules2 })
+    await prisma.schedule.createMany({ data: schedules3 })
+
+    const positionsInLine = [
+      ...(line1StationsData.map((station, idx) => ({
+        stationId: line1Stations.find((line1Station: Station) => line1Station.name === station.name)?.id,
+        lineId: line1.id,
+        position: idx,
+      }))),
+      ...(line2StationsData.map((station, idx) => ({
+        stationId: line2Stations.find((line2Station: Station) => line2Station.name === station.name)?.id,
+        lineId: line2.id,
+        position: idx,
+      }))),
+      ...(line3StationsData.map((station, idx) => ({
+        stationId: line3Stations.find((line3Station: Station) => line3Station.name === station.name)?.id,
+        lineId: line3.id,
+        position: idx,
+      }))),
+    ]
+
+    await prisma.stationPositionInLine.createMany({ data: positionsInLine })
 
     return true
   }

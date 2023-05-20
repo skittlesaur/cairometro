@@ -42,27 +42,29 @@ model MagicToken {
 }
 
 model Line {
-  id         String     @id @default(cuid()) @map("_id")
-  name       String
-  name_ar    String
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  stations   Station[]  @relation(fields: [stationIds], references: [id])
-  stationIds String[]
-  Schedule   Schedule[]
+  id                    String                  @id @default(cuid()) @map("_id")
+  name                  String
+  name_ar               String
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+  stations              Station[]               @relation(fields: [stationIds], references: [id])
+  stationIds            String[]
+  Schedule              Schedule[]
+  StationPositionInLine StationPositionInLine[]
 }
 
 model Station {
-  id                 String     @id @default(cuid()) @map("_id")
-  name               String
-  name_ar            String
-  lines              Line[]     @relation(fields: [lineIds], references: [id])
-  lineIds            String[]
-  location           String?
-  departureSchedules Schedule[] @relation("departureSchedules")
-  arrivalSchedules   Schedule[] @relation("arrivalSchedules")
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
+  id                    String                  @id @default(cuid()) @map("_id")
+  name                  String
+  name_ar               String
+  lines                 Line[]                  @relation(fields: [lineIds], references: [id])
+  lineIds               String[]
+  location              String?
+  departureSchedules    Schedule[]              @relation("departureSchedules")
+  arrivalSchedules      Schedule[]              @relation("arrivalSchedules")
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+  stationPositionInLine StationPositionInLine[]
 }
 
 model Schedule {
@@ -77,6 +79,15 @@ model Schedule {
   arrivalStationId   String
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+}
+
+model StationPositionInLine {
+  id        String  @id @default(cuid()) @map("_id")
+  line      Line    @relation(fields: [lineId], references: [id])
+  lineId    String
+  station   Station @relation(fields: [stationId], references: [id])
+  stationId String
+  position  Int
 }
 
 enum UserRole {
