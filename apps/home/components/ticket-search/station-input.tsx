@@ -5,6 +5,7 @@ import LocationIcon from '@/icons/location.svg'
 import Station from '@/types/station'
 
 import Fuse from 'fuse.js'
+import { useTranslation } from 'next-i18next'
 import OutsideClickHandler from 'react-outside-click-handler'
 
 interface StationInputProps {
@@ -14,6 +15,7 @@ interface StationInputProps {
 }
 
 const StationInput = forwardRef(({ title, placeholder, onSelected }: StationInputProps, ref) => {
+  const { i18n } = useTranslation('home')
   const { data: stations } = useStations()
   const [inputValue, setInputValue] = useState<string>('')
   const [suggests, setSuggests] = useState<Station[]>([])
@@ -36,11 +38,14 @@ const StationInput = forwardRef(({ title, placeholder, onSelected }: StationInpu
   }, [stations, inputValue])
 
   useEffect(() => {
-    if (selectedStation?.name === inputValue) {
+    if (selectedStation?.name === inputValue || selectedStation?.name_ar === inputValue) {
       return
     }
     search()
-  }, [inputValue, search, selectedStation?.name])
+  }, [inputValue,
+    search,
+    selectedStation?.name,
+    selectedStation?.name_ar])
 
   return (
     <div className="relative">
@@ -65,7 +70,7 @@ const StationInput = forwardRef(({ title, placeholder, onSelected }: StationInpu
                 key={station.id}
                 className="flex items-center gap-2 w-full hover:bg-neutral-100 p-3"
                 onClick={() => {
-                  setInputValue(station.name)
+                  setInputValue(i18n.language === 'ar' ? station.name_ar : station.name)
                   setSelectedStation(station)
                   setSuggests([])
                   if (onSelected) {
@@ -76,10 +81,10 @@ const StationInput = forwardRef(({ title, placeholder, onSelected }: StationInpu
                 <LocationIcon className="w-5 h-5" />
                 <div className="flex flex-col items-start">
                   <p>
-                    {station.name}
+                    {i18n.language === 'ar' ? station.name_ar : station.name}
                   </p>
                   <p className="text-xs text-neutral-500">
-                    {station.name_ar}
+                    {i18n.language === 'ar' ? station.name : station.name_ar}
                   </p>
                 </div>
               </button>
