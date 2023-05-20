@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 
 import TicketSearch from '@/components/ticket-search'
 import useStations from '@/graphql/stations/stations'
+import Station from '@/types/station'
 
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api'
 import * as process from 'process'
@@ -21,16 +22,21 @@ const Hero = () => {
       <div className="relative">
         {isLoaded ? (
           <GoogleMap
-            zoom={10}
+            zoom={15}
             center={center}
             mapContainerClassName="map-container"
             mapContainerStyle={{ position: 'relative', width: '100vw', height: '80vh' }}
             options={{ mapId: process.env.NEXT_PUBLIC_MAP_ID }}
           >
-            {stations?.map((station: { id: string, locationLngLat: { lat: number, lng: number } }) => (
+            {stations?.map((station: Station) => (
               <Marker
                 key={station.id}
                 position={{ lat: station.locationLngLat.lat, lng: station.locationLngLat.lng }}
+                label={station.name}
+                icon={{
+                  url: '/assets/images/metro-marker.png ',
+                  scaledSize: new window.google.maps.Size(30, 30),
+                }}
               />
             ))}
           </GoogleMap>
