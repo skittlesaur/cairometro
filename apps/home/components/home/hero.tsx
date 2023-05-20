@@ -44,7 +44,7 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent pointer-events-none" />
       </div>
       <TicketSearch
-        dynamicLocationUpdate={({ from, to }: {from?: Station, to?: Station}) => setSelection({ from, to })}
+        dynamicLocationUpdate={({ from, to }: {from?: Station, to?: Station}) => setSelection(prev => ({ ...prev, from, to }))}
       />
     </div>
   )
