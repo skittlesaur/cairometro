@@ -12,7 +12,7 @@ const Hero = () => {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? '',
   })
   const [selection, setSelection] = useState<{ from?: Station, to?: Station }>()
-  const center = useMemo(() => {
+  const mapSettings = useMemo(() => {
     const from = selection?.from?.locationLngLat
     const to = selection?.to?.locationLngLat
     if (!from && !to) 
@@ -31,9 +31,15 @@ const Hero = () => {
     const lat = (from.lat + to.lat) / 2
     const lng = (from.lng + to.lng) / 2
 
+    const zoom = Math.min(
+      Math.log2(360 * 0.7 / Math.abs(from.lng - to.lng)) - 1,
+      Math.log2(180 * 0.7 / Math.abs(from.lat - to.lat)) - 1,
+    )
+
     return {
       lat,
       lng,
+      zoom,
     }
   }, [selection?.from?.locationLngLat, selection?.to?.locationLngLat])
 
@@ -42,8 +48,8 @@ const Hero = () => {
       <div className="relative">
         {isLoaded ? (
           <GoogleMap
-            zoom={13}
-            center={center}
+            zoom={mapSettings.zoom ?? 13}
+            center={({ lat: mapSettings.lat, lng: mapSettings.lng })}
             mapContainerClassName="map-container"
             mapContainerStyle={{ position: 'relative', width: '100vw', height: '80vh' }}
             options={{ mapId: process.env.NEXT_PUBLIC_MAP_ID }}
