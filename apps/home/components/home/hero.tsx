@@ -18,7 +18,7 @@ const Hero = () => {
       <div className="relative">
         {isLoaded ? (
           <GoogleMap
-            zoom={15}
+            zoom={13}
             center={center}
             mapContainerClassName="map-container"
             mapContainerStyle={{ position: 'relative', width: '100vw', height: '80vh' }}
