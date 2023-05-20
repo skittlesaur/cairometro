@@ -1,10 +1,8 @@
 import { useMemo } from 'react'
 
 import TicketSearch from '@/components/ticket-search'
-import useStations from '@/graphql/stations/stations'
-import Station from '@/types/station'
 
-import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api'
+import { GoogleMap, useLoadScript } from '@react-google-maps/api'
 import * as process from 'process'
 
 
@@ -14,8 +12,6 @@ const Hero = () => {
   })
 
   const center = useMemo(() => ({ lat: 30.0444, lng: 31.2357 }), [])
-
-  const { data: stations } = useStations()
 
   return (
     <div className="w-screen -mx-4 md:mx-[calc((100vw-100%)/-2+8px)]">
@@ -27,19 +23,7 @@ const Hero = () => {
             mapContainerClassName="map-container"
             mapContainerStyle={{ position: 'relative', width: '100vw', height: '80vh' }}
             options={{ mapId: process.env.NEXT_PUBLIC_MAP_ID }}
-          >
-            {stations?.map((station: Station) => (
-              <Marker
-                key={station.id}
-                position={{ lat: station.locationLngLat.lat, lng: station.locationLngLat.lng }}
-                label={station.name}
-                icon={{
-                  url: '/assets/images/metro-marker.png ',
-                  scaledSize: new window.google.maps.Size(30, 30),
-                }}
-              />
-            ))}
-          </GoogleMap>
+          />
         ) : (
           <div className="w-full h-[80vh] bg-neutral-200 animate-pulse" />
         )}
