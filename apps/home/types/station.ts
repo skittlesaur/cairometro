@@ -1,3 +1,5 @@
+import Line from '@/types/line'
+
 interface Station {
   id: string
   name: string
@@ -7,6 +9,11 @@ interface Station {
     lng: number
     lat: number
   }
+  stationPositionInLine: {
+    position: number
+    line: Line
+  }[]
+  lines: Line[]
 }
 
 export default Station

@@ -8,6 +8,8 @@ const LineType = objectType({
     t.field(Line.id)
     t.field(Line.name)
     t.field(Line.name_ar)
+    t.field(Line.color)
+    t.field(Line.stations)
   },
 })
 

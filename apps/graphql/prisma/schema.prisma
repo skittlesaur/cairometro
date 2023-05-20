@@ -45,19 +45,20 @@ model Line {
   id                    String                  @id @default(cuid()) @map("_id")
   name                  String
   name_ar               String
-  createdAt             DateTime                @default(now())
-  updatedAt             DateTime                @updatedAt
-  stations              Station[]               @relation(fields: [stationIds], references: [id])
+  stations              Station[]               @relation("lineStations", fields: [stationIds], references: [id])
   stationIds            String[]
   Schedule              Schedule[]
   StationPositionInLine StationPositionInLine[]
+  color                 String                  @default("#EA3347")
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
 }
 
 model Station {
   id                    String                  @id @default(cuid()) @map("_id")
   name                  String
   name_ar               String
-  lines                 Line[]                  @relation(fields: [lineIds], references: [id])
+  lines                 Line[]                  @relation("lineStations", fields: [lineIds], references: [id])
   lineIds               String[]
   location              String
   departureSchedules    Schedule[]              @relation("departureSchedules")

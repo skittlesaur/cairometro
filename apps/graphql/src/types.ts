@@ -6,6 +6,7 @@ import LineType from './types/line'
 import LngLatType from './types/lng-lat'
 import ScheduleType from './types/schedule'
 import StationType from './types/station'
+import StationPositionInLineType from './types/station-position-in-line'
 import UserType from './types/user'
 import UserRoleEnum from './types/user-role'
 
@@ -19,6 +20,7 @@ const types = [
   StationType,
   ScheduleType,
   LngLatType,
+  StationPositionInLineType,
 ]
 
 export default types

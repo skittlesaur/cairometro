@@ -1,16 +1,13 @@
 import { useMemo, useState } from 'react'
 
+import Map from '@/components/map'
 import TicketSearch from '@/components/ticket-search'
 import Station from '@/types/station'
 
-import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api'
-import * as process from 'process'
+import { Marker } from '@react-google-maps/api'
 
 
 const Hero = () => {
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? '',
-  })
   const [selection, setSelection] = useState<{ from?: Station, to?: Station }>()
   const mapSettings = useMemo(() => {
     const from = selection?.from?.locationLngLat
@@ -48,34 +45,24 @@ const Hero = () => {
       zoom,
     }
   }, [selection?.from?.locationLngLat, selection?.to?.locationLngLat])
-
+  
   return (
     <div className="w-screen -mx-4 md:mx-[calc((100vw-100%)/-2+8px)]">
-      <div className="relative">
-        {isLoaded ? (
-          <GoogleMap
-            zoom={mapSettings.zoom}
-            center={({ lat: mapSettings.lat, lng: mapSettings.lng })}
-            mapContainerClassName="map-container"
-            mapContainerStyle={{ position: 'relative', width: '100vw', height: '80vh' }}
-            options={{ mapId: process.env.NEXT_PUBLIC_MAP_ID }}
-          >
-            {selection?.from && (
-              <Marker
-                position={selection.from.locationLngLat}
-                label={selection.from.name}
-              />
-            )}
-            {selection?.to && (
-              <Marker
-                position={selection.to.locationLngLat}
-                label={selection.to.name}
-              />
-            )}
-          </GoogleMap>
-        ) : (
-          <div className="w-full h-[80vh] bg-neutral-200 animate-pulse" />
-        )}
+      <div className="relative w-screen h-[80vh]">
+        <Map mapSettings={mapSettings}>
+          {selection?.from && (
+            <Marker
+              position={selection.from.locationLngLat}
+              label={selection.from.name}
+            />
+          )}
+          {selection?.to && (
+            <Marker
+              position={selection.to.locationLngLat}
+              label={selection.to.name}
+            />
+          )}
+        </Map>
         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent pointer-events-none" />
       </div>
       <TicketSearch

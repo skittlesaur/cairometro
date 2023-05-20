@@ -1,4 +1,5 @@
 import EnjoyYourJourney from '@/components/help/enjoy-your-journey'
+import HelpMap from '@/components/help/help-map'
 import HelpLayout from '@/layouts/help-layout'
 
 import fs from 'fs'
@@ -23,6 +24,7 @@ interface Props {
 
 const components = {
   EnjoyYourJourney,
+  HelpMap,
 }
 
 const HelpPage = ({ source, frontMatter }: Props) => {

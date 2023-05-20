@@ -26,6 +26,7 @@ const StationType = objectType({
     t.field(Station.lines)
     t.field(Station.departureSchedules)
     t.field(Station.arrivalSchedules)
+    t.field(Station.stationPositionInLine)
     t.field({
       name: 'locationLngLat',
       type: 'LngLat',
