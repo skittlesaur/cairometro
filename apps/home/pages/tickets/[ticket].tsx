@@ -16,10 +16,15 @@ const TicketDetailsPage = ()=>{
   )
 }
 
-export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+export const getStaticProps = async ({ locale }: { locale: string }) => ({
   props: {
     ...(await serverSideTranslations(locale, ['common', 'tickets.details', 'find-ticket'])),
   },
+})
+
+export const getStaticPaths = async () => ({
+  paths: [],
+  fallback: true,
 })
 
 export default TicketDetailsPage
