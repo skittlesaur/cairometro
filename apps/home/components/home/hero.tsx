@@ -16,17 +16,23 @@ const Hero = () => {
     const from = selection?.from?.locationLngLat
     const to = selection?.to?.locationLngLat
     if (!from && !to) 
-      return ({ lat: 30.0444, lng: 31.2357 })
+      return ({ lat: 30.0444, lng: 31.2357, zoom: 13 })
     
     if (from && !to) {
-      return from
+      return {
+        ...from,
+        zoom: 13,
+      }
     }
     
     if (!from && to) {
-      return to
+      return {
+        ...to,
+        zoom: 13,
+      }
     }
     
-    if (!from || !to) return ({ lat: 30.0444, lng: 31.2357 })
+    if (!from || !to) return ({ lat: 30.0444, lng: 31.2357, zoom: 13 })
     
     const lat = (from.lat + to.lat) / 2
     const lng = (from.lng + to.lng) / 2
@@ -48,7 +54,7 @@ const Hero = () => {
       <div className="relative">
         {isLoaded ? (
           <GoogleMap
-            zoom={mapSettings.zoom ?? 13}
+            zoom={mapSettings.zoom}
             center={({ lat: mapSettings.lat, lng: mapSettings.lng })}
             mapContainerClassName="map-container"
             mapContainerStyle={{ position: 'relative', width: '100vw', height: '80vh' }}
