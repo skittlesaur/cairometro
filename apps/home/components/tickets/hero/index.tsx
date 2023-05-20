@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 import TicketSearch from '@/components/ticket-search'
 
-import { Gradient } from './Gradient.js'
+import { Gradient } from './gradient'
 
 const Hero = () => {
 
