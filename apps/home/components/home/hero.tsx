@@ -32,8 +32,8 @@ const Hero = () => {
     const lng = (from.lng + to.lng) / 2
 
     const zoom = Math.min(
-      Math.log2(360 * 0.7 / Math.abs(from.lng - to.lng)) - 1,
-      Math.log2(180 * 0.7 / Math.abs(from.lat - to.lat)) - 1,
+      Math.log2(360 * 1.5 / Math.abs(from.lng - to.lng)),
+      Math.log2(180 * 1.5 / Math.abs(from.lat - to.lat)),
     )
 
     return {
