@@ -18,10 +18,11 @@ export type TicketSearchRefType = {
 
 interface TicketSearchProps {
   dynamicLocationUpdate?: ({ from, to }: { from?: Station, to?: Station })=> void
+  variant?: 'primary' | 'outline'
 }
 
-const TicketSearch = ({ dynamicLocationUpdate }: TicketSearchProps) => {
-  const { t } = useTranslation('home')
+const TicketSearch = ({ dynamicLocationUpdate, variant = 'primary' }: TicketSearchProps) => {
+  const { t } = useTranslation('find-ticket')
   const router = useRouter()
 
   const departureRef = useRef<TicketSearchRefType>(null)
@@ -94,8 +95,8 @@ const TicketSearch = ({ dynamicLocationUpdate }: TicketSearchProps) => {
     <Menubar.Root className="relative z-10 -translate-y-1/2 -mb-28 md:-mb-10 gap-4 md:gap-8 flex md:flex-row justify-between flex-col items-center border border-neutral-300 rounded-lg shadow-xl bg-white px-5 py-4 md:px-9 md:py-7 mx-4 md:mx-auto md:w-full max-w-[1300px]">
       <StationInput
         ref={departureRef}
-        title={t('hero.from.title')}
-        placeholder={t('hero.from.placeholder')}
+        title={t('from.title')}
+        placeholder={t('from.placeholder')}
         onSelected={(station) => {
           if (dynamicLocationUpdate) dynamicLocationUpdate({ from: station })
         }}
@@ -106,8 +107,8 @@ const TicketSearch = ({ dynamicLocationUpdate }: TicketSearchProps) => {
       />
       <StationInput
         ref={destinationRef}
-        title={t('hero.to.title')}
-        placeholder={t('hero.to.placeholder')}
+        title={t('to.title')}
+        placeholder={t('to.placeholder')}
         onSelected={(station) => {
           if (dynamicLocationUpdate) dynamicLocationUpdate({ to: station })
         }}
@@ -118,7 +119,7 @@ const TicketSearch = ({ dynamicLocationUpdate }: TicketSearchProps) => {
       />
       <div className="flex flex-col items-start w-full">
         <label className="text-base font-medium text-base-black block">
-          {t('hero.travelTime.title')}
+          {t('travelTime.title')}
         </label>
         <DateTimePicker
           ref={travelTimeRef}
@@ -132,12 +133,11 @@ const TicketSearch = ({ dynamicLocationUpdate }: TicketSearchProps) => {
       <div className="flex flex-col items-start w-full">
         <Button
           size={'lg'}
-          variant={'primary'}
+          variant={variant}
           className="min-w-[14em] w-full"
-
           onClick={onSearchClick}
         >
-          {t('hero.findARide')}
+          {t('findARide')}
         </Button>
       </div>
     </Menubar.Root>

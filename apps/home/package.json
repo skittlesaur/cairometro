@@ -44,7 +44,8 @@
     "react-i18next": "^12.2.2",
     "react-outside-click-handler": "^1.3.0",
     "swr": "^2.1.4",
-    "tailwindcss-dir": "^4.0.0"
+    "tailwindcss-dir": "^4.0.0",
+    "whatamesh": "^0.0.1"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.3",

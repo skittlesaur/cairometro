@@ -18,7 +18,7 @@ const TicketDetailsPage = ()=>{
 
 export const getServerSideProps = async ({ locale }: { locale: string }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common', 'tickets.details'])),
+    ...(await serverSideTranslations(locale, ['common', 'tickets.details', 'find-ticket'])),
   },
 })
 

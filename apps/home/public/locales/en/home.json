@@ -3,33 +3,6 @@
     "title": "Cairo Metro",
     "description": "Cairo Metro is the first underground railway system in Africa and the Arab world. It is one of the most important means of transportation in Cairo and Giza, and it is the fastest means of transportation in the two governorates, as it is the only means of transportation that is not affected by traffic congestion in the two governorates."
   },
-  "hero": {
-    "from": {
-      "title": "From",
-      "placeholder": "Departure"
-    },
-    "to": {
-      "title": "To",
-      "placeholder": "Destination"
-    },
-    "travelTime": {
-      "title": "Travel Time",
-      "placeholder": "Departure Time"
-    },
-    "passengers": {
-      "title": "Passengers",
-      "adult": "Adult",
-      "adults": "Adults",
-      "senior": "Senior",
-      "seniors": "Seniors",
-      "child": "Child",
-      "children": "Children",
-      "noPassengersSelected": "No Passengers Selected",
-      "age": "Age",
-      "ageUnder": "Age under"
-    },
-    "findARide": "Find a Ride"
-  },
   "companion": {
     "title": "Your Cairo Metro Companion",
     "subtitle": "Enjoy a stress-free commute with convenient metro schedules, payment options, alerts, and assistance.",
