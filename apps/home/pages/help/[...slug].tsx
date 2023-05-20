@@ -28,7 +28,11 @@ const components = {
 const HelpPage = ({ source, frontMatter }: Props) => {
   return (
     <HelpLayout
-      title={frontMatter.title}
+      headerChildren={(
+        <h1 className="text-3xl">
+          {frontMatter.title}
+        </h1>
+      )}
     >
       <NextSeo
         title={frontMatter.title}
