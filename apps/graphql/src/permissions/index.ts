@@ -9,6 +9,7 @@ const permissions = shield({
   },
   Mutation: {
     secretDummyStationsData: isSecretPath,
+    secretCreateMainAdminAccount: isSecretPath,
   },
 })
 
