@@ -48,7 +48,7 @@ const StationInput = forwardRef(({ title, placeholder, onSelected }: StationInpu
     selectedStation?.name_ar])
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <div className="flex flex-col items-start w-full">
         <label className="text-base font-medium text-base-black block">
           {title}
