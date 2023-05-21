@@ -1,13 +1,14 @@
-import { useMemo } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 
 import useStations from '@/graphql/stations/stations'
 import mapOptions from '@/lib/map-options'
 import Line from '@/types/line'
 import Station from '@/types/station'
 
-import { GoogleMap, Marker, Polyline, useLoadScript } from '@react-google-maps/api'
+import { GoogleMap, InfoWindow, Marker, Polyline, useLoadScript } from '@react-google-maps/api'
 import { useTranslation } from 'next-i18next'
 import process from 'process'
+import OutsideClickHandler from 'react-outside-click-handler'
 
 interface LineData extends Line {
   path: Array<{
@@ -18,7 +19,7 @@ interface LineData extends Line {
 }
 
 interface MapProps {
-  children?: React.ReactNode
+  children?: ReactNode
   mapSettings?: {
     lat: number
     lng: number
@@ -27,6 +28,7 @@ interface MapProps {
 }
 
 const Map = ({ children, mapSettings }: MapProps) => {
+  const [selected, setSelected] = useState<Station | null>(null)
   const { i18n } = useTranslation()
   const { data: stations } = useStations()
   const { isLoaded } = useLoadScript({
@@ -75,7 +77,7 @@ const Map = ({ children, mapSettings }: MapProps) => {
 
     return lines
   }, [stations])
-  
+
   return (
     isLoaded ? (
       <GoogleMap
@@ -86,6 +88,39 @@ const Map = ({ children, mapSettings }: MapProps) => {
         options={mapOptions}
       >
         {children}
+        {selected && (
+          <OutsideClickHandler onOutsideClick={() => setSelected(null)}>
+            <InfoWindow
+              position={{
+                lat: selected.locationLngLat.lat,
+                lng: selected.locationLngLat.lng,
+              }}
+              onCloseClick={() => setSelected(null)}
+            >
+              <div className="!font-sans flex flex-col whitespace-nowrap w-full gap-1.5 p-1">
+                <h3 className="font-medium">
+                  {i18n.language === 'ar' ? selected.name_ar : selected.name}
+                </h3>
+                <div className="flex flex-col">
+                  {selected.lines.sort((a, b) => a.name.localeCompare(b.name)).map((line: Line) => (
+                    <div
+                      key={line.id}
+                      className="flex items-center gap-2"
+                    >
+                      <div
+                        className="w-4 h-1 rounded"
+                        style={{ backgroundColor: line.color }}
+                      />
+                      <p className="text-xs">
+                        {i18n.language === 'ar' ? line.name_ar : line.name}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </InfoWindow>
+          </OutsideClickHandler>
+        )}
         {stations?.map((station: Station) => (
           <Marker
             key={station.id}
@@ -99,6 +134,7 @@ const Map = ({ children, mapSettings }: MapProps) => {
 
             }}
             title={i18n.language === 'ar' ? station.name_ar : station.name}
+            onClick={() => setSelected(station)}
           />
         ))}
         {linesData?.map((line: LineData) => (
