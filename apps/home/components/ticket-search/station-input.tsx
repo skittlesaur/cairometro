@@ -55,7 +55,7 @@ const StationInput = forwardRef(({ title, placeholder, onSelected }: StationInpu
         </label>
         <input
           placeholder={placeholder}
-          className="font-normal text-sm leading-5 text-neutral-500"
+          className="font-normal text-sm leading-5 text-neutral-500 w-full"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onFocus={() => search()}
