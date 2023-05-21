@@ -92,7 +92,7 @@ const TicketSearch = ({ dynamicLocationUpdate, variant = 'primary' }: TicketSear
   }, [router])
 
   return (
-    <Menubar.Root className="relative z-10 -translate-y-1/2 -mb-28 md:-mb-10 gap-4 md:gap-8 flex md:flex-row justify-between flex-col items-center border border-neutral-300 rounded-lg shadow-xl bg-white px-5 py-4 md:px-9 md:py-7 mx-4 md:mx-auto md:w-full max-w-[1300px]">
+    <Menubar.Root className="relative z-[5] -translate-y-1/2 -mb-28 md:-mb-10 gap-4 md:gap-8 flex md:flex-row justify-between flex-col items-center border border-neutral-300 rounded-lg shadow-xl bg-white px-5 py-4 md:px-9 md:py-7 mx-4 md:mx-auto md:w-full max-w-[1300px]">
       <StationInput
         ref={departureRef}
         title={t('from.title')}

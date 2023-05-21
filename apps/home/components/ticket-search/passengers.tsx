@@ -74,7 +74,7 @@ const Passengers = forwardRef((_, ref)=> {
         </button>
       </Menubar.Trigger>
       <Menubar.Portal>
-        <Menubar.Content className="w-72 bg-white border rounded-md p-3 my-2 md:my-5 shadow-xl">
+        <Menubar.Content className="relative z-10 w-72 bg-white border rounded-md p-3 my-2 md:my-5 shadow-xl">
           <p className="font-medium">
             {t('passengers.title')}
           </p>
