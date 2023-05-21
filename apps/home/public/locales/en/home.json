@@ -19,30 +19,6 @@
       "description": "Plan your journey with confidence with realtime metro arrivals and departures"
     }
   },
-  "faq": {
-    "title": "Frequently Asked Questions",
-    "question1": {
-      "title": "How to subscribe to Cairo Metro?",
-      "answer": "Create a new account by registering with your personal information and a valid email address or phone number. Navigate to the {0} section of the platform. Select the subscription that meets your needs and process with the payment details.",
-      "subscription": "Subscription"
-    },
-    "question2": {
-      "title": "How much does the Cairo Metro cost?",
-      "answer": "The cost of a single journey on the Cairo Metro depends on the distance traveled. Currently, the fare ranges from X to Y Egyptian pounds."
-    },
-    "question3": {
-      "title": "What are the Cairo Metro Opening Hours?",
-      "answer": "The Cairo Metro operates from 5:00 am to 12:00 am daily. However, the schedule may vary on public holidays or special occasions."
-    },
-    "question4": {
-      "title": "Can children travel for free?",
-      "answer": "Children under 3 years old can travel for free on the Cairo Metro. Children between the ages of 3 and 9 years old are eligible for discounted fares."
-    },
-    "question5": {
-      "title": "Can you take food and drink onto the trains?",
-      "answer": "Eating and drinking are not allowed on the Cairo Metro trains. However, passengers are allowed to carry bottled water or other non-alcoholic drinks with them. It is recommended to keep the train cars clean and dispose of any trash properly."
-    }
-  },
   "discover": {
     "title": "Not sure where to discover?",
     "subtitle": "Here are some suggestions based on your current location",
