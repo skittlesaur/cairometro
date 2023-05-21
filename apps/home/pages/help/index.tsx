@@ -22,7 +22,7 @@ const HelpPage = () => {
     },
     {
       title: 'Lines and Schedules',
-      href: '/help/instructions/lines-and-schedules',
+      href: '/help/instructions/lines-and-schedule',
       Icon: LinesIcon,
     },
   ]
