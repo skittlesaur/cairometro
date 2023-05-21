@@ -6,8 +6,8 @@ import { NavigationProps } from '@/components/navigation/index'
 import NavigationMenuContent from '@/components/navigation/navigation-content'
 import NavigationMenu from '@/components/navigation/navigation-menu'
 import NavigationMenuTrigger from '@/components/navigation/navigation-trigger'
+import UserMenu from '@/components/navigation/user-menu'
 import { Separator } from '@/components/separator'
-import UserAvatar from '@/components/user-avatar'
 import useUser from '@/graphql/user/me'
 import AccessibleIcon from '@/icons/accessible.svg'
 import AssistWalkerIcon from '@/icons/assist-walker.svg'
@@ -180,10 +180,7 @@ const DesktopNavigation = ({ activePath }: NavigationProps) => {
           {i18n.language === 'ar' ? 'English' : 'العربية'}
         </Button>
         {user ? (
-          <UserAvatar
-            id={user.id}
-            name={user.name}
-          />
+          <UserMenu />
         ) : (
           <>
             <Separator vertical />

@@ -1,6 +1,7 @@
 import { arg, mutationType, nonNull, stringArg } from 'nexus'
 
 import login from './resolvers/mutations/login'
+import logout from './resolvers/mutations/logout'
 import magicLinkVerify from './resolvers/mutations/magic-link-verifier'
 import secretCreateMainAdminAccount from './resolvers/mutations/migrations/create-main-admin-account'
 import secretDummyStationsData from './resolvers/mutations/migrations/dummy-stations/dummy-stations-data'
@@ -45,6 +46,11 @@ const mutations = mutationType({
       },
       resolve: otpVerify
       ,
+    })
+
+    t.field('logout', {
+      type: 'Boolean',
+      resolve: logout,
     })
 
     t.field('secretDummyStationsData', {
