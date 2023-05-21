@@ -14,7 +14,7 @@ const LinkPage: NextPage = () => {
         if (!magicLink) return
         await magicLinkMutation({ link: magicLink })
         // close window
-        window.close()
+        setTimeout(() => window.close(), 1000)
       } catch (e) {
         // navigate to login page
         router.push('/login?error=invalid-link')
