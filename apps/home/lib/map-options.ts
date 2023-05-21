@@ -1,4 +1,5 @@
 const mapOptions: google.maps.MapOptions = {
+  disableDefaultUI: true,
   styles: [
     {
       elementType: 'geometry',
