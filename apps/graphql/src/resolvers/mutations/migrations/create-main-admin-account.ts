@@ -1,8 +1,11 @@
 import { UserRole } from '@prisma/client'
 import { FieldResolver } from 'nexus'
 
+import secretPathPermission from '../../../permissions/secret-path'
+
 const secretCreateMainAdminAccount: FieldResolver<'Mutation', 'secretCreateMainAdminAccount'> =
   async (_, args, ctx) => {
+    secretPathPermission(ctx)
     const { prisma } = ctx
 
     await prisma.user.upsert({
