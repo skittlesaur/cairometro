@@ -94,7 +94,7 @@ const Subscriptions = () => {
       seniors: 2500,
     },
   ]
-  
+
   return (
     <div className="flex flex-col gap-16 md:gap-40 my-16 md:my-40">
       <div className="flex flex-col gap-4">
@@ -115,7 +115,7 @@ const Subscriptions = () => {
                 'text-sm font-medium py-2 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-neutral-50',
                 {
                   'bg-primary text-white': activeType === type,
-                }
+                },
               )}
               onClick={() => setActiveType(type)}
             >
@@ -127,11 +127,11 @@ const Subscriptions = () => {
           {activeType === SubscriptionType.MONTHLY && monthly.map((card, index) => (
             <SubscriptionCard
               key={`${activeType}-${card.area}}`}
-              title={`${activeType} Subscription`}
               index={index}
               price={card.price}
               area={card.area}
               stations={card.stations}
+              subscription="Monthly"
               benefits={[
                 'Rides for {0} EGP instead of {1} EGP {2}'
                   .replace('{0}', card.ridesFor.toString())
@@ -146,11 +146,11 @@ const Subscriptions = () => {
           {activeType === SubscriptionType.QUARTERLY && quarterly.map((card, index) => (
             <SubscriptionCard
               key={`${activeType}-${card.area}}`}
-              title={`${activeType} Subscription`}
               index={index}
               price={card.price}
               area={card.area}
               stations={card.stations}
+              subscription="Quarterly"
               benefits={[
                 'Rides for {0} EGP instead of {1} EGP {2}'
                   .replace('{0}', card.ridesFor.toString())
@@ -165,11 +165,11 @@ const Subscriptions = () => {
           {activeType === SubscriptionType.YEARLY && yearly.map((card, index) => (
             <SubscriptionCard
               key={`${activeType}-${card.area}}`}
-              title={`${activeType} Subscription`}
               index={index}
               price={card.price}
               area={card.area}
               stations={card.stations}
+              subscription="Yearly"
               benefits={[
                 'Rides for {0} EGP instead of {1} EGP {2}'
                   .replace('{0}', card.ridesFor.toString())

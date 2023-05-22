@@ -6,18 +6,18 @@ import CheckmarkIcon from '@/icons/checkmark.svg'
 import { motion } from 'framer-motion'
 
 interface CardProps {
-  title: string
   area: string
   stations: string
   price: number
   benefits: string[]
   index?: number
+  subscription: 'Monthly' | 'Quarterly' | 'Yearly'
 }
 
 const CountUp = dynamic(() => import('react-countup'), { ssr: false })
 
 const SubscriptionCard = ({
-  title, area, stations, price, benefits, index = 0,
+  area, stations, price, benefits, index = 0, subscription,
 }: CardProps) => {
   return (
     <motion.div
@@ -39,7 +39,7 @@ const SubscriptionCard = ({
         <div className="flex flex-col items-center justify-between gap-9">
           <div className="flex flex-col gap-4">
             <p className="text-neutral-500 text-sm font-medium">
-              {title}
+              {subscription} Subscription
             </p>
             <div className="flex flex-col items-center">
               <h1 className="text-2xl font-medium tracking-wide text-center">
@@ -76,7 +76,7 @@ const SubscriptionCard = ({
         <button
           className="text-sm font-medium w-full py-2 bg-neutral-800 text-white rounded-full hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-600 focus:ring-offset-2 focus:ring-offset-neutral-50"
         >
-          Upgrade to Monthly Subscription
+          Upgrade to {subscription} Subscription
         </button>
       </div>
     </motion.div>
