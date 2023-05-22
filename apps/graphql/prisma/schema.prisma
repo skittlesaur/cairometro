@@ -12,16 +12,27 @@ datasource db {
 }
 
 model User {
-  id               String       @id @default(cuid()) @map("_id")
-  email            String       @unique
+  id               String          @id @default(cuid()) @map("_id")
+  email            String          @unique
   name             String
   role             UserRole
   magicToken       MagicToken[]
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
   Otp              Otp[]
   documentUrl      String?
   documentVerified Boolean?
+  Subscriptions    Subscriptions[]
+}
+
+model Subscriptions {
+  id        String           @id @default(cuid()) @map("_id")
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  type      SubscriptionType
+  tier      SubscriptionTier
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
 }
 
 model Otp {
@@ -95,4 +106,16 @@ enum UserRole {
   ADULT
   SENIOR
   ADMIN
+}
+
+enum SubscriptionType {
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+enum SubscriptionTier {
+  ONE_AREA
+  TWO_AREAS
+  THREE_AREAS
 }
