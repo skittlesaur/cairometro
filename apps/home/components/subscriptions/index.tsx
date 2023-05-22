@@ -7,7 +7,7 @@ import { AnimatePresence } from 'framer-motion'
 import { useTranslation } from 'next-i18next'
 
 const Subscriptions = () => {
-  const { t } = useTranslation('subscriptions')
+  const { t, i18n } = useTranslation('subscriptions')
 
   const SubscriptionType = [
     t('types.monthly'), t('types.quarterly'), t('types.annual'),
@@ -141,7 +141,7 @@ const Subscriptions = () => {
                   .replace('{2}', `${Math.round((1 - card.ridesFor / card.insteadOf) * 100)}%`),
                 t('benefits.customerPriority'),
                 t('benefits.seniors')
-                  .replace('{0}', card.seniors.toString()),
+                  .replace('{0}', card.seniors.toLocaleString(i18n.language)),
               ]}
             />
           ))}
@@ -174,12 +174,12 @@ const Subscriptions = () => {
               subscription={SubscriptionType[activeType]}
               benefits={[
                 t('benefits.rides')
-                  .replace('{0}', card.ridesFor.toString())
-                  .replace('{1}', card.insteadOf.toString())
+                  .replace('{0}', card.ridesFor.toLocaleString(i18n.language))
+                  .replace('{1}', card.insteadOf.toLocaleString(i18n.language))
                   .replace('{2}', `${Math.round((1 - card.ridesFor / card.insteadOf) * 100)}%`),
                 t('benefits.customerPriority'),
                 t('benefits.seniors')
-                  .replace('{0}', card.seniors.toString()),
+                  .replace('{0}', card.seniors.toLocaleString(i18n.language)),
               ]}
             />
           ))}
