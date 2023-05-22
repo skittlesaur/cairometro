@@ -15,7 +15,7 @@ const Admin = () => {
   const { data: totalSubscribers } = useAnalyticsTotalSubscribers()
   const { data: averageResponseTime } = useAnalyticsAverageCustomerSupportResponse()
 
-  const allLoaded = soldTickets && totalUsers
+  const allLoaded = soldTickets && totalUsers && totalSubscribers && averageResponseTime
 
   const data = [
     {
