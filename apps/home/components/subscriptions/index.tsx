@@ -106,8 +106,8 @@ const Subscriptions = () => {
           {t('description')}
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-10">
-        <div className="col-span-3 flex items-center justify-center gap-2">
+      <div className="grid md:grid-cols-3 gap-10">
+        <div className="md:col-span-3 flex items-center justify-center gap-2">
           {SubscriptionType.map((type) => (
             <button
               key={type}
