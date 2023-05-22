@@ -1,6 +1,8 @@
+import { MouseEvent, useCallback } from 'react'
 import dynamic from 'next/dynamic'
 
 import { Separator } from '@/components/separator'
+import { useAppContext } from '@/context/app-context'
 import CheckmarkIcon from '@/icons/checkmark.svg'
 
 import { motion } from 'framer-motion'
@@ -20,7 +22,22 @@ const CountUp = dynamic(() => import('react-countup'), { ssr: false })
 const SubscriptionCard = ({
   area, stations, price, benefits, index = 0, subscription,
 }: CardProps) => {
+  const { purchaseModal } = useAppContext()
   const { t } = useTranslation('subscriptions')
+
+  const onButtonClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+    purchaseModal.open({
+      title: `Purchase ${subscription} Subscription (${area})`,
+      price,
+    })
+  }, [
+    area,
+    price,
+    purchaseModal,
+    subscription,
+  ])
 
   return (
     <motion.div
@@ -83,6 +100,7 @@ const SubscriptionCard = ({
         </div>
         <button
           className="text-sm font-medium w-full py-2 bg-neutral-800 text-white rounded-full hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-600 focus:ring-offset-2 focus:ring-offset-neutral-50"
+          onClick={onButtonClick}
         >
           {t('upgrade').replace('{0}', subscription)}
         </button>
