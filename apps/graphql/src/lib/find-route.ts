@@ -5,7 +5,6 @@ import Graph from 'node-dijkstra'
 import { Context } from '../context'
 
 const findRoute = async (departure: string, destination: string, ctx: Context) => {
-  
   const { prisma } = ctx
 
   const checkIfExists = await prisma.path.findFirst({
@@ -17,7 +16,7 @@ const findRoute = async (departure: string, destination: string, ctx: Context) =
 
   if (checkIfExists) return checkIfExists
 
-  const departureStation  = await prisma.station.findUnique({
+  const departureStation = await prisma.station.findUnique({
     where: {
       id: departure,
     },
@@ -27,14 +26,15 @@ const findRoute = async (departure: string, destination: string, ctx: Context) =
     where: {
       id: destination,
     },
-    
+
   })
 
-  if (!departureStation || !destinationStation) throw new GraphQLError('The stations entered are not valid')
-  
+  if (!departureStation || !destinationStation)
+    throw new GraphQLError('The stations entered are not valid')
+
   const adjacencyMap: Map<string, Map<string, number>> = new Map()
 
-  const lines =  await prisma.line.findMany({
+  const lines = await prisma.line.findMany({
     include: {
       StationPositionInLine: {
         orderBy: {
@@ -45,22 +45,21 @@ const findRoute = async (departure: string, destination: string, ctx: Context) =
   })
 
   lines.forEach((line) => {
-
     const stationPositionInLine = line.StationPositionInLine
-    
+
     for (let i = 0; i < stationPositionInLine.length; i++) {
       const currentStation = stationPositionInLine[i].stationId
       const previousStation = i === 0 ? null : stationPositionInLine[i - 1].stationId
       const nextStation = i === stationPositionInLine.length - 1 ? null : stationPositionInLine[i + 1].stationId
-    
+
       if (!adjacencyMap.has(currentStation)) {
         adjacencyMap.set(currentStation, new Map())
       }
-    
+
       if (previousStation) {
         adjacencyMap.get(currentStation)?.set(previousStation, 1)
       }
-    
+
       if (nextStation) {
         adjacencyMap.get(currentStation)?.set(nextStation, 1)
       }

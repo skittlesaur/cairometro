@@ -1,4 +1,4 @@
-import { intArg, list, queryType, stringArg } from 'nexus'
+import { queryType } from 'nexus'
 
 import analyticsAverageCustomerSupportResponse from './resolvers/queries/admin/analytics-average-response'
 import analyticsSoldTickets from './resolvers/queries/admin/analytics-sold-tickets'
@@ -6,17 +6,15 @@ import analyticsTotalSubscribers from './resolvers/queries/admin/analytics-total
 import analyticsTotalUsers from './resolvers/queries/admin/analytics-total-users'
 import lines from './resolvers/queries/lines'
 import me from './resolvers/queries/me'
-import paginateStationsSchedule from './resolvers/queries/paginate-stations-schedule'
 import stations from './resolvers/queries/stations'
 import LineType from './types/line'
-import ScheduleType from './types/schedule'
 import StationType from './types/station'
 import UserType from './types/user'
 import UserAnalyticsType from './types/users-analytics'
 
 
 const queries = queryType({
-  definition(t){
+  definition(t) {
     t.field('me', {
       type: UserType,
       resolve: me,
@@ -46,22 +44,10 @@ const queries = queryType({
       type: 'Int',
       resolve: analyticsTotalSubscribers,
     })
-    
+
     t.field('analyticsAverageCustomerSupportResponse', {
       type: 'Int',
       resolve: analyticsAverageCustomerSupportResponse,
-    })
-
-    t.field('paginateStationsSchedule', {
-      type: list(ScheduleType),
-      args: {
-        from: stringArg(),
-        to: stringArg(),
-        travelTime: 'DateTime',
-        page: intArg(), // default 1
-        take: intArg(), // default 10 max: 20 min: 1
-      },
-      resolve: paginateStationsSchedule,
     })
   },
 })
