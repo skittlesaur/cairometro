@@ -45,7 +45,7 @@ const AdminNavigation = ({ activePath }: AdminNavigationProps) => {
       <div className="flex items-center justify-between max-w-screen-xl px-5 min-[1300px]:px-0 mx-auto">
         <div className="flex items-start">
           <Link
-            href="/help"
+            href="/admin"
             aria-label={t('navigation.home') as string}
             className="text-black hover:text-black/80 transition-colors flex items-center gap-3"
           >
