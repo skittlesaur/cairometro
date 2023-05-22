@@ -1,5 +1,6 @@
-import { arg, mutationType, nonNull, stringArg } from 'nexus'
+import { arg, list, mutationType, nonNull, stringArg } from 'nexus'
 
+import addStation from './resolvers/mutations/add-station'
 import login from './resolvers/mutations/login'
 import logout from './resolvers/mutations/logout'
 import magicLinkVerify from './resolvers/mutations/magic-link-verifier'
@@ -7,6 +8,7 @@ import secretCreateMainAdminAccount from './resolvers/mutations/migrations/creat
 import secretDummyStationsData from './resolvers/mutations/migrations/dummy-stations/dummy-stations-data'
 import otpVerify from './resolvers/mutations/otp-verifier'
 import signUp from './resolvers/mutations/sign-up'
+import StationType from './types/station'
 import UserRoleEnumArg from './types/user-role-enum-arg'
 
 const mutations = mutationType({
@@ -61,6 +63,17 @@ const mutations = mutationType({
     t.field('secretCreateMainAdminAccount', {
       type: 'Boolean',
       resolve: secretCreateMainAdminAccount,
+    })
+    
+    t.field('addStation', {
+      type: StationType,
+      args: {
+        name: nonNull(stringArg()),
+        name_ar: nonNull(stringArg()),
+        location: nonNull(stringArg()),
+        lineIds: nonNull(list(stringArg())),
+      },
+      resolve: addStation,
     })
   },
 })
