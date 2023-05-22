@@ -14,7 +14,7 @@ import UserAnalyticsType from './types/users-analytics'
 
 
 const queries = queryType({
-  definition(t){
+  definition(t) {
     t.field('me', {
       type: UserType,
       resolve: me,
@@ -44,7 +44,7 @@ const queries = queryType({
       type: 'Int',
       resolve: analyticsTotalSubscribers,
     })
-    
+
     t.field('analyticsAverageCustomerSupportResponse', {
       type: 'Int',
       resolve: analyticsAverageCustomerSupportResponse,

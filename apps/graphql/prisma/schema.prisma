@@ -77,6 +77,29 @@ model Station {
   createdAt             DateTime                @default(now())
   updatedAt             DateTime                @updatedAt
   stationPositionInLine StationPositionInLine[]
+  departurePaths        Path[]                  @relation("departureStation")
+  destinationPath       Path[]                  @relation("destinationStation")
+  paths                 Path[]                  @relation(fields: [pathIds], references: [id])
+  pathIds               String[]
+}
+
+model StationPositionInLine {
+  id        String  @id @default(cuid()) @map("_id")
+  line      Line    @relation(fields: [lineId], references: [id])
+  lineId    String
+  station   Station @relation(fields: [stationId], references: [id])
+  stationId String
+  position  Int
+}
+
+model Path {
+  id                String    @id @default(cuid()) @map("_id")
+  departure         Station   @relation("departureStation", fields: [departureId], references: [id])
+  departureId       String    @unique
+  destination       Station   @relation("destinationStation", fields: [destinationId], references: [id])
+  destinationId     String    @unique
+  stationsInPath    Station[] @relation(fields: [stationsInPathIds], references: [id])
+  stationsInPathIds String[]
 }
 
 model Schedule {
@@ -91,15 +114,6 @@ model Schedule {
   arrivalStationId   String
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
-}
-
-model StationPositionInLine {
-  id        String  @id @default(cuid()) @map("_id")
-  line      Line    @relation(fields: [lineId], references: [id])
-  lineId    String
-  station   Station @relation(fields: [stationId], references: [id])
-  stationId String
-  position  Int
 }
 
 enum UserRole {

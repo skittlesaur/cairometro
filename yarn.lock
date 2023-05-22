@@ -2852,6 +2852,11 @@
   resolved "https://registry.npmjs.org/@types/ms/-/ms-0.7.31.tgz"
   integrity sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==
 
+"@types/node-dijkstra@^2.5.3":
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/@types/node-dijkstra/-/node-dijkstra-2.5.3.tgz#fd89dfa667443bf702de0783576be9c95634ac05"
+  integrity sha512-1D4rS5dK8373h/Ub8Wq2CuTKRT0VhA5KV8hPnhFIYuXvYUzXxjFGkrchd3QqqOVn28Mt6hNIDy22vpT9Ddx+kg==
+
 "@types/node@*":
   version "18.16.0"
   resolved "https://registry.npmjs.org/@types/node/-/node-18.16.0.tgz"
@@ -8723,6 +8728,11 @@ no-case@^2.2.0:
   integrity sha512-rmTZ9kz+f3rCvK2TD1Ue/oZlns7OGoIWP4fc3llxxRXlOkHKoWPPWJOfFYpITabSow43QJbRIoHQXtt10VldyQ==
   dependencies:
     lower-case "^1.1.1"
+
+node-dijkstra@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/node-dijkstra/-/node-dijkstra-2.5.0.tgz#0feb76c5a05f35b56e786de6df4d3364af28d4e8"
+  integrity sha512-2REYb1lo8yDRAY1gsdhjwQdGVSh47VI5Z5wS8sCqydO/P1OVAKOwLuV1fDxNLvbrtMspW7k2UZ2JKIKP06hl+A==
 
 node-emoji@^1.11.0, node-emoji@^1.8.1:
   version "1.11.0"
