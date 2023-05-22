@@ -22,7 +22,19 @@ const StationInput = forwardRef(({ title, placeholder, onSelected }: StationInpu
   const [selectedStation, setSelectedStation] = useState<Station | null>(null)
 
   useImperativeHandle(ref, () => ({
-    getResult: () => selectedStation,
+    getResult: () => {
+      if (selectedStation)
+        return selectedStation
+      
+      const station = stations?.find((station: Station) => station.name.toLowerCase() === inputValue.toLowerCase() || station.name_ar === inputValue)
+      if (station) {
+        setSelectedStation(station)
+        setInputValue(i18n.language === 'ar' ? station.name_ar : station.name)
+        return station
+      }
+      
+      return null
+    },
   }))
 
   const search = useCallback(() => {
