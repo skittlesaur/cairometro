@@ -2,7 +2,7 @@ import { FieldResolver } from 'nexus'
 
 import adminPermission from '../../permissions/admin'
 
-const addStation: FieldResolver<'Mutation', 'addStarion'> =
+const addStation: FieldResolver<'Mutation', 'addStation'> =
   async (_, args, ctx) => {
     adminPermission(ctx)
 
