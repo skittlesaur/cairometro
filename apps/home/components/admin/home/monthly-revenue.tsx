@@ -16,7 +16,6 @@ const MonthlyRevenue = () => {
   }, [i18n.language])
 
   const maxValue = Math.max(...data.map(({ value }) => value))
-  
 
   return (
     <div className="min-h-[20em] border border-gray-200 rounded-lg flex flex-col">
@@ -26,9 +25,19 @@ const MonthlyRevenue = () => {
         </h1>
       </div>
       <div className="flex justify-between gap-3 md:gap-5 w-full h-full p-5">
-        {data.map(({ month, value, id }) => (
-          <div
+        {data.map(({ month, value, id }, index) => (
+          <motion.div
             key={month}
+            initial={{ opacity: 0, scaleY: 0 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            exit={{ opacity: 0, scaleY: 0 }}
+            transition={{
+              type: 'spring',
+              mass: 1,
+              damping: 6,
+              stiffness: 20,
+              delay: index * 0.1,
+            }}
             className="flex flex-col gap-2 justify-end items-center w-full"
             onMouseEnter={() => setCurrentHover(id)}
             onMouseLeave={() => setCurrentHover(undefined)}
@@ -79,7 +88,7 @@ const MonthlyRevenue = () => {
             <p className="text-xs font-medium text-gray-500">
               {month}
             </p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
