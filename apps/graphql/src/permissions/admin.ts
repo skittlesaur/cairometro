@@ -6,10 +6,10 @@ import { Context } from '../context'
 
 import authenticatedPermission from './authenticated'
 
-const adminPermission = async (ctx: Context) => {
+const adminPermission = (ctx: Context) => {
   authenticatedPermission(ctx)
   
-  if (ctx.user.role !== UserRole.ADMIN) throw new GraphQLError('Not authorized')
+  if (ctx.user?.role !== UserRole.ADMIN) throw new GraphQLError('Not authorized')
 
   return true
 }

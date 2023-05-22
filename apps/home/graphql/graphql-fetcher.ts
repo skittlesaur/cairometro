@@ -14,7 +14,7 @@ const graphqlFetcher = (query: string | string[], variables?: Variables) => {
   if (access) graphQLClient.setHeader('x-auth-access', `Bearer ${access}`)
 
   const queryString = Array.isArray(query) ? query[0] : query
-  const queryName = queryString.split('{')[1].split('(')[0].trim()
+  const queryName = queryString.split('{')[1].split('(')[0].split('}')[0].replace('\n', '').trim()
 
   return graphQLClient.request(queryString, variables)
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */

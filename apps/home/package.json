@@ -42,6 +42,7 @@
     "next-seo": "^6.0.0",
     "next-sitemap": "^4.0.7",
     "react": "^18.2.0",
+    "react-countup": "^6.4.2",
     "react-day-picker": "^8.7.1",
     "react-dom": "^18.2.0",
     "react-drag-drop-files": "^2.3.10",
