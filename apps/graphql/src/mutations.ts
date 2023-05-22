@@ -1,4 +1,4 @@
-import { arg, mutationType, nonNull, stringArg } from 'nexus'
+import { arg, mutationType, nonNull, stringArg, list } from 'nexus'
 
 import login from './resolvers/mutations/login'
 import logout from './resolvers/mutations/logout'
@@ -8,6 +8,8 @@ import secretDummyStationsData from './resolvers/mutations/migrations/dummy-stat
 import otpVerify from './resolvers/mutations/otp-verifier'
 import signUp from './resolvers/mutations/sign-up'
 import UserRoleEnumArg from './types/user-role-enum-arg'
+import addStation from './resolvers/mutations/add-station'
+import StationType from './types/station'
 
 const mutations = mutationType({
   definition(t) {
@@ -61,6 +63,17 @@ const mutations = mutationType({
     t.field('secretCreateMainAdminAccount', {
       type: 'Boolean',
       resolve: secretCreateMainAdminAccount,
+    })
+    
+    t.field('addStation', {
+      type: StationType,
+      args: {
+          name: nonNull(stringArg()),
+          name_ar: nonNull(stringArg()),
+          location: nonNull(stringArg()),
+          lineIds: nonNull(list(stringArg()))
+        },
+      resolve: addStation
     })
   },
 })
