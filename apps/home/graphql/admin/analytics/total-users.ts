@@ -4,7 +4,15 @@ import useSWR from 'swr'
 
 const ANALYTICS_TOTAL_USERS_QUERY = /* GraphQL */ `
   {
-    analyticsTotalUsers
+    analyticsTotalUsers {
+      totalUsers
+      totalSeniors
+      totalAdults
+      weeklyUsers
+      weeklyUsersDiff
+      monthlyUsers
+      monthlyUsersDiff
+    }
   }
 `
 

@@ -50,6 +50,10 @@
     @apply text-primary font-medium hover:text-primary/70 focus:text-primary/70 transition-colors;
   }
 
+  .bg-primary-gradient {
+    @apply bg-gradient-to-tl from-primary to-[#FF8E8E];
+  }
+
   @keyframes arrow {
     0% {
       transform: translateY(100%);

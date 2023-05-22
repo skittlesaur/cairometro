@@ -10,6 +10,7 @@ import stations from './resolvers/queries/stations'
 import LineType from './types/line'
 import StationType from './types/station'
 import UserType from './types/user'
+import UserAnalyticsType from './types/users-analytics'
 
 
 const queries = queryType({
@@ -35,7 +36,7 @@ const queries = queryType({
     })
 
     t.field('analyticsTotalUsers', {
-      type: 'Int',
+      type: UserAnalyticsType,
       resolve: analyticsTotalUsers,
     })
 

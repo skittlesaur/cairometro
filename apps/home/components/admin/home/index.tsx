@@ -1,4 +1,6 @@
 import Header from '@/components/admin/header'
+import MonthlyRevenue from '@/components/admin/home/monthly-revenue'
+import TotalUsers from '@/components/admin/home/total-users'
 import useAnalyticsAverageCustomerSupportResponse from '@/graphql/admin/analytics/average-response'
 import useAnalyticsSoldTickets from '@/graphql/admin/analytics/sold-tickets'
 import useAnalyticsTotalSubscribers from '@/graphql/admin/analytics/total-subscribers'
@@ -25,7 +27,7 @@ const Admin = () => {
     },
     {
       title: 'Total Users',
-      value: totalUsers,
+      value: totalUsers?.totalUsers,
       icon: PersonOutlineIcon,
     },
     {
@@ -42,11 +44,15 @@ const Admin = () => {
   ]
   
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col gap-20">
       <Header
         data={data}
         allLoaded={allLoaded}
       />
+      <div className="grid lg:grid-cols-2 gap-4 md:gap-6 w-full">
+        <MonthlyRevenue />
+        <TotalUsers />
+      </div>
     </div>
   )
 }

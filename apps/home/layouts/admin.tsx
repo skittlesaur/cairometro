@@ -19,7 +19,7 @@ const AdminLayout = ({ children, navigationProps }: AdminProps) => {
     
   
   return (
-    <div className="min-h-screen relative max-w-screen overflow-x-hidden">
+    <div className="pb-20 min-h-screen relative max-w-screen overflow-x-hidden">
       <AdminNavigation {...navigationProps} />
       <div className="max-w-screen-xl mx-4 min-[1300px]:mx-auto">
         {children}

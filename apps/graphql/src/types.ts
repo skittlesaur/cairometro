@@ -9,6 +9,7 @@ import StationType from './types/station'
 import StationPositionInLineType from './types/station-position-in-line'
 import UserType from './types/user'
 import UserRoleEnum from './types/user-role'
+import UserAnalyticsType from './types/users-analytics'
 
 const DateTime = asNexusMethod(DateTimeResolver, 'date')
 
@@ -21,6 +22,7 @@ const types = [
   ScheduleType,
   LngLatType,
   StationPositionInLineType,
+  UserAnalyticsType,
 ]
 
 export default types
