@@ -1,7 +1,9 @@
+import { MouseEvent, useCallback } from 'react'
 import Link from 'next/link'
 
 import { Button, buttonVariants } from '@/components/button'
 import { Separator } from '@/components/separator'
+import { useAppContext } from '@/context/app-context'
 import LocationIcon from '@/icons/location.svg'
 import QrCodeIcon from '@/icons/qr-code.svg'
 import ForwardIcon from '@/icons/return-up-forward.svg'
@@ -12,6 +14,7 @@ import cn from 'classnames'
 import { useTranslation } from 'next-i18next'
 
 const TicketPurchaseDetails = () => {
+  const { purchaseModal } = useAppContext()
   const { t, i18n } = useTranslation('tickets.details')
   const temp = [
     {
@@ -37,6 +40,13 @@ const TicketPurchaseDetails = () => {
     },
   ]
 
+  const onPurchaseClick = useCallback((_: MouseEvent<HTMLButtonElement>) => {
+    purchaseModal.open({
+      title: 'Purchase Ticket (Helwan - Maadi)',
+      price: 50,
+    })
+  }, [purchaseModal])
+
   return (
     <div className="w-full">
       <div className="flex flex-col md:flex-row md:justify-between gap-4 w-full">
@@ -56,6 +66,8 @@ const TicketPurchaseDetails = () => {
             size={'lg'}
             variant={'primary'}
             className="py-2.5 px-9"
+
+            onClick={onPurchaseClick}
           >
             Purchase
           </Button>

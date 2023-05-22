@@ -2,6 +2,8 @@ import type { AppProps } from 'next/app'
 import dynamic from 'next/dynamic'
 
 import DefaultSeoSettings from '@/components/default-seo-settings'
+import PurchaseModal from '@/components/modal/purchase'
+import { AppProvider } from '@/context/app-context'
 import fetcher from '@/lib/fetcher'
 
 import { appWithTranslation } from 'next-i18next'
@@ -23,7 +25,10 @@ const App = ({ Component, pageProps }: AppProps) => {
           fetcher,
         }}
       >
-        <Component {...pageProps} />
+        <AppProvider>
+          <PurchaseModal />
+          <Component {...pageProps} />
+        </AppProvider>
       </SWRConfig>
     </>
   )
