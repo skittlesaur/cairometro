@@ -8,6 +8,15 @@ const findRoute = async (departure: string, destination: string, ctx: Context) =
   
   const { prisma } = ctx
 
+  const checkIfExists = await prisma.path.findFirst({
+    where: {
+      departureId: departure,
+      destinationId: destination,
+    },
+  })
+
+  if (checkIfExists) return checkIfExists
+
   const departureStation  = await prisma.station.findUnique({
     where: {
       id: departure,
@@ -59,19 +68,19 @@ const findRoute = async (departure: string, destination: string, ctx: Context) =
   })
 
   const route = new Graph(adjacencyMap)
-  const result = route?.path(departure, destination, { cost: false }) as string[]
+  const path = route?.path(departure, destination, { cost: false }) as string[]
 
-  if (!result) throw new GraphQLError('The path of this journey is not valid')
+  if (!path) throw new GraphQLError('The path of this journey is not valid')
 
-  await prisma.path.create({
+  const result = await prisma.path.create({
     data: {
       departureId: departure,
       destinationId: destination,
-      stationsInPathIds: result,
+      stationsInPathIds: path,
     },
   })
 
-  return result  
+  return result
 }
 
 export default findRoute
