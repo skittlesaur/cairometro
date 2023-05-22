@@ -7,7 +7,7 @@ import * as Menubar from '@radix-ui/react-menubar'
 import { useTranslation } from 'next-i18next'
 
 const Passengers = forwardRef((_, ref)=> {
-  const { t } = useTranslation('home')
+  const { t } = useTranslation('find-ticket')
   const [seniors, setSeniors] = useState(0)
   const [adults, setAdults] = useState(0)
   const [children, setChildren] = useState(0)
@@ -32,17 +32,17 @@ const Passengers = forwardRef((_, ref)=> {
   }
 
   const getAdultsText = () =>
-    `${adults} ${adults > 1 ? t('hero.passengers.adults') : t('hero.passengers.adult')}`
+    `${adults} ${adults > 1 ? t('passengers.adults') : t('passengers.adult')}`
 
   const getSeniorsText = () =>
-    `${seniors} ${seniors > 1 ? t('hero.passengers.seniors') : t('hero.passengers.senior')}`
+    `${seniors} ${seniors > 1 ? t('passengers.seniors') : t('passengers.senior')}`
 
   const getChildrenText = () =>
-    `${children} ${children > 1 ? t('hero.passengers.children') : t('hero.passengers.child')}`
+    `${children} ${children > 1 ? t('passengers.children') : t('passengers.child')}`
 
   const getPassengersText = () => {
     if (adults <= 0 && seniors <= 0 && children <= 0){
-      return t('hero.passengers.noPassengersSelected')
+      return t('passengers.noPassengersSelected')
     }
 
     const passengers = []
@@ -64,7 +64,7 @@ const Passengers = forwardRef((_, ref)=> {
       <Menubar.Trigger asChild>
         <button className="flex flex-col items-start w-full">
           <label className="text-base font-medium text-base-black block">
-            {t('hero.passengers.title')}
+            {t('passengers.title')}
           </label>
           <p
             className="font-normal text-sm leading-5 text-neutral-500"
@@ -74,9 +74,9 @@ const Passengers = forwardRef((_, ref)=> {
         </button>
       </Menubar.Trigger>
       <Menubar.Portal>
-        <Menubar.Content className="w-72 bg-white border rounded-md p-3 my-2 md:my-5 shadow-xl">
+        <Menubar.Content className="relative z-10 w-72 bg-white border rounded-md p-3 my-2 md:my-5 shadow-xl">
           <p className="font-medium">
-            {t('hero.passengers.title')}
+            {t('passengers.title')}
           </p>
           <div className="flex justify-between mx-1.5 py-2">
             <button
@@ -87,7 +87,7 @@ const Passengers = forwardRef((_, ref)=> {
             </button>
             <div>
               <p className="text-sm font-medium text-center">{getSeniorsText()}</p>
-              <p className="text-xs text-gray-500 text-center">{t('hero.passengers.age')} 60+</p>
+              <p className="text-xs text-gray-500 text-center">{t('passengers.age')} 60+</p>
             </div>
             <button
               className="hover:bg-gray-200 p-2 hover:rounded-md"
@@ -105,7 +105,7 @@ const Passengers = forwardRef((_, ref)=> {
             </button>
             <div>
               <p className="text-sm font-medium text-center">{getAdultsText()}</p>
-              <p className="text-xs text-gray-500 text-center">{t('hero.passengers.age')} 12+</p>
+              <p className="text-xs text-gray-500 text-center">{t('passengers.age')} 12+</p>
             </div>
             <button
               className="hover:bg-gray-200 p-2 hover:rounded-md"
@@ -123,7 +123,7 @@ const Passengers = forwardRef((_, ref)=> {
             </button>
             <div>
               <p className="text-sm font-medium text-center">{getChildrenText()}</p>
-              <p className="text-xs text-gray-500 text-center">{t('hero.passengers.ageUnder')} 12</p>
+              <p className="text-xs text-gray-500 text-center">{t('passengers.ageUnder')} 12</p>
             </div>
             <button className="hover:bg-gray-200 p-2 hover:rounded-md">
               <AddOutline

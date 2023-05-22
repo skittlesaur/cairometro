@@ -14,6 +14,46 @@
     animation: arrow 1.5s infinite;
   }
 
+  .help-content h1 {
+    @apply text-2xl font-bold text-gray-900;
+  }
+
+  .help-content h2 {
+    @apply text-xl font-bold text-gray-900;
+  }
+
+  .help-content h3 {
+    @apply text-lg font-bold text-gray-900;
+  }
+
+  .help-content ol {
+    list-style: none;
+    counter-reset: counter;
+    @apply flex flex-col gap-2
+  }
+
+  .help-content ol li {
+    counter-increment: counter;
+    @apply relative ml-8 before:content-[counter(counter)] before:absolute before:-left-8 before:top-1 before:w-6 before:h-6 before:rounded before:bg-neutral-900 before:text-white before:flex before:items-center before:justify-center before:text-xs;
+  }
+
+  .help-content ul {
+    list-style: none;
+    @apply flex flex-col gap-2
+  }
+
+  .help-content ul li {
+    @apply relative ml-8 before:content-[''] before:absolute before:-left-8 before:top-2.5 before:w-6 before:h-1 before:rounded before:bg-neutral-900 before:text-white before:flex before:items-center before:justify-center before:text-xs;
+  }
+
+  .help-content a {
+    @apply text-primary font-medium hover:text-primary/70 focus:text-primary/70 transition-colors;
+  }
+
+  .bg-primary-gradient {
+    @apply bg-gradient-to-tl from-primary to-[#FF8E8E];
+  }
+
   @keyframes arrow {
     0% {
       transform: translateY(100%);
@@ -32,4 +72,13 @@
       opacity: 0;
     }
   }
+}
+
+#gradient-canvas {
+  width: 100%;
+  height: 100%;
+  --gradient-color-1: #EA3347;
+  --gradient-color-2: #FFF;
+  --gradient-color-3: #FFF;
+  --gradient-color-4: #FFF;
 }

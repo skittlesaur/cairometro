@@ -1,10 +1,13 @@
 import { Line, Schedule, Station } from '@prisma/client'
 import { FieldResolver } from 'nexus'
 
+import secretPathPermission from '../../../../permissions/secret-path'
+
 import { line1StationsData, line2StationsData, line3StationsData } from './stations-data'
 
 const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsData'> =
   async (_, args, ctx) => {
+    secretPathPermission(ctx)
     const { prisma } = ctx
 
     await prisma.schedule.deleteMany()

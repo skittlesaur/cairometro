@@ -177,7 +177,7 @@ const MobileNavigation = ({ activePath }: NavigationProps) => {
                 <ChevronDownIcon className="w-5 h-5 fill-current" />
               </button>
               <Link
-                href="/support"
+                href="/help/chat"
                 className={`flex items-center gap-2 text-lg py-2 px-4 rounded transition-colors ${cn({
                   'text-white font-medium bg-gray-400/10 border border-gray-700/20': activePath === '/support',
                   'text-neutral-400 hover:bg-gray-500/10 border border-transparent hover:border-gray-600/20': activePath !== '/support',

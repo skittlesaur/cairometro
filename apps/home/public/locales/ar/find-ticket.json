@@ -1,0 +1,27 @@
+{
+  "from": {
+    "title": "من",
+    "placeholder": "رحيل"
+  },
+  "to": {
+    "title": "الى",
+    "placeholder": "وصول"
+  },
+  "travelTime": {
+    "title": "وقت السفر",
+    "placeholder": "وقت المغادرة"
+  },
+  "passengers": {
+    "title": "ركاب",
+    "adult": "بالغ",
+    "adults": "راشدون",
+    "senior": "أقدم",
+    "seniors": "كبار السن",
+    "child": "طفل",
+    "children": "أطفال",
+    "noPassengersSelected": "لم يتم اختيار أي ركاب",
+    "age": "عمر",
+    "ageUnder": "العمر تحت"
+  },
+  "findARide": "ابحث عن رحلة"
+}

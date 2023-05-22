@@ -7,6 +7,7 @@ const USER_QUERY = /* GraphQL */ `
     me {
       id
       name
+      role
     }
   }
 `

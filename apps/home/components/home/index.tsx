@@ -1,6 +1,6 @@
+import Faq from '@/components/faq'
 import Companion from '@/components/home/companion'
 import Discover from '@/components/home/discover'
-import Faq from '@/components/home/faq'
 import Hero from '@/components/home/hero'
 
 

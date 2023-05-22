@@ -1,0 +1,27 @@
+{
+  "from": {
+    "title": "From",
+    "placeholder": "Departure"
+  },
+  "to": {
+    "title": "To",
+    "placeholder": "Destination"
+  },
+  "travelTime": {
+    "title": "Travel Time",
+    "placeholder": "Departure Time"
+  },
+  "passengers": {
+    "title": "Passengers",
+    "adult": "Adult",
+    "adults": "Adults",
+    "senior": "Senior",
+    "seniors": "Seniors",
+    "child": "Child",
+    "children": "Children",
+    "noPassengersSelected": "No Passengers Selected",
+    "age": "Age",
+    "ageUnder": "Age under"
+  },
+  "findARide": "Find a Ride"
+}

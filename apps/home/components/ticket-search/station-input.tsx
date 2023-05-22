@@ -5,6 +5,7 @@ import LocationIcon from '@/icons/location.svg'
 import Station from '@/types/station'
 
 import Fuse from 'fuse.js'
+import { useTranslation } from 'next-i18next'
 import OutsideClickHandler from 'react-outside-click-handler'
 
 interface StationInputProps {
@@ -14,13 +15,30 @@ interface StationInputProps {
 }
 
 const StationInput = forwardRef(({ title, placeholder, onSelected }: StationInputProps, ref) => {
+  const { i18n } = useTranslation('home')
   const { data: stations } = useStations()
   const [inputValue, setInputValue] = useState<string>('')
   const [suggests, setSuggests] = useState<Station[]>([])
   const [selectedStation, setSelectedStation] = useState<Station | null>(null)
 
   useImperativeHandle(ref, () => ({
-    getResult: () => selectedStation,
+    getResult: () => {
+      if (
+        selectedStation?.name.toLowerCase() === inputValue.toLowerCase()
+        || selectedStation?.name_ar === inputValue
+      )
+        return selectedStation
+
+      const station = stations?.find((station: Station) => station.name.toLowerCase() === inputValue.toLowerCase() || station.name_ar === inputValue)
+      if (station) {
+        setSelectedStation(station)
+        setInputValue(i18n.language === 'ar' ? station.name_ar : station.name)
+        return station
+      }
+
+      setSelectedStation(null)
+      return null
+    },
   }))
 
   const search = useCallback(() => {
@@ -36,21 +54,24 @@ const StationInput = forwardRef(({ title, placeholder, onSelected }: StationInpu
   }, [stations, inputValue])
 
   useEffect(() => {
-    if (selectedStation?.name === inputValue) {
+    if (selectedStation?.name === inputValue || selectedStation?.name_ar === inputValue) {
       return
     }
     search()
-  }, [inputValue, search, selectedStation?.name])
+  }, [inputValue,
+    search,
+    selectedStation?.name,
+    selectedStation?.name_ar])
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <div className="flex flex-col items-start w-full">
         <label className="text-base font-medium text-base-black block">
           {title}
         </label>
         <input
           placeholder={placeholder}
-          className="font-normal text-sm leading-5 text-neutral-500"
+          className="font-normal text-sm leading-5 text-neutral-500 w-full"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onFocus={() => search()}
@@ -65,7 +86,7 @@ const StationInput = forwardRef(({ title, placeholder, onSelected }: StationInpu
                 key={station.id}
                 className="flex items-center gap-2 w-full hover:bg-neutral-100 p-3"
                 onClick={() => {
-                  setInputValue(station.name)
+                  setInputValue(i18n.language === 'ar' ? station.name_ar : station.name)
                   setSelectedStation(station)
                   setSuggests([])
                   if (onSelected) {
@@ -76,10 +97,10 @@ const StationInput = forwardRef(({ title, placeholder, onSelected }: StationInpu
                 <LocationIcon className="w-5 h-5" />
                 <div className="flex flex-col items-start">
                   <p>
-                    {station.name}
+                    {i18n.language === 'ar' ? station.name_ar : station.name}
                   </p>
                   <p className="text-xs text-neutral-500">
-                    {station.name_ar}
+                    {i18n.language === 'ar' ? station.name : station.name_ar}
                   </p>
                 </div>
               </button>

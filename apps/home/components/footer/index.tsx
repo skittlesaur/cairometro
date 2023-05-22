@@ -1,8 +1,7 @@
 import Link from 'next/link'
 
-import AppStoreIcon from '@/icons/app-store.svg'
+import InstallPwa from '@/components/footer/install-pwa'
 import CallOutlineIcon from '@/icons/call-outline.svg'
-import GooglePlayIcon from '@/icons/google-play.svg'
 import Logo from '@/icons/logo.svg'
 import MailOutlineIcon from '@/icons/mail-outline.svg'
 
@@ -19,7 +18,7 @@ const contact: {type: 'phone'|'email', value: string}[] = [
   },
   {
     type: 'email',
-    value: 'contact.us@cairometro.gov.eg',
+    value: 'cairometro@baraa.app',
   },
 ]
 
@@ -134,22 +133,7 @@ const Footer = () => {
             <p className="font-semibold">
               {t('footer.getTheApp')}
             </p>
-            <div className="flex flex-col gap-2">
-              <Link
-                href="https://play.google.com/store/apps/details?id=metro.amateurapps.com.cairometro&hl=en&gl=US"
-                aria-label="Google Play"
-                target="_blank"
-              >
-                <GooglePlayIcon className="w-40 hover:opacity-80 transition-opacity" />
-              </Link>
-              <Link
-                href="https://apps.apple.com/us/app/cairo-metro/id1559696641"
-                aria-label="App Store"
-                target="_blank"
-              >
-                <AppStoreIcon className="w-40 hover:opacity-80 transition-opacity" />
-              </Link>
-            </div>
+            <InstallPwa />
           </div>
         </div>
       </div>
