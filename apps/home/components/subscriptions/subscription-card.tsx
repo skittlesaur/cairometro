@@ -25,9 +25,7 @@ const SubscriptionCard = ({
   const { purchaseModal } = useAppContext()
   const { t } = useTranslation('subscriptions')
 
-  const onButtonClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-    event.stopPropagation()
+  const onButtonClick = useCallback((_: MouseEvent<HTMLButtonElement>) => {
     purchaseModal.open({
       title: `Purchase ${subscription} Subscription (${area})`,
       price,
