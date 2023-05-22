@@ -4,6 +4,7 @@ import { Separator } from '@/components/separator'
 import CheckmarkIcon from '@/icons/checkmark.svg'
 
 import { motion } from 'framer-motion'
+import { useTranslation } from 'next-i18next'
 
 interface CardProps {
   area: string
@@ -11,7 +12,7 @@ interface CardProps {
   price: number
   benefits: string[]
   index?: number
-  subscription: 'Monthly' | 'Quarterly' | 'Yearly'
+  subscription: string
 }
 
 const CountUp = dynamic(() => import('react-countup'), { ssr: false })
@@ -19,6 +20,8 @@ const CountUp = dynamic(() => import('react-countup'), { ssr: false })
 const SubscriptionCard = ({
   area, stations, price, benefits, index = 0, subscription,
 }: CardProps) => {
+  const { t } = useTranslation('subscriptions')
+
   return (
     <motion.div
       key={index}
@@ -38,8 +41,13 @@ const SubscriptionCard = ({
       <div className="bg-white w-full h-full rounded-lg flex flex-col justify-between items-center px-4 py-10 gap-10">
         <div className="flex flex-col items-center justify-between gap-9">
           <div className="flex flex-col gap-4">
-            <p className="text-neutral-500 text-sm font-medium">
-              {subscription} Subscription
+            <p className="flex rtl:flex-row-reverse items-center justify-center gap-1 text-neutral-500 text-sm font-medium text-center">
+              <span>
+                {subscription}
+              </span>
+              <span>
+                {t('subscription')}
+              </span>
             </p>
             <div className="flex flex-col items-center">
               <h1 className="text-2xl font-medium tracking-wide text-center">
@@ -55,7 +63,7 @@ const SubscriptionCard = ({
                 duration={1.5}
                 separator=","
               />
-              <span> EGP</span>
+              <span> {t('egp')}</span>
             </h2>
           </div>
           <Separator horizontal />
@@ -76,7 +84,7 @@ const SubscriptionCard = ({
         <button
           className="text-sm font-medium w-full py-2 bg-neutral-800 text-white rounded-full hover:bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-600 focus:ring-offset-2 focus:ring-offset-neutral-50"
         >
-          Upgrade to {subscription} Subscription
+          {t('upgrade').replace('{0}', subscription)}
         </button>
       </div>
     </motion.div>
