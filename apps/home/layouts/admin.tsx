@@ -14,8 +14,10 @@ const AdminLayout = ({ children, navigationProps }: AdminProps) => {
   
   if (userLoading) return null
   
-  if (user.role !== 'ADMIN')
+  if (user.role !== 'ADMIN') {
     router.push('/')
+    return null
+  }
     
   
   return (
