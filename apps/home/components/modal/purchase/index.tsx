@@ -7,6 +7,7 @@ import DefaultCard from '@/components/modal/purchase/default-card'
 import MastercardCard from '@/components/modal/purchase/mastercard-card'
 import VisaCard from '@/components/modal/purchase/visa-card'
 import { useAppContext } from '@/context/app-context'
+import CloseIcon from '@/icons/close.svg'
 import LogoBinqueMisr from '@/icons/logo-banque-misr.svg'
 import LogoCIB from '@/icons/logo-cib.svg'
 import LogoMastercard from '@/icons/logo-mastercard.svg'
@@ -115,11 +116,17 @@ const PurchaseModal = () => {
             animate={{ opacity: 1, scale: 1, transition: { delay: 0.1 } }}
             exit={{ opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.2 }}
-            className="bg-white w-full max-w-screen-lg rounded-xl flex flex-col justify-between items-center p-5 gap-10"
+            className="bg-white w-screen w-full max-h-screen overflow-y-auto no-scrollbar max-w-screen-lg md:rounded-xl flex flex-col justify-between items-center p-5 gap-10"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between items-center gap-5 w-full">
-              <div className="flex flex-col items-center gap-1">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-5 w-full">
+              <button
+                className="md:hidden self-end"
+                onClick={() => purchaseModal.close()}
+              >
+                <CloseIcon className="w-7 h-7" />
+              </button>
+              <div className="flex flex-col md:items-center gap-1">
                 <h1 className="text-xl font-semibold">
                   {purchaseModal.data.title}
                 </h1>
@@ -138,7 +145,7 @@ const PurchaseModal = () => {
                 </h2>
               </div>
             </div>
-            <div className="flex items-start gap-5 w-full">
+            <div className="flex flex-col md:flex-row items-start gap-5 w-full">
               <AnimatePresence mode="wait">
                 {!isVisa && !isMastercard && (
                   <DefaultCard
@@ -165,7 +172,7 @@ const PurchaseModal = () => {
                   />
                 )}
               </AnimatePresence>
-              <div className="flex flex-col w-3/5 gap-4">
+              <div className="flex flex-col w-full md:w-3/5 gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label
                     htmlFor="card-number"
