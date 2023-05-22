@@ -63,10 +63,17 @@ const findRoute = async (departure: string, destination: string, ctx: Context) =
 
   if (!result) throw new GraphQLError('The path of this journey is not valid')
 
-  await prisma.path.create({
-    data: {
+  await prisma.path.upsert({
+    where: {
       departureId: departure,
       destinationId: destination,
+    },
+    create: {
+      departureId: departure,
+      destinationId: destination,
+      stationsInPathIds: result,
+    },
+    update: {
       stationsInPathIds: result,
     },
   })

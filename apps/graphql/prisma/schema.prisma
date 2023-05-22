@@ -84,9 +84,9 @@ model StationPositionInLine {
 model Path {
   id                String    @id @default(cuid()) @map("_id")
   departure         Station   @relation("departureStation", fields: [departureId], references: [id])
-  departureId       String
+  departureId       String    @unique
   destination       Station   @relation("destinationStation", fields: [destinationId], references: [id])
-  destinationId     String
+  destinationId     String    @unique
   stationsInPath    Station[] @relation(fields: [stationsInPathIds], references: [id])
   stationsInPathIds String[]
 }
