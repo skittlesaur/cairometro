@@ -1,8 +1,10 @@
 import { MouseEvent, useCallback } from 'react'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 
 import { Separator } from '@/components/separator'
 import { useAppContext } from '@/context/app-context'
+import useUser from '@/graphql/user/me'
 import CheckmarkIcon from '@/icons/checkmark.svg'
 
 import { motion } from 'framer-motion'
@@ -22,10 +24,17 @@ const CountUp = dynamic(() => import('react-countup'), { ssr: false })
 const SubscriptionCard = ({
   area, stations, price, benefits, index = 0, subscription,
 }: CardProps) => {
+  const { data: user } = useUser()
   const { purchaseModal } = useAppContext()
   const { t } = useTranslation('subscriptions')
+  const router = useRouter()
 
   const onButtonClick = useCallback((_: MouseEvent<HTMLButtonElement>) => {
+    if (!user){
+      router.push('/login?redirect=/subscriptions')
+      return
+    }
+    
     purchaseModal.open({
       title: `Purchase ${subscription} Subscription (${area})`,
       price,
@@ -34,7 +43,9 @@ const SubscriptionCard = ({
     area,
     price,
     purchaseModal,
+    router,
     subscription,
+    user,
   ])
 
   return (

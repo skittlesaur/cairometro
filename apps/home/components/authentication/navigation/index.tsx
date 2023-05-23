@@ -48,7 +48,7 @@ const AuthenticationNavigation = ({ type }: AuthenticationNavigationProps) => {
               className={buttonVariants({
                 variant: 'linkSecondary', size: 'sm', padding: 'none', className: 'text-black',
               })}
-              href={type === 'Login' ? '/signup' : '/login'}
+              href={`${type === 'Login' ? '/signup' : '/login'}${router.query.redirect ? `?redirect=${router.query.redirect}` : ''}`}
             >
               {type === 'Register' ? t('navigation.login') : t('navigation.createAnAccount')}
             </Link>
