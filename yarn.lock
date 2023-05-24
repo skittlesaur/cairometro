@@ -1958,6 +1958,21 @@
     "@radix-ui/react-use-callback-ref" "1.0.0"
     "@radix-ui/react-use-layout-effect" "1.0.0"
 
+"@radix-ui/react-checkbox@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@radix-ui/react-checkbox/-/react-checkbox-1.0.3.tgz#bab1916c04b9f66e944e7168be2217cb74c7b94e"
+  integrity sha512-55B8/vKzTuzxllH5sGJO4zaBf9gYpJuJRRzaOKm+0oAefRnMvbf+Kgww7IOANVN0w3z7agFJgtnXaZl8Uj95AA==
+  dependencies:
+    "@babel/runtime" "^7.13.10"
+    "@radix-ui/primitive" "1.0.0"
+    "@radix-ui/react-compose-refs" "1.0.0"
+    "@radix-ui/react-context" "1.0.0"
+    "@radix-ui/react-presence" "1.0.0"
+    "@radix-ui/react-primitive" "1.0.2"
+    "@radix-ui/react-use-controllable-state" "1.0.0"
+    "@radix-ui/react-use-previous" "1.0.0"
+    "@radix-ui/react-use-size" "1.0.0"
+
 "@radix-ui/react-collapsible@1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@radix-ui/react-collapsible/-/react-collapsible-1.0.2.tgz#0583470c7caa8cd1ab6f606416288d19b3baf777"
@@ -2690,6 +2705,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/crypto-js@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@types/crypto-js/-/crypto-js-4.1.1.tgz#602859584cecc91894eb23a4892f38cfa927890d"
+  integrity sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==
+
 "@types/debug@4.1.7", "@types/debug@^4.0.0":
   version "4.1.7"
   resolved "https://registry.npmjs.org/@types/debug/-/debug-4.1.7.tgz"
@@ -2836,6 +2856,11 @@
   version "0.7.31"
   resolved "https://registry.npmjs.org/@types/ms/-/ms-0.7.31.tgz"
   integrity sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==
+
+"@types/node-dijkstra@^2.5.3":
+  version "2.5.3"
+  resolved "https://registry.yarnpkg.com/@types/node-dijkstra/-/node-dijkstra-2.5.3.tgz#fd89dfa667443bf702de0783576be9c95634ac05"
+  integrity sha512-1D4rS5dK8373h/Ub8Wq2CuTKRT0VhA5KV8hPnhFIYuXvYUzXxjFGkrchd3QqqOVn28Mt6hNIDy22vpT9Ddx+kg==
 
 "@types/node@*":
   version "18.16.0"
@@ -4411,6 +4436,11 @@ cross-spawn@7.0.3, cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+crypto-js@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
+  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
 
 crypto-random-string@^2.0.0:
   version "2.0.0"
@@ -7471,6 +7501,11 @@ lru-cache@^9.0.0:
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-9.1.1.tgz#c58a93de58630b688de39ad04ef02ef26f1902f1"
   integrity sha512-65/Jky17UwSb0BuB9V+MyDpsOtXKmYwzhyl+cOa9XUiI4uV2Ouy/2voFP3+al0BjZbJgMBD8FojMpAf+Z+qn4A==
 
+lucide-react@^0.220.0:
+  version "0.220.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.220.0.tgz#e1903f3fe7de95a7e8055f8fc15f03ad7d442ffb"
+  integrity sha512-bYtGUsLAWBvZu+BzAU/ziP1gzE4LwMEXLnlgSr1yUKEPPalLG77JLd5GdYebOVkpm+GtqRqnp6tEKDX7Bm8ZlQ==
+
 magic-string@^0.25.0, magic-string@^0.25.7:
   version "0.25.9"
   resolved "https://registry.npmjs.org/magic-string/-/magic-string-0.25.9.tgz"
@@ -8703,6 +8738,11 @@ no-case@^2.2.0:
   integrity sha512-rmTZ9kz+f3rCvK2TD1Ue/oZlns7OGoIWP4fc3llxxRXlOkHKoWPPWJOfFYpITabSow43QJbRIoHQXtt10VldyQ==
   dependencies:
     lower-case "^1.1.1"
+
+node-dijkstra@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/node-dijkstra/-/node-dijkstra-2.5.0.tgz#0feb76c5a05f35b56e786de6df4d3364af28d4e8"
+  integrity sha512-2REYb1lo8yDRAY1gsdhjwQdGVSh47VI5Z5wS8sCqydO/P1OVAKOwLuV1fDxNLvbrtMspW7k2UZ2JKIKP06hl+A==
 
 node-emoji@^1.11.0, node-emoji@^1.8.1:
   version "1.11.0"

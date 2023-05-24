@@ -17,7 +17,10 @@ const LoginPage: NextPage = () => {
   const router = useRouter()
   
   if (data && !isLoading && !error) {
-    router.push('/')
+    if (router.query.redirect) 
+      router.push(router.query.redirect as string)
+    else
+      router.push('/')
   }
   
   useEffect(() => {

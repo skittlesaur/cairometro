@@ -1,0 +1,28 @@
+{
+  "seo": {
+    "title": "Metro Subscriptions",
+    "description": "Monthly, quarterly, and annual subscriptions for Cairo Metro. Save time and money with a subscription."
+  },
+  "title": "Subscriptions",
+  "description": "Monthly, quarterly, and annual subscriptions for Cairo Metro. Save time and money with a subscription.",
+  "types": {
+    "monthly": "Monthly",
+    "quarterly": "Quarterly",
+    "annual": "Annual"
+  },
+  "subscription": "Subscription",
+  "upToStations": "Up to {0} stations",
+  "moreThanStations": "More than {0} stations",
+  "benefits": {
+    "rides": "Rides for {0} EGP instead of {1} EGP ({2} off)",
+    "customerPriority": "Priority access to customer support",
+    "seniors": "{0} EGP for seniors"
+  },
+  "upgrade": "Upgrade to {0} Subscription",
+  "areas": {
+    "one": "One Area",
+    "two": "Two Areas",
+    "three": "Three Areas"
+  },
+  "egp": "EGP"
+}

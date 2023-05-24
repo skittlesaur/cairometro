@@ -12,16 +12,27 @@ datasource db {
 }
 
 model User {
-  id               String       @id @default(cuid()) @map("_id")
-  email            String       @unique
+  id               String          @id @default(cuid()) @map("_id")
+  email            String          @unique
   name             String
   role             UserRole
   magicToken       MagicToken[]
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
   Otp              Otp[]
   documentUrl      String?
   documentVerified Boolean?
+  Subscriptions    Subscriptions[]
+}
+
+model Subscriptions {
+  id        String           @id @default(cuid()) @map("_id")
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  type      SubscriptionType
+  tier      SubscriptionTier
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
 }
 
 model Otp {
@@ -66,6 +77,29 @@ model Station {
   createdAt             DateTime                @default(now())
   updatedAt             DateTime                @updatedAt
   stationPositionInLine StationPositionInLine[]
+  departurePaths        Path[]                  @relation("departureStation")
+  destinationPath       Path[]                  @relation("destinationStation")
+  paths                 Path[]                  @relation(fields: [pathIds], references: [id])
+  pathIds               String[]
+}
+
+model StationPositionInLine {
+  id        String  @id @default(cuid()) @map("_id")
+  line      Line    @relation(fields: [lineId], references: [id])
+  lineId    String
+  station   Station @relation(fields: [stationId], references: [id])
+  stationId String
+  position  Int
+}
+
+model Path {
+  id                String    @id @default(cuid()) @map("_id")
+  departure         Station   @relation("departureStation", fields: [departureId], references: [id])
+  departureId       String    @unique
+  destination       Station   @relation("destinationStation", fields: [destinationId], references: [id])
+  destinationId     String    @unique
+  stationsInPath    Station[] @relation(fields: [stationsInPathIds], references: [id])
+  stationsInPathIds String[]
 }
 
 model Schedule {
@@ -82,17 +116,20 @@ model Schedule {
   updatedAt          DateTime @updatedAt
 }
 
-model StationPositionInLine {
-  id        String  @id @default(cuid()) @map("_id")
-  line      Line    @relation(fields: [lineId], references: [id])
-  lineId    String
-  station   Station @relation(fields: [stationId], references: [id])
-  stationId String
-  position  Int
-}
-
 enum UserRole {
   ADULT
   SENIOR
   ADMIN
+}
+
+enum SubscriptionType {
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+enum SubscriptionTier {
+  ONE_AREA
+  TWO_AREAS
+  THREE_AREAS
 }
