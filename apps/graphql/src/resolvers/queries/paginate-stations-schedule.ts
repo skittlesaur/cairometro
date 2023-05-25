@@ -3,6 +3,7 @@ import { GraphQLError } from 'graphql/error'
 import { FieldResolver } from 'nexus/src/typegenTypeHelpers'
 
 import { Context } from '../../context'
+import calculatePricing from '../../lib/calculate-pricing'
 import findRoute from '../../lib/find-route'
 
 const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule'> =
@@ -30,7 +31,7 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
 
     let travelTime = null
 
-    if (args.travelTime.hour || args.travelTime.minute){
+    if (args.travelTime?.hour || args.travelTime?.minute){
 
       if (args.travelTime.hour > 12 || args.travelTime.hour < 1 || args.travelTime.minute > 59 || args.travelTime.minute < 0 )
         throw new GraphQLError('The times entered for the ride are invalid')     
@@ -94,11 +95,11 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
         where: {
           departureStationId: from,
           arrivalStationId: path.stationsInPathIds[1],
-          ...(travelTime !== null && {
+          ...(({
             departureTime: {
               lt: travelTime,
             },
-          }),
+          })),
         },
         skip: page,
         take: take,
@@ -126,12 +127,14 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
       schedule.push({ departureTime: firstStationSchedule[i].departureTime, arrivalTime: arrivalTime[i].arrivalTime })
     }
 
+    const price = await calculatePricing(path, args.passengers, ctx)
+
     return [{
       from: departureStation,
       to: arrivalStation,
       noOfStationsOnPath: path.stationsInPathIds.length,
-      price: 5, // should calculate price based on number of stations but for now it's 5
       schedule: schedule,
+      price,
     }]
   }
 

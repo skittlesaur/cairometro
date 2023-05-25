@@ -12,7 +12,7 @@ const calculatePricing = async (
   path: { stationsInPath: Station[] } & Path, passengers: Passengers, ctx: Context,
 ) => {
   const { seniors, adults, children } = passengers
-  
+
   if (!seniors && !adults && !children) return 0
 
   const stations = path?.stationsInPath
@@ -52,15 +52,16 @@ const getCountOfStationsInLine = (stations: Station[]) => {
     // if the station has more than one line, we need to figure out which line the passenger is taking
     const nextStation = stations[i + 1]
     const prevStation = stations[i - 1]
-    const nextLineIds = nextStation.lineIds
-    const prevLineIds = prevStation.lineIds
-    const nextLineId = nextLineIds.find(id => prevLineIds.includes(id))
-    if (!nextLineId) throw new Error('No line found')
+    const nextLineIds = nextStation?.lineIds
+    const prevLineIds = prevStation?.lineIds
+    const nextLineId = nextLineIds?.find(id => prevLineIds.includes(id))
 
-    if (lineStationsCount[nextLineId]) {
-      lineStationsCount[nextLineId]++
-    } else {
-      lineStationsCount[nextLineId] = 1
+    if (nextLineId) {
+      if (lineStationsCount[nextLineId]) {
+        lineStationsCount[nextLineId]++
+      } else {
+        lineStationsCount[nextLineId] = 1
+      }
     }
   }
 

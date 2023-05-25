@@ -9,6 +9,7 @@ import me from './resolvers/queries/me'
 import paginateStationsSchedule from './resolvers/queries/paginate-stations-schedule'
 import stations from './resolvers/queries/stations'
 import LineType from './types/line'
+import passengersInputType from './types/passengers-input'
 import RideTicketDataType from './types/ride-ticket-data'
 import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
@@ -61,6 +62,7 @@ const queries = queryType({
         travelTime: arg({ type: scheduleTimeType }),
         page: nonNull(intArg()),
         take: nonNull(intArg()),
+        passengers: nonNull(arg({ type: passengersInputType })),
       },
       resolve: paginateStationsSchedule,
     })

@@ -10,7 +10,7 @@ const RideTicketDataType = objectType({
     t.field('from', { type: StationType })
     t.field('to', { type: StationType })
     t.field('noOfStationsOnPath', { type: 'Int' })
-    t.field('price', { type: 'Int' })
+    t.field('price', { type: 'Float' })
     t.list.field('schedule', { type: RideTicketSchedule })
   },
 })
