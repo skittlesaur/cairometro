@@ -38,13 +38,13 @@ async (_, args, ctx) =>
     throw new GraphQLError('otp expired please try again')
   }
   const token = generateAccessToken({ id: userID } )
-  await ctx.request.cookieStore?.set({
-    name: 'access', 
-    value: token,
-    // domain: accessTokenCookieDomain,
-    httpOnly: true,
-    expires: Date.now() + (1000 * 60 * 60 * 24 * 7),
-  })
+//   await ctx.request.cookieStore?.set({
+//     name: 'access', 
+//     value: token,
+//     // domain: accessTokenCookieDomain,
+//     httpOnly: true,
+//     expires: Date.now() + (1000 * 60 * 60 * 24 * 7),
+//   })
 
   const cookies = await ctx.request.cookieStore.getAll()
   if (cookies) {
