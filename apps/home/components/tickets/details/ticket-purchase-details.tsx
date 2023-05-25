@@ -19,7 +19,7 @@ import { useTranslation } from 'next-i18next'
 
 const TicketPurchaseDetails = () => {
   const { purchaseModal } = useAppContext()
-  const { t, i18n } = useTranslation('tickets.details')
+  const { t, i18n } = useTranslation('tickets-details')
   const router = useRouter()
   const {
     from, to, departure, adults: adultsString, seniors: seniorsString, children: childrenString,
