@@ -3,6 +3,7 @@ import { GraphQLError } from 'graphql/error'
 import { FieldResolver } from 'nexus'
 
 import generateAccessToken from '../../lib/generate-access-token'
+import { isDev } from '../../utils/is-dev'
 
 
 const otpVerify: FieldResolver< 'Mutation', 'otpVerification'> = 
@@ -12,7 +13,7 @@ async (_, args, ctx) =>
   
   const { prisma } = ctx
   const { code } = args
-  // const accessTokenCookieDomain = process.env.accessTokenCookieDomain
+  const accessTokenCookieDomain = process.env.ACCESS_TOKEN_COOKIE ?? ''
 
   const otp = await prisma.otp.findUnique({
     where: {
@@ -38,20 +39,16 @@ async (_, args, ctx) =>
     throw new GraphQLError('otp expired please try again')
   }
   const token = generateAccessToken({ id: userID } )
-//   await ctx.request.cookieStore?.set({
-//     name: 'access', 
-//     value: token,
-//     // domain: accessTokenCookieDomain,
-//     httpOnly: true,
-//     expires: Date.now() + (1000 * 60 * 60 * 24 * 7),
-//   })
-
-  const cookies = await ctx.request.cookieStore.getAll()
-  if (cookies) {
-    console.log(cookies)
-  } else {
-    console.log('Cookie not found')
-  }
+  await ctx.request?.cookieStore?.set({
+    name: 'access',
+    value: token,
+    domain: accessTokenCookieDomain,
+    path: '/',
+    sameSite: 'lax',
+    secure: !isDev,
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+  })
+  
   
   return true
 
