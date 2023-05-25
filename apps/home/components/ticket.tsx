@@ -40,7 +40,7 @@ const MobileTicket = ({
 const DesktopTicket = ({
   departure, arrival, departureTime, arrivalTime, href, price, stations,
 }: TicketProps) => {
-  const { t, i18n } = useTranslation('home')
+  const { t, i18n } = useTranslation('common')
   return (
     <Link
       href={href}
@@ -67,7 +67,7 @@ const DesktopTicket = ({
           <div className="flex flex-col relative w-full">
             <hr className="w-full my-8 border-t-2 border-dashed border-gray-200" />
             <p className="absolute left-1/2 -translate-x-1/2 top-1/2 translate-y-2.5 text-center whitespace-nowrap">
-              {stations} {t('discover.stations')}
+              {stations} {t('ticket.stations')}
             </p>
           </div>
           <div className="rounded-full bg-gray-300 min-w-[0.75em] max-w-[0.75em] min-h-[0.75em] max-h-[0.75em]" />
@@ -91,13 +91,13 @@ const DesktopTicket = ({
       <div className=" w-[1px] h-16 border-dashed border-gray-300 border-r" />
       <div className="flex items-center gap-12 justify-end">
         <span className="text-2xl font-semibold text-primary w-[150px] ltr:text-right rtl:text-left">
-          {price.toFixed(2)} {t('discover.egp')}
+          {price.toFixed(2)} {t('egpShort')}
         </span>
         <Button
           variant={'ticket'}
           size={'xl'}
         >
-          {t('discover.viewDetails')}
+          {t('ticket.viewDetails')}
         </Button>
       </div>
     </Link>

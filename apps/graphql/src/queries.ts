@@ -7,6 +7,7 @@ import analyticsTotalUsers from './resolvers/queries/admin/analytics-total-users
 import lines from './resolvers/queries/lines'
 import me from './resolvers/queries/me'
 import paginateStationsSchedule from './resolvers/queries/paginate-stations-schedule'
+import stationById from './resolvers/queries/station-by-id'
 import stations from './resolvers/queries/stations'
 import LineType from './types/line'
 import passengersInputType from './types/passengers-input'
@@ -27,6 +28,14 @@ const queries = queryType({
     t.list.field('stations', {
       type: StationType,
       resolve: stations,
+    })
+    
+    t.field('stationById', {
+      type: StationType,
+      args: {
+        id: nonNull(stringArg()),
+      },
+      resolve: stationById,
     })
 
     t.list.field('lines', {
@@ -54,7 +63,7 @@ const queries = queryType({
       resolve: analyticsAverageCustomerSupportResponse,
     })
 
-    t.list.field('paginateStationsSchedule', {
+    t.field('paginateStationsSchedule', {
       type: RideTicketDataType,
       args: {
         from: nonNull(stringArg()),

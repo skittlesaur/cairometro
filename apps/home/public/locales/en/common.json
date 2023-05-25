@@ -51,5 +51,11 @@
     "continueWithGoogle": {
       "text": "Continue with Google"
     }
-  }
+  },
+  "ticket": {
+    "viewDetails": "View Details",
+    "stations": "stations"
+  },
+  "egp": "EGP",
+  "egpShort": "EGP"
 }

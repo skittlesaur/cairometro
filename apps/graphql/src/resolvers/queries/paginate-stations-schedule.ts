@@ -72,6 +72,8 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
     const stationBeforeLastId = path.stationsInPathIds[path.stationsInPathIds.length - 2]
     const lastStationId = path.stationsInPathIds[path.stationsInPathIds.length - 1]
 
+    const price = await calculatePricing(path, args.passengers, ctx)
+
     if (stationBeforeLastId === from && lastStationId === to) {
 
       const schedule = []
@@ -79,13 +81,13 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
         schedule.push({ departureTime: firstStationSchedule[i].departureTime, arrivalTime: firstStationSchedule[i].arrivalTime })
       }
 
-      return [{
+      return {
         from: departureStation,
         to: arrivalStation,
         noOfStationsOnPath: path.stationsInPathIds.length,
-        price: 5, // should calculate price based on number of stations but for now it's 5
+        price, // should calculate price based on number of stations but for now it's 5
         schedule: schedule,
-      }]
+      }
 
     }
 
@@ -127,15 +129,13 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
       schedule.push({ departureTime: firstStationSchedule[i].departureTime, arrivalTime: arrivalTime[i].arrivalTime })
     }
 
-    const price = await calculatePricing(path, args.passengers, ctx)
-
-    return [{
+    return {
       from: departureStation,
       to: arrivalStation,
       noOfStationsOnPath: path.stationsInPathIds.length,
       schedule: schedule,
       price,
-    }]
+    }
   }
 
 export default paginateStationsSchedule

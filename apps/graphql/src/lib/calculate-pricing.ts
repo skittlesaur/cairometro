@@ -20,16 +20,9 @@ const calculatePricing = async (
   if (!stations) throw new Error('No stations found in path')
 
   const countOfStationsInLine = getCountOfStationsInLine(stations)
-  const pricingPerLine = await getLinesPricing(countOfStationsInLine, ctx)
+  const pricing = await getLinesPricing(countOfStationsInLine, ctx)
 
-  let total = 0
-  Object.keys(pricingPerLine).forEach((line) => {
-    const pricing = pricingPerLine[line]
-    total += pricing.seniors * seniors
-    total += pricing.adults * adults
-    total += pricing.children * children
-  })
-
+  const total = pricing.adults * adults + pricing.seniors * seniors + pricing.children * children
   return total
 }
 
@@ -71,7 +64,7 @@ const getCountOfStationsInLine = (stations: Station[]) => {
 const getLinesPricing = async (lineStationsCount: { [key: string]: number }, ctx: Context) => {
   const { prisma } = ctx
 
-  const lineData = await prisma.line.findMany({
+  const price = await prisma.line.findFirst({
     where: {
       id: {
         in: Object.keys(lineStationsCount),
@@ -81,57 +74,38 @@ const getLinesPricing = async (lineStationsCount: { [key: string]: number }, ctx
       id: true,
       pricing: true,
     },
+    orderBy: {
+      pricing: {
+        priceZoneOne: 'desc',
+      },
+    },
   })
 
-  const linePricing = lineData.map(line => ({
-    lineId: line.id,
-    ...line.pricing,
-  }))
+  if (!price) throw new Error('No pricing found')
 
-  const pricingPerLine: {
-    [key: string]: {
-      seniors: number
-      adults: number
-      children: number
+  const totalStations = Object.values(lineStationsCount).reduce((acc, curr) => acc + curr, 0)
+
+  if (totalStations <= 9) {
+    return {
+      adults: price.pricing.priceZoneOne,
+      seniors: price.pricing.priceZoneOneSeniors,
+      children: 0,
     }
-  } = {}
+  }
 
-  Object.keys(lineStationsCount).forEach((line) => {
-    const linePricingForLine = linePricing.find((pricing) => pricing.lineId === line)
-    if (!linePricingForLine) throw new Error('No pricing found for line')
-
-    if (lineStationsCount[line] <= 9) {
-      pricingPerLine[line] = {
-        seniors: linePricingForLine.priceZoneOneSeniors,
-        adults: linePricingForLine.priceZoneOne,
-        children: 0,
-      }
-
-      return
+  if (totalStations <= 16) {
+    return {
+      adults: price.pricing.priceZoneTwo,
+      seniors: price.pricing.priceZoneTwoSeniors,
+      children: 0,
     }
+  }
 
-    if (lineStationsCount[line] <= 16) {
-      pricingPerLine[line] = {
-        seniors: linePricingForLine.priceZoneTwoSeniors,
-        adults: linePricingForLine.priceZoneTwo,
-        children: 0,
-      }
-
-      return
-    }
-
-    if (lineStationsCount[line] > 16) {
-      pricingPerLine[line] = {
-        seniors: linePricingForLine.priceZoneThreeSeniors,
-        adults: linePricingForLine.priceZoneThree,
-        children: 0,
-      }
-
-      return
-    }
-  })
-
-  return pricingPerLine
+  return {
+    adults: price.pricing.priceZoneThree,
+    seniors: price.pricing.priceZoneThreeSeniors,
+    children: 0,
+  }
 }
 
 export default calculatePricing
