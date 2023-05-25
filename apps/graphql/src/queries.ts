@@ -16,6 +16,8 @@ import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
 import UserType from './types/user'
 import UserAnalyticsType from './types/users-analytics'
+import RefundType from './types/refund'
+import getRefundRequests from './resolvers/queries/admin/get-refund-requests'
 
 
 const queries = queryType({
@@ -74,6 +76,14 @@ const queries = queryType({
         passengers: nonNull(arg({ type: passengersInputType })),
       },
       resolve: paginateStationsSchedule,
+    })
+    
+    t.list.field('adminGetRefundRequests', {
+      type: RefundType,
+      args:{
+        page: nonNull(intArg())
+      },
+      resolve: getRefundRequests,
     })
   },
 })

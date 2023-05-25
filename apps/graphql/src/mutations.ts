@@ -1,4 +1,4 @@
-import { arg, list, mutationType, nonNull, stringArg } from 'nexus'
+import { arg, mutationType, nonNull, stringArg, list, enumType } from 'nexus'
 
 import addStation from './resolvers/mutations/add-station'
 import login from './resolvers/mutations/login'
@@ -10,6 +10,10 @@ import otpVerify from './resolvers/mutations/otp-verifier'
 import signUp from './resolvers/mutations/sign-up'
 import StationType from './types/station'
 import UserRoleEnumArg from './types/user-role-enum-arg'
+import addRefund from './resolvers/mutations/add-refund'
+import RefundStatusEnumArg from './types/refund-status-enum-arg'
+import TicketTypeEnumArg from './types/ticket-type-enum-arg'
+import updateRefundStatus from './resolvers/mutations/update-refund-status'
 
 const mutations = mutationType({
   definition(t) {
@@ -74,6 +78,25 @@ const mutations = mutationType({
         lineIds: nonNull(list(stringArg())),
       },
       resolve: addStation,
+    })
+
+    t.field('adminUpdateRefundRequest', {
+      type: 'Boolean',
+      args: {
+          refundRequestId: nonNull(stringArg()),
+          status: nonNull(arg({ type: RefundStatusEnumArg })),
+        },
+      resolve: updateRefundStatus
+    })
+
+    t.field('requestRefund', {
+      type: 'Boolean',
+      args: {
+          status: nonNull(arg({ type: RefundStatusEnumArg })),
+          ticketType: nonNull(arg({ type: TicketTypeEnumArg })),
+          userId: nonNull(stringArg()),
+        },
+      resolve: addRefund
     })
   },
 })
