@@ -4,7 +4,11 @@ import { asNexusMethod } from 'nexus'
 
 import LineType from './types/line'
 import LngLatType from './types/lng-lat'
+import passengersInputType from './types/passengers-input'
+import RideTicketDataType from './types/ride-ticket-data'
+import RideTicketSchedule from './types/ride-ticket-schedule'
 import ScheduleType from './types/schedule'
+import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
 import StationPositionInLineType from './types/station-position-in-line'
 import UserType from './types/user'
@@ -23,6 +27,10 @@ const types = [
   LngLatType,
   StationPositionInLineType,
   UserAnalyticsType,
+  RideTicketDataType,
+  RideTicketSchedule,
+  scheduleTimeType,
+  passengersInputType,
 ]
 
 export default types

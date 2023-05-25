@@ -111,7 +111,7 @@ model Schedule {
   departureTime      DateTime
   departureStation   Station  @relation("departureSchedules", fields: [departureStationId], references: [id])
   departureStationId String
-  arrivalTime        DateTime
+  arrivalTime        DateTime 
   arrivalStation     Station  @relation("arrivalSchedules", fields: [arrivalStationId], references: [id])
   arrivalStationId   String
   createdAt          DateTime @default(now())

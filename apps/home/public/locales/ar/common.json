@@ -51,5 +51,11 @@
     "continueWithGoogle": {
       "text": "تسجيل الدخول باستخدام جوجل"
     }
-  }
+  },
+  "ticket": {
+    "viewDetails": "عرض التفاصيل",
+    "stations": "محطات"
+  },
+  "egp": "جنيه مصري",
+  "egpShort": "ج.م"
 }
