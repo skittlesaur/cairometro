@@ -46,7 +46,7 @@ const SchedulePage = ({ page, disableLoadMore }: { page: number, disableLoadMore
           arrival={data.to.name}
           departureTime={new Date(schedule.departureTime)}
           arrivalTime={new Date(schedule.arrivalTime)}
-          href={`/tickets/${data.from.id}/${data.to.id}/${new Date(schedule.departureTime).getTime()}`}
+          href={`/tickets/${data.from.id}/${data.to.id}/${new Date(schedule.departureTime).getTime()}?adults=${adults}&children=${children}&seniors=${seniors}`}
           price={data.price}
           stations={data.noOfStationsOnPath}
         />

@@ -11,6 +11,7 @@ import ScheduleType from './types/schedule'
 import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
 import StationPositionInLineType from './types/station-position-in-line'
+import TripRouteType from './types/trip-route'
 import UserType from './types/user'
 import UserRoleEnum from './types/user-role'
 import UserAnalyticsType from './types/users-analytics'
@@ -31,6 +32,7 @@ const types = [
   RideTicketSchedule,
   scheduleTimeType,
   passengersInputType,
+  TripRouteType,
 ]
 
 export default types

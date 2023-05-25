@@ -47,7 +47,7 @@ const getCountOfStationsInLine = (stations: Station[]) => {
     const prevStation = stations[i - 1]
     const nextLineIds = nextStation?.lineIds
     const prevLineIds = prevStation?.lineIds
-    const nextLineId = nextLineIds?.find(id => prevLineIds.includes(id))
+    const nextLineId = nextLineIds?.find(id => prevLineIds?.includes(id))
 
     if (nextLineId) {
       if (lineStationsCount[nextLineId]) {

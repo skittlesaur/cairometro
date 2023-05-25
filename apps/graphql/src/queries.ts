@@ -4,9 +4,11 @@ import analyticsAverageCustomerSupportResponse from './resolvers/queries/admin/a
 import analyticsSoldTickets from './resolvers/queries/admin/analytics-sold-tickets'
 import analyticsTotalSubscribers from './resolvers/queries/admin/analytics-total-subscribers'
 import analyticsTotalUsers from './resolvers/queries/admin/analytics-total-users'
+import getPrice from './resolvers/queries/get-price'
 import lines from './resolvers/queries/lines'
 import me from './resolvers/queries/me'
 import paginateStationsSchedule from './resolvers/queries/paginate-stations-schedule'
+import rideRouteByDate from './resolvers/queries/ride-route-by-date'
 import stationById from './resolvers/queries/station-by-id'
 import stations from './resolvers/queries/stations'
 import LineType from './types/line'
@@ -14,6 +16,7 @@ import passengersInputType from './types/passengers-input'
 import RideTicketDataType from './types/ride-ticket-data'
 import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
+import TripRouteType from './types/trip-route'
 import UserType from './types/user'
 import UserAnalyticsType from './types/users-analytics'
 
@@ -29,13 +32,23 @@ const queries = queryType({
       type: StationType,
       resolve: stations,
     })
-    
+
     t.field('stationById', {
       type: StationType,
       args: {
         id: nonNull(stringArg()),
       },
       resolve: stationById,
+    })
+
+    t.list.field('rideRouteByDate', {
+      type: TripRouteType,
+      args: {
+        from: nonNull(stringArg()),
+        to: nonNull(stringArg()),
+        date: nonNull(stringArg()),
+      },
+      resolve: rideRouteByDate,
     })
 
     t.list.field('lines', {
@@ -74,6 +87,16 @@ const queries = queryType({
         passengers: nonNull(arg({ type: passengersInputType })),
       },
       resolve: paginateStationsSchedule,
+    })
+
+    t.field('getPrice', {
+      type: 'Int',
+      args: {
+        from: nonNull(stringArg()),
+        to: nonNull(stringArg()),
+        passengers: nonNull(arg({ type: passengersInputType })),
+      },
+      resolve: getPrice,
     })
   },
 })

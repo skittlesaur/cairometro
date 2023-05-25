@@ -160,8 +160,8 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
     // each station takes 4 minutes
     // a train starts every 15 minutes
 
-    const startTime = new Date().setHours(5, 0, 0, 0)
-    const endTime = new Date().setHours(24, 0, 0, 0)
+    const startTime = new Date(2023, 1, 1).setHours(5, 0, 0, 0)
+    const endTime = new Date(2023, 1, 1).setHours(24, 0, 0, 0)
     const interval = 15 // minutes
     const durationPerStation = 4 // minutes
 

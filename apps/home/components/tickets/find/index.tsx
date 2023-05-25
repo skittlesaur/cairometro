@@ -48,7 +48,7 @@ const Tickets = () => {
               arrival={searchResult.to.name}
               departureTime={new Date(schedule.departureTime)}
               arrivalTime={new Date(schedule.arrivalTime)}
-              href={`/tickets/${searchResult.from.id}/${searchResult.to.id}/${new Date(schedule.departureTime).getTime()}`}
+              href={`/tickets/${searchResult.from.id}/${searchResult.to.id}/${new Date(schedule.departureTime).getTime()}?adults=${adults}&children=${children}&seniors=${seniors}`}
               price={searchResult.price}
               stations={searchResult.noOfStationsOnPath}
             />

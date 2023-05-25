@@ -17,5 +17,12 @@
       "text": "To learn more about metro requirements, please {0}",
       "link": "click here"
     }
-  }
+  },
+  "adult": "Adult",
+  "adults": "Adults",
+  "child": "Child",
+  "children": "Children",
+  "senior": "Senior",
+  "seniors": "Seniors",
+  "noPassengersSelected": "No passengers selected"
 }

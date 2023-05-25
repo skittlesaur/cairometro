@@ -43,7 +43,7 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
 
       const travelHour = meridiem === 'pm' ? args.travelTime.hour === 12 ? 0 : args.travelTime.hour + 12 : args.travelTime.hour
 
-      travelTime = new Date(new Date().getFullYear(), new Date().getMonth(), 24, (travelHour - (new Date().getTimezoneOffset() / 60)), args.travelTime.minute ?? 0, 0)
+      travelTime = new Date(2023, 1, 1, (travelHour - (new Date().getTimezoneOffset() / 60)), args.travelTime.minute ?? 0, 0)
     }
 
     const take = args.take ?? 2
