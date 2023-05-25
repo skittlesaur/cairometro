@@ -12,6 +12,9 @@ const findRoute = async (departure: string, destination: string, ctx: Context) =
       departureId: departure,
       destinationId: destination,
     },
+    include: {
+      stationsInPath: true,
+    },
   })
 
   if (checkIfExists) return checkIfExists
@@ -76,6 +79,9 @@ const findRoute = async (departure: string, destination: string, ctx: Context) =
       departureId: departure,
       destinationId: destination,
       stationsInPathIds: path,
+    },
+    include: {
+      stationsInPath: true,
     },
   })
 

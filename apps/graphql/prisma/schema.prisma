@@ -63,6 +63,8 @@ model Line {
   color                 String                  @default("#EA3347")
   createdAt             DateTime                @default(now())
   updatedAt             DateTime                @updatedAt
+  pricing               Pricing                 @relation(fields: [pricingId], references: [id])
+  pricingId             String                  @unique
 }
 
 model Station {
@@ -114,6 +116,22 @@ model Schedule {
   arrivalStationId   String
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+}
+
+model Pricing {
+  id                    String   @id @default(cuid()) @map("_id")
+  line                  Line?
+  // 9 stations
+  priceZoneOne          Float
+  priceZoneOneSeniors   Float
+  // 16 stations
+  priceZoneTwo          Float
+  priceZoneTwoSeniors   Float
+  // +16 stations
+  priceZoneThree        Float
+  priceZoneThreeSeniors Float
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
 }
 
 enum UserRole {

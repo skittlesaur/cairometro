@@ -30,7 +30,21 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
     ]
 
     const createLinePromises = lines.map((line) =>
-      prisma.line.create({ data: line }),
+      prisma.line.create({
+        data: {
+          ...line,
+          pricing: {
+            create: {
+              priceZoneOne: 5,
+              priceZoneTwo: 10,
+              priceZoneThree: 15,
+              priceZoneOneSeniors: 2,
+              priceZoneTwoSeniors: 5,
+              priceZoneThreeSeniors: 10,
+            },
+          },
+        }, 
+      }),
     )
 
     const [line1, line2, line3] = await Promise.all(createLinePromises)
