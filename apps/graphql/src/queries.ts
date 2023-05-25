@@ -1,4 +1,4 @@
-import { intArg, nonNull, queryType, stringArg } from 'nexus'
+import { arg, intArg, nonNull, queryType, stringArg } from 'nexus'
 
 import analyticsAverageCustomerSupportResponse from './resolvers/queries/admin/analytics-average-response'
 import analyticsSoldTickets from './resolvers/queries/admin/analytics-sold-tickets'
@@ -9,7 +9,8 @@ import me from './resolvers/queries/me'
 import paginateStationsSchedule from './resolvers/queries/paginate-stations-schedule'
 import stations from './resolvers/queries/stations'
 import LineType from './types/line'
-import ScheduleType from './types/schedule'
+import RideTicketDataType from './types/ride-ticket-data'
+import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
 import UserType from './types/user'
 import UserAnalyticsType from './types/users-analytics'
@@ -52,12 +53,12 @@ const queries = queryType({
       resolve: analyticsAverageCustomerSupportResponse,
     })
 
-    t.field('paginateStationsSchedule', {
-      type: ScheduleType,
+    t.list.field('paginateStationsSchedule', {
+      type: RideTicketDataType,
       args: {
         from: nonNull(stringArg()),
         to: nonNull(stringArg()),
-        travelTime: 'DateTime',
+        travelTime: arg({ type: scheduleTimeType }),
         page: nonNull(intArg()),
         take: nonNull(intArg()),
       },
