@@ -8,6 +8,17 @@ const LINES_QUERY = /* GraphQL */ `
       id
       name
       name_ar
+      color
+      sortedStations {
+        id
+        name
+        name_ar
+        lines {
+          id
+          name
+          color
+        }
+      }
       stations {
         id
         name
@@ -16,6 +27,11 @@ const LINES_QUERY = /* GraphQL */ `
         locationLngLat {
           lng
           lat
+        }
+        lines {
+          id
+          name
+          color
         }
       }
    }

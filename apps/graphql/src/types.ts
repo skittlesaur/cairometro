@@ -3,6 +3,7 @@ import { DateTimeResolver } from 'graphql-scalars'
 import { asNexusMethod } from 'nexus'
 
 import LineType from './types/line'
+import LinesAndStationsAnalyticsType from './types/lines-and-stations-type'
 import LngLatType from './types/lng-lat'
 import passengersInputType from './types/passengers-input'
 import RideTicketDataType from './types/ride-ticket-data'
@@ -33,6 +34,7 @@ const types = [
   scheduleTimeType,
   passengersInputType,
   TripRouteType,
+  LinesAndStationsAnalyticsType,
 ]
 
 export default types

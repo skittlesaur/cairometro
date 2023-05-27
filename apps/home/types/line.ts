@@ -6,6 +6,7 @@ interface Line {
   name_ar: string
   color: string
   stations: Station[]
+  sortedStations: Station[]
 }
 
 export default Line

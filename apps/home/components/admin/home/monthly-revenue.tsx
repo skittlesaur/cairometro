@@ -57,10 +57,8 @@ const MonthlyRevenue = () => {
                       animate={{ height: '100%' }}
                       exit={{ height: 0 }}
                       transition={{
-                        type: 'spring',
-                        mass: 1,
-                        damping: 6,
-                        stiffness: 30,
+                        duration: 0.35,
+                        ease: 'easeOut',
                       }}
                       className="absolute bottom-0 w-full h-full bg-primary-gradient"
                     />

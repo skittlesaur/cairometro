@@ -87,9 +87,9 @@ model Station {
 
 model StationPositionInLine {
   id        String  @id @default(cuid()) @map("_id")
-  line      Line    @relation(fields: [lineId], references: [id])
+  line      Line    @relation(fields: [lineId], references: [id], onDelete: Cascade)
   lineId    String
-  station   Station @relation(fields: [stationId], references: [id])
+  station   Station @relation(fields: [stationId], references: [id], onDelete: Cascade)
   stationId String
   position  Int
 }

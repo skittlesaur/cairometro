@@ -177,6 +177,47 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
     ]
 
     await prisma.stationPositionInLine.createMany({ data: positionsInLine })
+    
+    // update lines stations
+    await prisma.line.update({
+      where: {
+        id: line1.id,
+      },
+      data: {
+        stations: {
+          connect: line1Stations.map((station: Station) => ({
+            id: station.id,
+          })),
+        },
+      },
+    })
+
+    await prisma.line.update({
+      where: {
+        id: line2.id,
+      },
+      data: {
+        stations: {
+          connect: line2Stations.map((station: Station) => ({
+            id: station.id,
+          })),
+        },
+      },
+    })
+
+    await prisma.line.update({
+      where: {
+        id: line3.id,
+      },
+      data: {
+        stations: {
+          connect: line3Stations.map((station: Station) => ({
+            id: station.id,
+          })),
+        },
+      },
+    })
+
 
     return true
   }

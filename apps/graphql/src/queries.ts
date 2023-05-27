@@ -1,5 +1,6 @@
 import { arg, intArg, nonNull, queryType, stringArg } from 'nexus'
 
+import analyticsActiveLinesAndStations from './resolvers/queries/admin/analytics-active-lines-and-stations'
 import analyticsAverageCustomerSupportResponse from './resolvers/queries/admin/analytics-average-response'
 import analyticsSoldTickets from './resolvers/queries/admin/analytics-sold-tickets'
 import analyticsTotalSubscribers from './resolvers/queries/admin/analytics-total-subscribers'
@@ -12,6 +13,7 @@ import rideRouteByDate from './resolvers/queries/ride-route-by-date'
 import stationById from './resolvers/queries/station-by-id'
 import stations from './resolvers/queries/stations'
 import LineType from './types/line'
+import LinesAndStationsAnalyticsType from './types/lines-and-stations-type'
 import passengersInputType from './types/passengers-input'
 import RideTicketDataType from './types/ride-ticket-data'
 import scheduleTimeType from './types/schedule-time'
@@ -74,6 +76,11 @@ const queries = queryType({
     t.field('analyticsAverageCustomerSupportResponse', {
       type: 'Int',
       resolve: analyticsAverageCustomerSupportResponse,
+    })
+
+    t.field('analyticsActiveLinesAndStations', {
+      type: LinesAndStationsAnalyticsType,
+      resolve: analyticsActiveLinesAndStations,
     })
 
     t.field('paginateStationsSchedule', {

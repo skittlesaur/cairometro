@@ -1,6 +1,7 @@
-import { arg, list, mutationType, nonNull, stringArg } from 'nexus'
+import { arg, intArg, list, mutationType, nonNull, stringArg } from 'nexus'
 
 import addStation from './resolvers/mutations/add-station'
+import adminDeleteStation from './resolvers/mutations/delete-station'
 import login from './resolvers/mutations/login'
 import logout from './resolvers/mutations/logout'
 import magicLinkVerify from './resolvers/mutations/magic-link-verifier'
@@ -8,6 +9,7 @@ import secretCreateMainAdminAccount from './resolvers/mutations/migrations/creat
 import secretDummyStationsData from './resolvers/mutations/migrations/dummy-database/dummy-stations-data'
 import secretDummySchedule from './resolvers/mutations/migrations/dummy-database/schedule'
 import otpVerify from './resolvers/mutations/otp-verifier'
+import adminReorderStation from './resolvers/mutations/reorder-station'
 import signUp from './resolvers/mutations/sign-up'
 import StationType from './types/station'
 import UserRoleEnumArg from './types/user-role-enum-arg'
@@ -80,6 +82,24 @@ const mutations = mutationType({
         lineIds: nonNull(list(stringArg())),
       },
       resolve: addStation,
+    })
+    
+    t.field('adminReorderStation', {
+      type: 'Boolean',
+      args: {
+        lineId: nonNull(stringArg()),
+        stationId: nonNull(stringArg()),
+        newPosition: nonNull(intArg()),
+      },
+      resolve: adminReorderStation,
+    })
+    
+    t.field('adminDeleteStation', {
+      type: 'Boolean',
+      args: {
+        stationId: nonNull(stringArg()),
+      },
+      resolve: adminDeleteStation,
     })
   },
 })
