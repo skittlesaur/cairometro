@@ -7,6 +7,7 @@ import { Separator } from '@/components/separator'
 import { useAppContext } from '@/context/app-context'
 import useGetPrice from '@/graphql/get-price'
 import useRideRoute from '@/graphql/stations/ride-route'
+import useUser from '@/graphql/user/me'
 import LocationIcon from '@/icons/location.svg'
 import QrCodeIcon from '@/icons/qr-code.svg'
 import ForwardIcon from '@/icons/return-up-forward.svg'
@@ -24,7 +25,6 @@ const TicketPurchaseDetails = () => {
   const {
     from, to, departure, adults: adultsString, seniors: seniorsString, children: childrenString,
   } = router.query
-
   const adults = parseInt(adultsString as string)
   const seniors = parseInt(seniorsString as string)
   const children = parseInt(childrenString as string)
@@ -34,6 +34,8 @@ const TicketPurchaseDetails = () => {
     to: to as string,
     date: departure as string,
   })
+
+  const { data: user } = useUser()
 
   const { data: price } = useGetPrice({
     from: from as string,
@@ -46,11 +48,30 @@ const TicketPurchaseDetails = () => {
   })
 
   const onPurchaseClick = useCallback((_: MouseEvent<HTMLButtonElement>) => {
+    if (!ride || !price) return
+
+    if (!user) {
+      const pathname = router.pathname
+      const query = router.query
+      router.push({
+        pathname: '/login',
+        query: {
+          ...query,
+          redirect: pathname,
+        },
+      })
+      return
+    }
+
     purchaseModal.open({
       title: `Purchase Ticket (${ride?.[0].station.name} - ${ride?.[ride?.length - 1].station.name})`,
       price,
     })
-  }, [price, purchaseModal])
+  }, [price,
+    purchaseModal,
+    ride,
+    router,
+    user])
 
   const getAdultsText = () =>
     `${adults} ${adults > 1 ? t('adults') : t('adult')}`

@@ -8,7 +8,7 @@ interface StationByIdVariables extends Variables {
   id: string
 }
 
-const STATION_BY_ID_QUERY = /* GraphQL */ `
+export const STATION_BY_ID_QUERY = /* GraphQL */ `
   query StationById($id: String!) {
     stationById(id: $id) {
       id

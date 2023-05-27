@@ -22,7 +22,7 @@ const rideRouteByDate: FieldResolver<'Query', 'rideRouteByDate'> =
       where: {
         departureStationId: path.stationsInPathIds[0],
         arrivalStationId: path.stationsInPathIds[1],
-        departureTime: new Date(2023, 1, 1, dateObj.getHours(), dateObj.getMinutes(), 0),
+        departureTime: new Date(2023, 0, 1, dateObj.getHours(), dateObj.getMinutes(), 0),
       },
       include: {
         departureStation: true,
