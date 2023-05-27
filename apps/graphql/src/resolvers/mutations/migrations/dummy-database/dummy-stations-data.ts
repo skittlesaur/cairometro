@@ -18,14 +18,17 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
       {
         name: 'Line 1',
         name_ar: 'الخط الأول',
+        color: '#EA3347',
       },
       {
         name: 'Line 2',
         name_ar: 'الخط الثاني',
+        color: '#3498DB',
       },
       {
         name: 'Line 3',
         name_ar: 'الخط الثالث',
+        color: '#2ECC71',
       },
     ]
 
