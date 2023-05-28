@@ -5,6 +5,7 @@ import { StationProps } from '@/components/admin/lines-and-stations/station'
 import { Button } from '@/components/button'
 import Input from '@/components/input'
 import useLines from '@/graphql/lines/lines'
+import { AddStationVariables } from '@/graphql/stations/add-station'
 import { UpdateStationVariables } from '@/graphql/stations/update-station'
 import ChevronDownIcon from '@/icons/chevron-down.svg'
 import mapOptions from '@/lib/map-options'
@@ -18,21 +19,23 @@ import toast from 'react-hot-toast'
 
 interface StationExpandedProps extends StationProps {
   onCardClick: ()=> void
+  addNew?: boolean
+  createNewStation?: (vars: AddStationVariables)=> Promise<void>
 }
 
 const StationExpanded = ({
-  station, setExpanded, optimisticUpdate, onCardClick,
+  station, setExpanded, optimisticUpdate, onCardClick, addNew = false, createNewStation,
 }: StationExpandedProps) => {
   const [confirmDiscard, setConfirmDiscard] = useState(false)
   const [stationEdit, setStationEdit] = useState(station)
   const [linesExpanded, setLinesExpanded] = useState(false)
   const { data: lines } = useLines()
-  
+
   const nameChanged = station.name !== stationEdit.name
   const nameArChanged = station.name_ar !== stationEdit.name_ar
-  const linesChanged = station.lines.map(line => line.id).join(',') !== stationEdit.lines.map(line => line.id).join(',')
+  const linesChanged = station.lines?.map(line => line.id).join(',') !== stationEdit.lines?.map(line => line.id).join(',')
   const locationChanged = Object.values(station?.locationLngLat ?? {}).join(',') !== Object.values(stationEdit?.locationLngLat ?? {}).join(',')
-  
+
   const mapCenter = useMemo(() => {
     if (stationEdit?.locationLngLat) return stationEdit.locationLngLat
     return {
@@ -46,7 +49,7 @@ const StationExpanded = ({
   })
 
   const onSaveClick = useCallback(async () => {
-    if (!nameChanged && !nameArChanged && !linesChanged && !locationChanged){
+    if (!nameChanged && !nameArChanged && !linesChanged && !locationChanged) {
       toast('No changes to save', { icon: '👌' })
       setExpanded(undefined)
       return
@@ -61,10 +64,10 @@ const StationExpanded = ({
 
       if (nameChanged) vars.name = stationEdit.name
       if (nameArChanged) vars.name_ar = stationEdit.name_ar
-      if (linesChanged) vars.lineIds = stationEdit.lines.map(line => line.id)
+      if (linesChanged) vars.lineIds = stationEdit.lines?.map(line => line.id)
       if (locationChanged) vars.locationLngLat = stationEdit.locationLngLat
-      
-      await optimisticUpdate(vars)
+
+      await optimisticUpdate?.(vars)
 
       toast.success('Station saved successfully')
     } catch (e) {
@@ -97,7 +100,7 @@ const StationExpanded = ({
       toast('Click again to discard changes', { icon: '⚠️' })
       return
     }
-    
+
     setExpanded(undefined)
   }, [
     confirmDiscard,
@@ -107,6 +110,40 @@ const StationExpanded = ({
     nameChanged,
     setExpanded,
     station,
+  ])
+
+  const onAddClick = useCallback(async () => {
+    if (!stationEdit.name)
+      return toast.error('Station name is required')
+
+    if (!stationEdit.name_ar)
+      return toast.error('Station name in Arabic is required')
+
+    if (!stationEdit.lines?.length)
+      return toast.error('At least one line must be selected')
+
+    if (!stationEdit.locationLngLat)
+      return toast.error('Station location is required')
+
+    try {
+      await createNewStation?.({
+        name: stationEdit.name,
+        name_ar: stationEdit.name_ar,
+        lineIds: stationEdit.lines.map(line => line.id),
+        location: stationEdit.locationLngLat,
+      })
+      toast.success('Station created successfully')
+      setExpanded(undefined)
+    } catch (e) {
+      toast.error('Failed to create station')
+    }
+  }, [
+    createNewStation,
+    setExpanded,
+    stationEdit.lines,
+    stationEdit.locationLngLat,
+    stationEdit.name,
+    stationEdit.name_ar,
   ])
 
   return (
@@ -177,10 +214,10 @@ const StationExpanded = ({
               onClick={() => setLinesExpanded(!linesExpanded)}
             >
               <p>
-                {stationEdit.lines.length === 0 ? (
+                {!stationEdit.lines || stationEdit.lines?.length === 0 ? (
                   'Select lines'
                 ) : (
-                  stationEdit.lines.map(line => line.name).join(', ')
+                  stationEdit.lines?.map(line => line.name).join(', ')
                 )}
               </p>
               <div>
@@ -188,7 +225,7 @@ const StationExpanded = ({
               </div>
             </button>
             <AnimatePresence>
-              {linesExpanded && (
+              {linesExpanded && lines && (
                 <motion.div
                   key="change-lines"
                   initial={{ opacity: 0, y: -10 }}
@@ -202,13 +239,13 @@ const StationExpanded = ({
                       <button
                         key={line.id}
                         className={cn('flex items-center gap-2 hover:bg-neutral-100 px-3 py-2', {
-                          'opacity-50': !stationEdit.lines.find(l => l.id === line.id),
+                          'opacity-50': !stationEdit.lines?.find(l => l.id === line.id),
                         })}
                         onClick={() => setStationEdit({
                           ...stationEdit,
-                          lines: stationEdit.lines.find(l => l.id === line.id)
-                            ? stationEdit.lines.filter(l => l.id !== line.id)
-                            : [...stationEdit.lines, line],
+                          lines: stationEdit.lines?.find(l => l.id === line.id)
+                            ? stationEdit.lines?.filter(l => l.id !== line.id)
+                            : [...(stationEdit.lines ?? []), line],
                         })}
                       >
                         <div
@@ -234,7 +271,7 @@ const StationExpanded = ({
             Location {locationChanged && <ChangeIndicator />}
           </label>
           <div className="w-[calc(50%-0.5rem)] min-h-[20em] aspect-video rounded-lg overflow-hidden border border-neutral-200">
-            {isLoaded && stationEdit.locationLngLat ? (
+            {isLoaded && (addNew || stationEdit.locationLngLat) ? (
               <GoogleMap
                 zoom={13}
                 center={mapCenter}
@@ -270,16 +307,16 @@ const StationExpanded = ({
           <Button
             variant="primary"
             className="w-full"
-            onClick={onSaveClick}
+            onClick={addNew ? onAddClick : onSaveClick}
           >
-            Save Changes
+            {addNew ? 'Add Station' : 'Save Changes'}
           </Button>
           <Button
             variant="ghost"
             className="w-full"
             onClick={onDiscardClick}
           >
-            Discard Changes
+            {addNew ? 'Cancel' : 'Discard Changes'}
           </Button>
         </div>
       </div>

@@ -2,8 +2,11 @@ import { useState } from 'react'
 
 import Header from '@/components/admin/header'
 import Line from '@/components/admin/lines-and-stations/line'
+import StationExpanded from '@/components/admin/lines-and-stations/station-expanded'
+import { Button } from '@/components/button'
 import useTotalLinesAndStations from '@/graphql/admin/analytics/total-lines-and-stations'
 import useLines from '@/graphql/lines/lines'
+import adminAddStationMutation, { AddStationVariables } from '@/graphql/stations/add-station'
 import adminDeleteStationMutation from '@/graphql/stations/delete-station'
 import adminUpdateStationMutation, { UpdateStationVariables } from '@/graphql/stations/update-station'
 import AnalyticsOutlineIcon from '@/icons/analytics-outline.svg'
@@ -19,7 +22,7 @@ const LinesAndStations = () => {
   const { data: totalLinesAndStations } = useTotalLinesAndStations()
 
   const allLoaded = totalLinesAndStations
-  
+
   const data = [
     {
       title: 'Active Lines and Stations',
@@ -61,7 +64,7 @@ const LinesAndStations = () => {
       revalidate: false,
     })
   }
-  
+
   const optimisticUpdateStation = async (variables: UpdateStationVariables) => {
     await mutateLine(async () => {
       await adminUpdateStationMutation(variables)
@@ -97,6 +100,46 @@ const LinesAndStations = () => {
     })
   }
 
+  const createNewStation = async (variables: AddStationVariables) => {
+    await mutateLine(async () => {
+      await adminAddStationMutation(variables)
+      const updatedLines = lines?.map((line: LineType) => {
+        if (line.id === variables.lineId) {
+          return {
+            ...line,
+            sortedStations: [
+              ...line.sortedStations,
+              {
+                ...variables,
+                id: 'new-station',
+              },
+            ],
+          }
+        }
+        return line
+      })
+      return updatedLines
+    }, {
+      optimisticData: lines?.map((line: LineType) => {
+        if (line.id === variables.lineId) {
+          return {
+            ...line,
+            sortedStations: [
+              ...line.sortedStations,
+              {
+                ...variables,
+                id: 'new-station',
+              },
+            ],
+          }
+        }
+        return line
+      }),
+      rollbackOnError: true,
+      populateCache: true,
+      revalidate: true,
+    })
+  }
 
   return (
     <div className="w-full flex flex-col gap-20">
@@ -105,6 +148,31 @@ const LinesAndStations = () => {
         allLoaded={allLoaded}
       />
       <div className="w-full flex flex-col gap-20">
+        <div className="flex items-center justify-end">
+          <div className="grid grid-cols-2 gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setExpanded('add-line')}
+            >
+              Add Line
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setExpanded('add-station')}
+            >
+              Add Station
+            </Button>
+          </div>
+        </div>
+        {expanded === 'add-station' && (
+          <StationExpanded
+            addNew
+            setExpanded={setExpanded}
+            station={{} as StationType}
+            createNewStation={createNewStation}
+            onCardClick={() => setExpanded(undefined)}
+          />
+        )}
         {lines?.map((line: LineType) => (
           <Line
             key={line.id}

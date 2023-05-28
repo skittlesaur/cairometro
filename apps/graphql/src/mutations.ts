@@ -75,12 +75,12 @@ const mutations = mutationType({
       resolve: secretCreateMainAdminAccount,
     })
     
-    t.field('addStation', {
+    t.field('adminAddStation', {
       type: StationType,
       args: {
         name: nonNull(stringArg()),
         name_ar: nonNull(stringArg()),
-        location: nonNull(stringArg()),
+        location: LngLatInputType,
         lineIds: nonNull(list(stringArg())),
       },
       resolve: addStation,

@@ -10,11 +10,11 @@ import { AnimatePresence } from 'framer-motion'
 
 export interface StationProps {
   station: StationType
-  isLast: boolean
-  handler: ReactNode
-  optimisticDelete: (stationId: string)=> Promise<void>
-  optimisticUpdate: (variables: UpdateStationVariables)=> Promise<void>
-  expanded: string | undefined
+  isLast?: boolean
+  handler?: ReactNode
+  optimisticDelete?: (stationId: string)=> Promise<void>
+  optimisticUpdate?: (variables: UpdateStationVariables)=> Promise<void>
+  expanded?: string | undefined
   setExpanded: (expanded: string | undefined)=> void
 }
 
@@ -59,7 +59,7 @@ const Station = ({
             optimisticUpdate={async (variables) => {
               setLoadingSave(true)
               try {
-                await restOfProps.optimisticUpdate(variables)
+                await restOfProps.optimisticUpdate?.(variables)
               } finally {
                 setLoadingSave(false)
               }
