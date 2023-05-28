@@ -10,6 +10,9 @@ const RefundType = objectType({
         t.field(Refund.userId)
         t.field(Refund.status)
         t.field(Refund.ticketType)
+        t.field('createdAt', { type: 'DateTime' })
+        t.field(Refund.message)
+        t.field(Refund.price)
       },
 })
 

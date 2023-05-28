@@ -5,6 +5,7 @@ const updateRefundStatus: FieldResolver< 'Mutation', 'updateRefundStatus' > = as
     const { prisma } = ctx
 
     // adminPermission(ctx)
+    console.log(args)
     await prisma.refund.update({
         where: {
             id: args.refundRequestId

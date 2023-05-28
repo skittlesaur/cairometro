@@ -1,4 +1,4 @@
-import { arg, mutationType, nonNull, stringArg, list, enumType } from 'nexus'
+import { arg, mutationType, nonNull, stringArg, list, enumType, floatArg } from 'nexus'
 
 import addStation from './resolvers/mutations/add-station'
 import login from './resolvers/mutations/login'
@@ -95,6 +95,8 @@ const mutations = mutationType({
           status: nonNull(arg({ type: RefundStatusEnumArg })),
           ticketType: nonNull(arg({ type: TicketTypeEnumArg })),
           userId: nonNull(stringArg()),
+          message: nonNull(stringArg()),
+          price: nonNull(floatArg())
         },
       resolve: addRefund
     })

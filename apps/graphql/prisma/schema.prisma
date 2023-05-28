@@ -141,6 +141,8 @@ model Refund {
   createdAt  DateTime @default(now())
   status     RefundStatus
   ticketType TicketType
+  message    String
+  price      Float
 }
 
 enum UserRole {
