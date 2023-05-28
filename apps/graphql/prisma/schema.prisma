@@ -58,7 +58,6 @@ model Line {
   name_ar               String
   stations              Station[]               @relation("lineStations", fields: [stationIds], references: [id])
   stationIds            String[]
-  Schedule              Schedule[]
   StationPositionInLine StationPositionInLine[]
   color                 String                  @default("#EA3347")
   createdAt             DateTime                @default(now())
@@ -74,8 +73,6 @@ model Station {
   lines                 Line[]                  @relation("lineStations", fields: [lineIds], references: [id])
   lineIds               String[]
   location              String
-  departureSchedules    Schedule[]              @relation("departureSchedules")
-  arrivalSchedules      Schedule[]              @relation("arrivalSchedules")
   createdAt             DateTime                @default(now())
   updatedAt             DateTime                @updatedAt
   stationPositionInLine StationPositionInLine[]
@@ -100,22 +97,8 @@ model Path {
   departureId       String    @unique
   destination       Station   @relation("destinationStation", fields: [destinationId], references: [id], onDelete: Cascade)
   destinationId     String    @unique
-  stationsInPath    Station[] @relation(fields: [stationsInPathIds], references: [id], onDelete: Cascade)
+  stationsInPath    Station[] @relation(fields: [stationsInPathIds], references: [id])
   stationsInPathIds String[]
-}
-
-model Schedule {
-  id                 String   @id @default(cuid()) @map("_id")
-  line               Line     @relation(fields: [lineId], references: [id])
-  lineId             String
-  departureTime      DateTime
-  departureStation   Station  @relation("departureSchedules", fields: [departureStationId], references: [id], onDelete: Cascade)
-  departureStationId String
-  arrivalTime        DateTime
-  arrivalStation     Station  @relation("arrivalSchedules", fields: [arrivalStationId], references: [id], onDelete: Cascade)
-  arrivalStationId   String
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
 }
 
 model Pricing {
