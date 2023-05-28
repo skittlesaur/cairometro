@@ -27,7 +27,7 @@ const StationCollapsed = ({
     }
 
     try {
-      await optimisticDelete(station.id)
+      await optimisticDelete?.(station.id)
       toast.success(`${station.name} deleted successfully`)
     } catch (errors) {
       const error = (errors as { message: string }[])[0]
