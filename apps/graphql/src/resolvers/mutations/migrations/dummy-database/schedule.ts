@@ -1,12 +1,12 @@
 import { GraphQLError } from 'graphql/error'
 
-import { Schedule, Station } from '@prisma/client'
+import { Station } from '@prisma/client'
 import { FieldResolver } from 'nexus'
 
 import secretPathPermission from '../../../../permissions/secret-path'
 
 const generateScheduleArray = (stations: Station[], lineId: string, startTime: Date, endTime: Date, durationPerStation: number, interval: number) => {
-  const schedule: Partial<Schedule>[] = []
+  const schedule = []
   for (let i = 0; i < stations.length - 1; i += 1) {
     const currentTime = new Date(startTime)
 

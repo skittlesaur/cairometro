@@ -11,8 +11,6 @@ const StationType = objectType({
     t.field(Station.name_ar)
     t.field(Station.location)
     t.field(Station.lines)
-    t.field(Station.departureSchedules)
-    t.field(Station.arrivalSchedules)
     t.field(Station.stationPositionInLine)
     t.field({
       name: 'locationLngLat',

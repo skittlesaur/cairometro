@@ -9,7 +9,6 @@ import LngLatInputType from './types/lng-lat-input'
 import passengersInputType from './types/passengers-input'
 import RideTicketDataType from './types/ride-ticket-data'
 import RideTicketSchedule from './types/ride-ticket-schedule'
-import ScheduleType from './types/schedule'
 import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
 import StationPositionInLineType from './types/station-position-in-line'
@@ -26,7 +25,6 @@ const types = [
   UserRoleEnum,
   LineType,
   StationType,
-  ScheduleType,
   LngLatType,
   StationPositionInLineType,
   UserAnalyticsType,
