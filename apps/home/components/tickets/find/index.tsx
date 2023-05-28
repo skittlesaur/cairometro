@@ -37,6 +37,8 @@ const Tickets = ({ departure, destination }: TicketsProps) => {
     page: 0,
   })
 
+  console.log(searchResult)
+
   return (
     <div className="min-h-screen flex flex-col gap-20 pb-20">
       <div>

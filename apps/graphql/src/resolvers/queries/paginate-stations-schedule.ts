@@ -27,11 +27,11 @@ const calculateDuration = (station1Location: Location, station2Location: Locatio
   return duration * 60
 }
 
-const getScheduleBasedOnGivenTime = (path: Path, travelDuration: number, time: Date, page: number, take: number) => {
+const getScheduleBasedOnGivenTime = (path: Path, travelDuration: number, time: Date, take: number, page: number) => {
   const waitingPerStationRange = [5, 10]
   const stationDepartureRange = [15, 20]
 
-  const currentTime = new Date(time < dayStart ? dayStart.getTime() : time > dayEnd ? dayEnd.getTime() : time)
+  const currentTime = new Date(time < dayStart || time > dayEnd ? dayStart : time)
   // pagination offset
   currentTime.setMinutes(currentTime.getMinutes() + travelDuration * page * take)
 
@@ -118,10 +118,14 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
       if (meridiem !== 'am' && meridiem !== 'pm') throw new GraphQLError('invalid meridiem value')
 
       
-      const travelHour = meridiem === 'pm' ? args.travelTime.hour === 12 ? 0 : args.travelTime.hour + 12 : args.travelTime.hour
+      let travelHour = meridiem === 'pm' ? args.travelTime.hour === 12 ? 0 : args.travelTime.hour + 12 : args.travelTime.hour
       const maxAdd = 40
       const maxSub = 20
-      const minutesOffset = args.travelTime.minute ?? Math.random() > 0.5 ? Math.floor(Math.random() * maxAdd) : -Math.floor(Math.random() * maxSub)
+      let minutesOffset = args.travelTime.minute ?? Math.random() > 0.5 ? Math.floor(Math.random() * maxAdd) : -Math.floor(Math.random() * maxSub)
+      if (minutesOffset < 0) {
+        travelHour = travelHour - 1
+        minutesOffset = 60 + minutesOffset
+      }
       const travelTime = new Date(2023, 0, 1, travelHour, minutesOffset, 0)
 
       return {
