@@ -5,6 +5,7 @@ import Line from '@/components/admin/lines-and-stations/line'
 import useTotalLinesAndStations from '@/graphql/admin/analytics/total-lines-and-stations'
 import useLines from '@/graphql/lines/lines'
 import adminDeleteStationMutation from '@/graphql/stations/delete-station'
+import adminUpdateStationMutation, { UpdateStationVariables } from '@/graphql/stations/update-station'
 import AnalyticsOutlineIcon from '@/icons/analytics-outline.svg'
 import LocationOutlineIcon from '@/icons/location-outline.svg'
 import NavigateOutlineIcon from '@/icons/navigate-outline.svg'
@@ -60,6 +61,41 @@ const LinesAndStations = () => {
       revalidate: false,
     })
   }
+  
+  const optimisticUpdateStation = async (variables: UpdateStationVariables) => {
+    await mutateLine(async () => {
+      await adminUpdateStationMutation(variables)
+      const updatedLines = lines?.map((line: LineType) => ({
+        ...line,
+        sortedStations: line.sortedStations.map((station: StationType) => {
+          if (station.id === variables.stationId) {
+            return {
+              ...station,
+              ...variables,
+            }
+          }
+          return station
+        }),
+      }))
+      return updatedLines
+    }, {
+      optimisticData: lines?.map((line: LineType) => ({
+        ...line,
+        sortedStations: line.sortedStations.map((station: StationType) => {
+          if (station.id === variables.stationId) {
+            return {
+              ...station,
+              ...variables,
+            }
+          }
+          return station
+        }),
+      })),
+      rollbackOnError: true,
+      populateCache: true,
+      revalidate: true,
+    })
+  }
 
 
   return (
@@ -74,6 +110,7 @@ const LinesAndStations = () => {
             key={line.id}
             line={line}
             optimisticDeleteStation={optimisticDeleteStation}
+            optimisticUpdateStation={optimisticUpdateStation}
             expanded={expanded}
             setExpanded={setExpanded}
           />

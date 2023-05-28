@@ -68,6 +68,27 @@ const adminReorderStation: FieldResolver<'Mutation', 'adminReorderStation'> =
         position: newPosition,
       },
     })
+    
+    // Delete the paths that are connected to the moved station
+    await prisma.path.deleteMany({
+      where: {
+        OR: [
+          {
+            departureId: stationId,
+          },
+          {
+            destinationId: stationId,
+          },
+          {
+            stationsInPath: {
+              some: {
+                id: stationId,
+              },
+            },
+          },
+        ],
+      },
+    })
 
     return true
   }

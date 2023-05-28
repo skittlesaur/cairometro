@@ -13,6 +13,10 @@ const LINES_QUERY = /* GraphQL */ `
         id
         name
         name_ar
+        locationLngLat {
+          lng
+          lat
+        }
         lines {
           id
           name

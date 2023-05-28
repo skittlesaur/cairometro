@@ -42,6 +42,27 @@ const adminDeleteStation: FieldResolver<'Mutation', 'adminDeleteStation'> =
       },
     })
 
+    // Delete the paths that are connected to the deleted station
+    await prisma.path.deleteMany({
+      where: {
+        OR: [
+          {
+            departureId: stationId,
+          },
+          {
+            destinationId: stationId,
+          },
+          {
+            stationsInPath: {
+              some: {
+                id: stationId,
+              },
+            },
+          },
+        ],
+      },
+    })
+
     return true
   }
 

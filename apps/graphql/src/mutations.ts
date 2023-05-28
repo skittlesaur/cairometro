@@ -1,6 +1,7 @@
 import { arg, intArg, list, mutationType, nonNull, stringArg } from 'nexus'
 
 import addStation from './resolvers/mutations/add-station'
+import adminUpdateStation from './resolvers/mutations/admin-update-station'
 import adminDeleteStation from './resolvers/mutations/delete-station'
 import login from './resolvers/mutations/login'
 import logout from './resolvers/mutations/logout'
@@ -11,6 +12,7 @@ import secretDummySchedule from './resolvers/mutations/migrations/dummy-database
 import otpVerify from './resolvers/mutations/otp-verifier'
 import adminReorderStation from './resolvers/mutations/reorder-station'
 import signUp from './resolvers/mutations/sign-up'
+import LngLatInputType from './types/lng-lat-input'
 import StationType from './types/station'
 import UserRoleEnumArg from './types/user-role-enum-arg'
 
@@ -93,13 +95,25 @@ const mutations = mutationType({
       },
       resolve: adminReorderStation,
     })
-    
+
     t.field('adminDeleteStation', {
       type: 'Boolean',
       args: {
         stationId: nonNull(stringArg()),
       },
       resolve: adminDeleteStation,
+    })
+
+    t.field('adminUpdateStation', {
+      type: 'Boolean',
+      args: {
+        stationId: nonNull(stringArg()),
+        name: stringArg(),
+        name_ar: stringArg(),
+        locationLngLat: LngLatInputType,
+        lineIds: list(stringArg()),
+      },
+      resolve: adminUpdateStation,
     })
   },
 })

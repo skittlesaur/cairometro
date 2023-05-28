@@ -1,6 +1,7 @@
 
 import Station from '@/components/admin/lines-and-stations/station'
 import adminReorderStationsMutation from '@/graphql/stations/reorder-station'
+import { UpdateStationVariables } from '@/graphql/stations/update-station'
 import ReorderTwoIcon from '@/icons/reorder-two.svg'
 import LineType from '@/types/line'
 import StationType from '@/types/station'
@@ -11,12 +12,13 @@ import Nestable from 'react-nestable'
 interface LineProps {
   line: LineType
   optimisticDeleteStation: (stationId: string)=> Promise<void>
+  optimisticUpdateStation: (variables: UpdateStationVariables)=> Promise<void>
   expanded: string | undefined
   setExpanded: (expanded: string | undefined)=> void
 }
 
 const Line = ({
-  line, optimisticDeleteStation, expanded, setExpanded, 
+  line, expanded, setExpanded, optimisticDeleteStation, optimisticUpdateStation,
 }: LineProps) => {
   return (
     <div className="flex flex-col gap-2">
@@ -45,10 +47,12 @@ const Line = ({
           )}
           renderItem={({ item, handler, index }) => (
             <Station
+              key={`${item.id}-${expanded === item.id ? 'expanded' : 'collapsed'}`}
               station={item as StationType}
               handler={handler}
               isLast={index === line.stations.length - 1}
               optimisticDelete={optimisticDeleteStation}
+              optimisticUpdate={optimisticUpdateStation}
               expanded={expanded}
               setExpanded={setExpanded}
             />
