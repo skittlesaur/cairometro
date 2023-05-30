@@ -4,6 +4,9 @@ import { FieldResolver } from 'nexus/src/typegenTypeHelpers'
 
 import { Context } from '../../context'
 import calculatePricing from '../../lib/calculate-pricing'
+import { dayStart, getScheduleBasedOnGivenTime } from '../../lib/calculate-schedule-based-on-time'
+import calculateTravelDuration from '../../lib/calculate-travel-duration'
+import convertLocationToLatLng from '../../lib/convert-location-to-lat-lng'
 import findRoute from '../../lib/find-route'
 
 const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule'> =
@@ -29,112 +32,59 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
       throw new GraphQLError('destination or arrival station are unavailable')
     }
 
-    let travelTime = null
+    const take = args.take ?? 2
+    const page = take * args.page ?? 0
+
+    const path = await findRoute(from, to, ctx)
+
+    const locations = path.stationsInPath.map((station) => convertLocationToLatLng(station.location))
+
+    // ride duration in minutes
+    const rideDuration = Math.ceil(
+      locations.reduce((acc, location, index) => {
+        if (index === 0) return acc
+        const previousLocation = locations[index - 1]
+        const duration = calculateTravelDuration(previousLocation, location)
+        return acc + duration
+      }, 0)
+    )
 
     if (args.travelTime?.hour || args.travelTime?.minute){
 
       if (args.travelTime.hour > 12 || args.travelTime.hour < 1 || args.travelTime.minute > 59 || args.travelTime.minute < 0 )
-        throw new GraphQLError('The times entered for the ride are invalid')     
-      
+        throw new GraphQLError('The times entered for the ride are invalid')
+
       const meridiem = args.travelTime.meridiem
 
 
       if (meridiem !== 'am' && meridiem !== 'pm') throw new GraphQLError('invalid meridiem value')
 
-      const travelHour = meridiem === 'pm' ? args.travelTime.hour === 12 ? 0 : args.travelTime.hour + 12 : args.travelTime.hour
-
-      travelTime = new Date(new Date().getFullYear(), new Date().getMonth(), 24, (travelHour - (new Date().getTimezoneOffset() / 60)), args.travelTime.minute ?? 0, 0)
-    }
-
-    const take = args.take ?? 2
-    const page = take * args.page ?? 0
-   
-    const path = await findRoute(from, to, ctx)
-
-    const firstStationSchedule = await prisma.schedule.findMany({
-      where: {
-        departureStationId: from,
-        arrivalStationId: path.stationsInPathIds[1],
-        ...(travelTime !== null && {
-          departureTime: {
-            gte: travelTime,
-          },
-        }),
-      },
-      select: {
-        departureTime: true,
-        arrivalTime: true,
-      },
-      skip: page,
-      take: take,
-    })
-
-    const stationBeforeLastId = path.stationsInPathIds[path.stationsInPathIds.length - 2]
-    const lastStationId = path.stationsInPathIds[path.stationsInPathIds.length - 1]
-
-    const price = await calculatePricing(path, args.passengers, ctx)
-
-    if (stationBeforeLastId === from && lastStationId === to) {
-
-      const schedule = []
-      for (let i = 0; i < firstStationSchedule.length; i++) {
-        schedule.push({ departureTime: firstStationSchedule[i].departureTime, arrivalTime: firstStationSchedule[i].arrivalTime })
+      
+      let travelHour = meridiem === 'pm' ? args.travelTime.hour === 12 ? 0 : args.travelTime.hour + 12 : args.travelTime.hour
+      const maxAdd = 40
+      const maxSub = 20
+      let minutesOffset = args.travelTime.minute ?? Math.random() > 0.5 ? Math.floor(Math.random() * maxAdd) : -Math.floor(Math.random() * maxSub)
+      if (minutesOffset < 0) {
+        travelHour = travelHour - 1
+        minutesOffset = 60 + minutesOffset
       }
+      const travelTime = new Date(2023, 0, 1, travelHour, minutesOffset, 0)
 
       return {
         from: departureStation,
         to: arrivalStation,
-        noOfStationsOnPath: path.stationsInPathIds.length,
-        price, // should calculate price based on number of stations but for now it's 5
-        schedule: schedule,
+        noOfStationsOnPath: path.stationsInPath.length,
+        price: calculatePricing(path, args.passengers, ctx),
+        schedule: getScheduleBasedOnGivenTime(rideDuration, travelTime, take, page),
       }
-
-    }
-
-    let schedulesSkippedCount = null
-    if (travelTime){
-      schedulesSkippedCount = await prisma.schedule.count({
-        where: {
-          departureStationId: from,
-          arrivalStationId: path.stationsInPathIds[1],
-          ...(({
-            departureTime: {
-              lt: travelTime,
-            },
-          })),
-        },
-        skip: page,
-        take: take,
-      })
-    }
-
-    const arrivalTime = await prisma.schedule.findMany({
-      where: {
-        departureStationId: stationBeforeLastId,
-        arrivalStationId: lastStationId,
-      },
-      select: {
-        arrivalTime: true,
-      },
-      skip: page + (schedulesSkippedCount ?? 0),
-      take: take,
-    })
-
-    if (arrivalTime.length === 0){
-      throw new GraphQLError('There are no more rides for this path today')
-    }
-
-    const schedule = []
-    for (let i = 0; i < firstStationSchedule.length; i++) {
-      schedule.push({ departureTime: firstStationSchedule[i].departureTime, arrivalTime: arrivalTime[i].arrivalTime })
     }
 
     return {
       from: departureStation,
       to: arrivalStation,
-      noOfStationsOnPath: path.stationsInPathIds.length,
-      schedule: schedule,
-      price,
+      noOfStationsOnPath: path.stationsInPath.length,
+      price: calculatePricing(path, args.passengers, ctx),
+      schedule: getScheduleBasedOnGivenTime(rideDuration, dayStart, take, page),
     }
   }
 

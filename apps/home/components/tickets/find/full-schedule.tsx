@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { Button } from '@/components/button'
@@ -6,29 +6,34 @@ import Loader from '@/components/loader'
 import OrSeparator from '@/components/or-separator'
 import Ticket from '@/components/ticket'
 import useSchedule from '@/graphql/schedule/schedule'
-import useStationById from '@/graphql/stations/station-by-id'
+import Station from '@/types/station'
 
-const TAKE_PER_PAGE = 1
+const TAKE_PER_PAGE = 5
 
-const SchedulePage = ({ page, disableLoadMore }: { page: number, disableLoadMore: ()=> void }) => {
+interface SchedulePageProps {
+  page: number
+  disableLoadMore: ()=> void
+}
+
+const SchedulePage = React.memo(({ page, disableLoadMore }: SchedulePageProps) => {
   const router = useRouter()
 
   const {
-    departure, destination, date, adults, seniors, children,
+    departure, destination, adults, seniors, children, 
   } = router.query
 
-  const { data, isLoading, error } = useSchedule({
-    from: departure as string,
-    to: destination as string,
-    date: date as string,
-    passengers: {
-      adults: parseInt(adults as string),
-      seniors: parseInt(seniors as string),
-      children: parseInt(children as string),
-    },
-    take: TAKE_PER_PAGE,
-    page,
-  })
+  const { data, isLoading, error } = useSchedule(
+    {
+      from: departure as string,
+      to: destination as string,
+      passengers: {
+        adults: parseInt(adults as string),
+        seniors: parseInt(seniors as string),
+        children: parseInt(children as string),
+      },
+      take: TAKE_PER_PAGE,
+      page,
+    })
 
   if (error && error[0]?.message === 'There are no more rides for this path today') {
     disableLoadMore()
@@ -36,9 +41,7 @@ const SchedulePage = ({ page, disableLoadMore }: { page: number, disableLoadMore
 
   return (
     <div className="flex flex-col gap-5">
-      {isLoading && !error && (
-        <Loader />
-      )}
+      {isLoading && !error && <Loader />}
       {data?.schedule?.map((schedule: { departureTime: Date, arrivalTime: Date }) => (
         <Ticket
           key={`${schedule.departureTime}-${schedule.arrivalTime}-search`}
@@ -46,45 +49,35 @@ const SchedulePage = ({ page, disableLoadMore }: { page: number, disableLoadMore
           arrival={data.to.name}
           departureTime={new Date(schedule.departureTime)}
           arrivalTime={new Date(schedule.arrivalTime)}
-          href={`/tickets/${data.from.id}/${data.to.id}/${new Date(schedule.departureTime).getTime()}`}
+          href={`/tickets/${data.from.id}/${data.to.id}/${new Date(schedule.departureTime).getTime()}?adults=${adults}&children=${children}&seniors=${seniors}`}
           price={data.price}
           stations={data.noOfStationsOnPath}
         />
       ))}
     </div>
   )
+})
+
+SchedulePage.displayName = 'SchedulePage'
+
+interface FullScheduleProps {
+  loaded: boolean
+  departure: Station
+  destination: Station
 }
-const FullSchedule = ({ loaded }: { loaded: boolean }) => {
-  const [page, setPage] = useState(-1)
-  const [hasMore, setHasMore] = useState(true)
 
-  const router = useRouter()
+const FullSchedule = ({ loaded, departure, destination }: FullScheduleProps) => {
+  const [pagination, setPagination] = useState({ page: -1, hasMore: true })
 
-  const { departure, destination } = router.query
-
-  const { data: departureData } = useStationById({
-    id: departure as string,
-  })
-
-  const { data: destinationData } = useStationById({
-    id: destination as string,
-  })
-
-  if (!departureData || !departureData) {
-    return (
-      <></>
-    )
-  }
-
-  if (page === -1) {
+  if (pagination.page === -1) {
     return (
       <div className="flex items-center justify-center">
         {loaded && (
           <Button
             variant="secondary"
-            onClick={() => setPage(0)}
+            onClick={() => setPagination({ page: 0, hasMore: true })}
           >
-            View full schedule for {departureData?.name} to {destinationData?.name}
+            View full schedule for {departure?.name} to {destination?.name}
           </Button>
         )}
       </div>
@@ -93,23 +86,21 @@ const FullSchedule = ({ loaded }: { loaded: boolean }) => {
 
   return (
     <div className="flex flex-col gap-20">
-      <OrSeparator>
-        Full Schedule
-      </OrSeparator>
-      <div className="flex flex-col gap-10">
-        {Array.from({ length: page + 1 }).map((_, index) => (
+      <OrSeparator>Full Schedule</OrSeparator>
+      <div className="flex flex-col gap-5">
+        {Array.from({ length: pagination.page + 1 }).map((_, index) => (
           <SchedulePage
-            key={index}
+            key={`schedule-page-${index}`}
             page={index}
-            disableLoadMore={() => setHasMore(false)}
+            disableLoadMore={() => setPagination({ ...pagination, hasMore: false })}
           />
         ))}
       </div>
-      {hasMore && (
+      {pagination.hasMore && (
         <div className="flex items-center justify-center">
           <Button
             variant="secondary"
-            onClick={() => setPage(page + 1)}
+            onClick={() => setPagination((prev) => ({ ...prev, page: prev.page + 1 }))}
           >
             Load More
           </Button>

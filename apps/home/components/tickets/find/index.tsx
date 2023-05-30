@@ -6,18 +6,28 @@ import TicketSearch from '@/components/ticket-search'
 import FullSchedule from '@/components/tickets/find/full-schedule'
 import Hero from '@/components/tickets/hero'
 import useSchedule from '@/graphql/schedule/schedule'
+import Station from '@/types/station'
 
-const Tickets = () => {
+interface TicketsProps {
+  departure: Station
+  destination: Station
+}
+
+const Tickets = ({ departure, destination }: TicketsProps) => {
   const router = useRouter()
 
   const {
-    departure, destination, date, adults, seniors, children,
+    hours, minutes, meridiem, adults, seniors, children,
   } = router.query
 
   const { data: searchResult } = useSchedule({
-    from: departure as string,
-    to: destination as string,
-    date: date as string,
+    from: departure?.id,
+    to: destination?.id,
+    travelTime: {
+      hour: parseInt(hours as string),
+      minute: parseInt(minutes as string),
+      meridiem: meridiem as 'am' | 'pm',
+    },
     passengers: {
       adults: parseInt(adults as string),
       seniors: parseInt(seniors as string),
@@ -35,7 +45,7 @@ const Tickets = () => {
       </div>
       <div className="flex flex-col gap-10">
         <h1 className="text-3xl font-semibold">
-          Search Result
+          Search Result for {departure?.name} to {destination?.name}
         </h1>
         <div className="flex flex-col gap-5">
           {!searchResult && (
@@ -48,14 +58,18 @@ const Tickets = () => {
               arrival={searchResult.to.name}
               departureTime={new Date(schedule.departureTime)}
               arrivalTime={new Date(schedule.arrivalTime)}
-              href={`/tickets/${searchResult.from.id}/${searchResult.to.id}/${new Date(schedule.departureTime).getTime()}`}
+              href={`/tickets/${searchResult.from.id}/${searchResult.to.id}/${new Date(schedule.departureTime).getTime()}?adults=${adults}&children=${children}&seniors=${seniors}`}
               price={searchResult.price}
               stations={searchResult.noOfStationsOnPath}
             />
           ))}
         </div>
       </div>
-      <FullSchedule loaded={!!searchResult} />
+      <FullSchedule 
+        loaded={!!searchResult}
+        departure={departure}
+        destination={destination}
+      />
     </div>
   )
 }

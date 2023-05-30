@@ -14,6 +14,7 @@ interface Station {
     line: Line
   }[]
   lines: Line[]
+  lineIds: string[]
 }
 
 export default Station

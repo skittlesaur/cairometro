@@ -1,3 +1,4 @@
+import Pricing from '@/types/pricing'
 import Station from '@/types/station'
 
 interface Line {
@@ -6,6 +7,8 @@ interface Line {
   name_ar: string
   color: string
   stations: Station[]
+  sortedStations: Station[]
+  pricing: Pricing
 }
 
 export default Line

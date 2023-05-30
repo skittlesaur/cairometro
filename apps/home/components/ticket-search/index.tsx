@@ -87,6 +87,9 @@ const TicketSearch = ({ dynamicLocationUpdate, variant = 'primary' }: TicketSear
         adults: passengers.adults,
         seniors: passengers.seniors,
         children: passengers.children,
+        hours: travelTime.hours,
+        minutes: travelTime.minutes,
+        meridiem: travelTime.meridiem ? 'am' : 'pm',
       },
     })
   }, [router])

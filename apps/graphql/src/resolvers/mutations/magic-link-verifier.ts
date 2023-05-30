@@ -23,11 +23,14 @@ const magicLinkVerify: FieldResolver<'Mutation', 'magicLinkVerification'> =
         userID: true,
       },
     })
+
     if (!magicLink) {
       throw new GraphQLError('link does not exist')
     }
+
     const expiryDate = magicLink?.expiryDate as Date
     const userID = magicLink?.userID as string
+
     if (expiryDate < new Date()) {
       await prisma.magicToken.delete({
         where: {
@@ -36,6 +39,7 @@ const magicLinkVerify: FieldResolver<'Mutation', 'magicLinkVerification'> =
       })
       throw new GraphQLError('link is expired please try again')
     }
+
     const token = generateAccessToken({ id: userID })
 
     await ctx.request?.cookieStore?.set({

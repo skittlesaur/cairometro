@@ -10,6 +10,10 @@ const LineType = objectType({
     t.field(Line.name_ar)
     t.field(Line.color)
     t.field(Line.stations)
+    t.field(Line.pricing)
+    t.list.field('sortedStations', {
+      type: 'Station',
+    })
   },
 })
 

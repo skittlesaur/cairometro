@@ -1,4 +1,4 @@
-import { Line, Schedule, Station } from '@prisma/client'
+import { Line, Station } from '@prisma/client'
 import { FieldResolver } from 'nexus'
 
 import secretPathPermission from '../../../../permissions/secret-path'
@@ -10,7 +10,6 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
     secretPathPermission(ctx)
     const { prisma } = ctx
 
-    await prisma.schedule.deleteMany()
     await prisma.station.deleteMany()
     await prisma.line.deleteMany()
 
@@ -18,14 +17,17 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
       {
         name: 'Line 1',
         name_ar: 'الخط الأول',
+        color: '#EA3347',
       },
       {
         name: 'Line 2',
         name_ar: 'الخط الثاني',
+        color: '#1d6ac5',
       },
       {
         name: 'Line 3',
         name_ar: 'الخط الثالث',
+        color: '#1dcc46',
       },
     ]
 
@@ -155,121 +157,6 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
       },
     })
 
-    // simulate schedule
-    // from 5 am till 12 am
-    // each station takes 4 minutes
-    // a train starts every 15 minutes
-
-    const startTime = new Date().setHours(5, 0, 0, 0)
-    const endTime = new Date().setHours(24, 0, 0, 0)
-    const interval = 15 // minutes
-    const durationPerStation = 4 // minutes
-
-    let currentDepartureTime = startTime
-
-    const schedules1: Partial<Schedule>[] = []
-    const schedules2: Partial<Schedule>[] = []
-    const schedules3: Partial<Schedule>[] = []
-
-    while (currentDepartureTime < endTime) {
-      let currentStationIndex = 0
-      while (currentStationIndex < line1Stations.length - 2) {
-        const departureTime = new Date(currentDepartureTime)
-        const arrivalTime = new Date(currentDepartureTime + durationPerStation * 60000)
-
-        const currentStation = line1Stations[currentStationIndex]
-        const nextStation = line1Stations[currentStationIndex + 1]
-
-        const currentStationRev = line1Stations[line1Stations.length - currentStationIndex - 1]
-        const nextStationRev = line1Stations[line1Stations.length - currentStationIndex - 2]
-
-        schedules1.push({
-          departureTime,
-          arrivalTime,
-          departureStationId: currentStation.id,
-          arrivalStationId: nextStation.id,
-          lineId: line1.id,
-        })
-
-        schedules1.push({
-          departureTime,
-          arrivalTime,
-          departureStationId: currentStationRev.id,
-          arrivalStationId: nextStationRev.id,
-          lineId: line1.id,
-        })
-
-        currentStationIndex++
-        currentDepartureTime += interval * 60000
-      }
-
-      currentStationIndex = 0
-      while (currentStationIndex < line2Stations.length - 2) {
-        const departureTime = new Date(currentDepartureTime)
-        const arrivalTime = new Date(currentDepartureTime + durationPerStation * 60000)
-
-        const currentStation = line2Stations[currentStationIndex]
-        const nextStation = line2Stations[currentStationIndex + 1]
-
-        const currentStationRev = line1Stations[line1Stations.length - currentStationIndex - 1]
-        const nextStationRev = line1Stations[line1Stations.length - currentStationIndex - 2]
-
-        schedules2.push({
-          departureTime,
-          arrivalTime,
-          departureStationId: currentStation.id,
-          arrivalStationId: nextStation.id,
-          lineId: line2.id,
-        })
-
-        schedules2.push({
-          departureTime,
-          arrivalTime,
-          departureStationId: currentStationRev.id,
-          arrivalStationId: nextStationRev.id,
-          lineId: line2.id,
-        })
-
-        currentStationIndex++
-        currentDepartureTime += interval * 60000
-      }
-
-      currentStationIndex = 0
-      while (currentStationIndex < line3Stations.length - 2) {
-        const departureTime = new Date(currentDepartureTime)
-        const arrivalTime = new Date(currentDepartureTime + durationPerStation * 60000)
-
-        const currentStation = line3Stations[currentStationIndex]
-        const nextStation = line3Stations[currentStationIndex + 1]
-
-        const currentStationRev = line1Stations[line1Stations.length - currentStationIndex - 1]
-        const nextStationRev = line1Stations[line1Stations.length - currentStationIndex - 2]
-
-        schedules3.push({
-          departureTime,
-          arrivalTime,
-          departureStationId: currentStation.id,
-          arrivalStationId: nextStation.id,
-          lineId: line3.id,
-        })
-
-        schedules3.push({
-          departureTime,
-          arrivalTime,
-          departureStationId: currentStationRev.id,
-          arrivalStationId: nextStationRev.id,
-          lineId: line3.id,
-        })
-
-        currentStationIndex++
-        currentDepartureTime += interval * 60000
-      }
-    }
-
-    await prisma.schedule.createMany({ data: schedules1 })
-    await prisma.schedule.createMany({ data: schedules2 })
-    await prisma.schedule.createMany({ data: schedules3 })
-
     const positionsInLine = [
       ...(line1StationsData.map((station, idx) => ({
         stationId: line1Stations.find((line1Station: Station) => line1Station.name === station.name)?.id,
@@ -289,6 +176,47 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
     ]
 
     await prisma.stationPositionInLine.createMany({ data: positionsInLine })
+    
+    // update lines stations
+    await prisma.line.update({
+      where: {
+        id: line1.id,
+      },
+      data: {
+        stations: {
+          connect: line1Stations.map((station: Station) => ({
+            id: station.id,
+          })),
+        },
+      },
+    })
+
+    await prisma.line.update({
+      where: {
+        id: line2.id,
+      },
+      data: {
+        stations: {
+          connect: line2Stations.map((station: Station) => ({
+            id: station.id,
+          })),
+        },
+      },
+    })
+
+    await prisma.line.update({
+      where: {
+        id: line3.id,
+      },
+      data: {
+        stations: {
+          connect: line3Stations.map((station: Station) => ({
+            id: station.id,
+          })),
+        },
+      },
+    })
+
 
     return true
   }

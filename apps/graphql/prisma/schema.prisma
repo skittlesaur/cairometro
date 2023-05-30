@@ -59,7 +59,6 @@ model Line {
   name_ar               String
   stations              Station[]               @relation("lineStations", fields: [stationIds], references: [id])
   stationIds            String[]
-  Schedule              Schedule[]
   StationPositionInLine StationPositionInLine[]
   color                 String                  @default("#EA3347")
   createdAt             DateTime                @default(now())
@@ -75,8 +74,6 @@ model Station {
   lines                 Line[]                  @relation("lineStations", fields: [lineIds], references: [id])
   lineIds               String[]
   location              String
-  departureSchedules    Schedule[]              @relation("departureSchedules")
-  arrivalSchedules      Schedule[]              @relation("arrivalSchedules")
   createdAt             DateTime                @default(now())
   updatedAt             DateTime                @updatedAt
   stationPositionInLine StationPositionInLine[]
@@ -88,35 +85,21 @@ model Station {
 
 model StationPositionInLine {
   id        String  @id @default(cuid()) @map("_id")
-  line      Line    @relation(fields: [lineId], references: [id])
+  line      Line    @relation(fields: [lineId], references: [id], onDelete: Cascade)
   lineId    String
-  station   Station @relation(fields: [stationId], references: [id])
+  station   Station @relation(fields: [stationId], references: [id], onDelete: Cascade)
   stationId String
   position  Int
 }
 
 model Path {
   id                String    @id @default(cuid()) @map("_id")
-  departure         Station   @relation("departureStation", fields: [departureId], references: [id])
+  departure         Station   @relation("departureStation", fields: [departureId], references: [id], onDelete: Cascade)
   departureId       String    @unique
-  destination       Station   @relation("destinationStation", fields: [destinationId], references: [id])
+  destination       Station   @relation("destinationStation", fields: [destinationId], references: [id], onDelete: Cascade)
   destinationId     String    @unique
   stationsInPath    Station[] @relation(fields: [stationsInPathIds], references: [id])
   stationsInPathIds String[]
-}
-
-model Schedule {
-  id                 String   @id @default(cuid()) @map("_id")
-  line               Line     @relation(fields: [lineId], references: [id])
-  lineId             String
-  departureTime      DateTime
-  departureStation   Station  @relation("departureSchedules", fields: [departureStationId], references: [id])
-  departureStationId String
-  arrivalTime        DateTime 
-  arrivalStation     Station  @relation("arrivalSchedules", fields: [arrivalStationId], references: [id])
-  arrivalStationId   String
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
 }
 
 model Pricing {

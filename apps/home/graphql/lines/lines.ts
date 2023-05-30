@@ -8,6 +8,21 @@ const LINES_QUERY = /* GraphQL */ `
       id
       name
       name_ar
+      color
+      sortedStations {
+        id
+        name
+        name_ar
+        locationLngLat {
+          lng
+          lat
+        }
+        lines {
+          id
+          name
+          color
+        }
+      }
       stations {
         id
         name
@@ -17,6 +32,19 @@ const LINES_QUERY = /* GraphQL */ `
           lng
           lat
         }
+        lines {
+          id
+          name
+          color
+        }
+      }
+      pricing {
+        priceZoneOne
+        priceZoneOneSeniors
+        priceZoneTwo
+        priceZoneTwoSeniors
+        priceZoneThree
+        priceZoneThreeSeniors
       }
    }
   }

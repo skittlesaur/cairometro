@@ -1,51 +1,105 @@
 import { MouseEvent, useCallback } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { Button, buttonVariants } from '@/components/button'
 import { Separator } from '@/components/separator'
 import { useAppContext } from '@/context/app-context'
+import useGetPrice from '@/graphql/get-price'
+import useRideRoute from '@/graphql/stations/ride-route'
+import useUser from '@/graphql/user/me'
 import LocationIcon from '@/icons/location.svg'
 import QrCodeIcon from '@/icons/qr-code.svg'
 import ForwardIcon from '@/icons/return-up-forward.svg'
 import TicketIcon from '@/icons/ticket.svg'
 import TrainIcon from '@/icons/train.svg'
+import Station from '@/types/station'
 
 import cn from 'classnames'
 import { useTranslation } from 'next-i18next'
 
 const TicketPurchaseDetails = () => {
   const { purchaseModal } = useAppContext()
-  const { t, i18n } = useTranslation('tickets.details')
-  const temp = [
-    {
-      name: 'Helwan', name_ar: 'حلوان', time: new Date(), line: '1',
+  const { t, i18n } = useTranslation('tickets-details')
+  const router = useRouter()
+  const {
+    from, to, departure, adults: adultsString, seniors: seniorsString, children: childrenString,
+  } = router.query
+  const adults = parseInt(adultsString as string)
+  const seniors = parseInt(seniorsString as string)
+  const children = parseInt(childrenString as string)
+
+  const { data: ride } = useRideRoute({
+    from: from as string,
+    to: to as string,
+    date: departure as string,
+  })
+
+  const { data: user } = useUser()
+
+  const { data: price } = useGetPrice({
+    from: from as string,
+    to: to as string,
+    passengers: {
+      adults,
+      seniors,
+      children,
     },
-    {
-      name: 'Helwan', name_ar: 'حلوان', time: new Date(), line: '1',
-    },
-    {
-      name: 'Helwan', name_ar: 'حلوان', time: new Date(), line: '1',
-    },
-    {
-      name: 'sajdowqijdoqjwdoiwqjd', name_ar: 'حلوان', time: new Date(), line: '2',
-    },
-    {
-      name: '3', name_ar: 'حلوان', time: new Date(), line: '3',
-    },
-    {
-      name: '12', name_ar: 'حلوان', time: new Date(), line: '3',
-    },
-    {
-      name: 'Maadi', name_ar: 'حلوان', time: new Date(), line: '3',
-    },
-  ]
+  })
 
   const onPurchaseClick = useCallback((_: MouseEvent<HTMLButtonElement>) => {
+    if (!ride || !price) return
+
+    if (!user) {
+      const pathname = router.pathname
+      const query = router.query
+      router.push({
+        pathname: '/login',
+        query: {
+          ...query,
+          redirect: pathname,
+        },
+      })
+      return
+    }
+
     purchaseModal.open({
-      title: 'Purchase Ticket (Helwan - Maadi)',
-      price: 50,
+      title: `Purchase Ticket (${ride?.[0].station.name} - ${ride?.[ride?.length - 1].station.name})`,
+      price,
     })
-  }, [purchaseModal])
+  }, [price,
+    purchaseModal,
+    ride,
+    router,
+    user])
+
+  const getAdultsText = () =>
+    `${adults} ${adults > 1 ? t('adults') : t('adult')}`
+
+  const getSeniorsText = () =>
+    `${seniors} ${seniors > 1 ? t('seniors') : t('senior')}`
+
+  const getChildrenText = () =>
+    `${children} ${children > 1 ? t('children') : t('child')}`
+
+  const getPassengersText = () => {
+    if (adults <= 0 && seniors <= 0 && children <= 0) {
+      return t('noPassengersSelected')
+    }
+
+    const passengers = []
+
+    if (adults > 0)
+      passengers.push(getAdultsText())
+
+    if (seniors > 0)
+      passengers.push(getSeniorsText())
+
+    if (children > 0)
+      passengers.push(getChildrenText())
+
+    return passengers.join(', ')
+  }
 
   return (
     <div className="w-full">
@@ -55,18 +109,26 @@ const TicketPurchaseDetails = () => {
         </h1>
         <div className="flex justify-end gap-x-2.5 items-center">
           <div className="text-right">
-            <p className="font-semibold text-xl leading-7">
-              50.00 EGP
-            </p>
+            {price && (
+              <p className="font-semibold text-xl leading-7">
+                {price.toFixed(2)} EGP
+              </p>
+            )}
             <p className="leading-6 text-base font-normal text-neutral-600">
-              1 Adult, Standard
+              {getPassengersText()}, Standard
             </p>
           </div>
           <Button
             size={'lg'}
             variant={'primary'}
             className="py-2.5 px-9"
-
+            disabled={
+              !price ||
+              adults < 0 ||
+              seniors < 0 ||
+              children < 0 ||
+              (adults === 0 && seniors === 0 && children === 0)
+            }
             onClick={onPurchaseClick}
           >
             Purchase
@@ -85,8 +147,8 @@ const TicketPurchaseDetails = () => {
           </p>
         </div>
         <div className="py-4 px-10 border-t md:ltr:border-r md:rtl:border-l">
-          {temp.map((station, index) => {
-            const timeFormat = station.time.toLocaleTimeString(i18n.language, {
+          {ride?.map((route: { station: Station, time: string }, index: number) => {
+            const timeFormat = new Date(parseInt(route.time)).toLocaleTimeString(i18n.language, {
               hour: 'numeric',
               minute: 'numeric',
               hour12: true,
@@ -94,6 +156,8 @@ const TicketPurchaseDetails = () => {
 
             const time = timeFormat.split(' ')[0]
             const period = timeFormat.split(' ')[1]
+
+            const isTransfer = false
 
             return (
               <>
@@ -106,31 +170,31 @@ const TicketPurchaseDetails = () => {
                       {period}
                     </p>
                   </div>
-                  {index === temp.length - 1 ? (
+                  {index === ride.length - 1 ? (
                     <LocationIcon className="w-5 h-5 fill-neutral-400 ltr:-translate-x-0.5 rtl:translate-x-0.5" />
                   ) : (
                     <div className="border-4 rounded-full w-4 h-4 border-neutral-400" />
                   )}
                   <p className="text-sm leading-5 font-medium">
-                    {i18n.language === 'ar' ? station.name_ar : station.name}
+                    {i18n.language === 'ar' ? route.station.name_ar : route.station.name}
                   </p>
                 </div>
-                {index !== temp.length - 1 && (
-                  <div className={`flex gap-x-4 ltr:ml-16 rtl:mr-16 ${station.line === temp[index - 1]?.line ? 'h-10' : 'h-20'}`}>
+                {index !== ride.length - 1 && (
+                  <div className={`flex gap-x-4 ltr:ml-16 rtl:mr-16 ${isTransfer ? 'h-20' : 'h-10'}`}>
                     <div aria-hidden="true" />
                     <Separator
                       vertical
                       className={'ltr:ml-[0.45em] rtl:mr-[0.45em] w-[2px] bg-neutral-200'}
                     />
-                    {station.line === temp[index - 1]?.line ? (
-                      <div aria-hidden="true" />
-                    ) : (
+                    {isTransfer ? (
                       <div className="flex gap-1 bg-red-100 rounded items-center p-2 ml-2 mt-2 mb-10">
                         <ForwardIcon className="w-4 text-red-500" />
                         <p className="text-sm text-neutral-700 leading-4">
                           {t('tripRoute.transfer')}
                         </p>
                       </div>
+                    ) : (
+                      <div aria-hidden="true" />
                     )}
                   </div>
                 )}
@@ -162,7 +226,11 @@ const TicketPurchaseDetails = () => {
                   <Link
                     key={index}
                     href="/"
-                    className={cn('text-primary h-auto', buttonVariants({ variant: 'link', size: 'sm', padding: 'none' }))}
+                    className={cn('text-primary h-auto', buttonVariants({
+                      variant: 'link',
+                      size: 'sm',
+                      padding: 'none',
+                    }))}
                   >
                     {t('boardingRequirements.learnMore.link')}
                   </Link>
