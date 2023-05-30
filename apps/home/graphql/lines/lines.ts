@@ -38,6 +38,14 @@ const LINES_QUERY = /* GraphQL */ `
           color
         }
       }
+      pricing {
+        priceZoneOne
+        priceZoneOneSeniors
+        priceZoneTwo
+        priceZoneTwoSeniors
+        priceZoneThree
+        priceZoneThreeSeniors
+      }
    }
   }
 `

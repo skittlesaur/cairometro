@@ -1,6 +1,8 @@
-import { arg, intArg, list, mutationType, nonNull, stringArg } from 'nexus'
+import { arg, floatArg, intArg, list, mutationType, nonNull, stringArg } from 'nexus'
 
+import addLine from './resolvers/mutations/add-line'
 import addStation from './resolvers/mutations/add-station'
+import adminUpdateLine from './resolvers/mutations/admin-update-line'
 import adminUpdateStation from './resolvers/mutations/admin-update-station'
 import adminDeleteStation from './resolvers/mutations/delete-station'
 import login from './resolvers/mutations/login'
@@ -12,6 +14,7 @@ import secretDummySchedule from './resolvers/mutations/migrations/dummy-database
 import otpVerify from './resolvers/mutations/otp-verifier'
 import adminReorderStation from './resolvers/mutations/reorder-station'
 import signUp from './resolvers/mutations/sign-up'
+import Line from './types/line'
 import LngLatInputType from './types/lng-lat-input'
 import StationType from './types/station'
 import UserRoleEnumArg from './types/user-role-enum-arg'
@@ -114,6 +117,39 @@ const mutations = mutationType({
         lineIds: list(stringArg()),
       },
       resolve: adminUpdateStation,
+    })
+
+    t.field('adminUpdateLine', {
+      type: 'Boolean',
+      args: {
+        lineId: nonNull(stringArg()),
+        name: stringArg(),
+        name_ar: stringArg(),
+        color: stringArg(),
+        priceZoneOne: floatArg(),
+        priceZoneOneSeniors: floatArg(),
+        priceZoneTwo: floatArg(),
+        priceZoneTwoSeniors: floatArg(),
+        priceZoneThree: floatArg(),
+        priceZoneThreeSeniors: floatArg(),
+      },
+      resolve: adminUpdateLine,
+    })
+
+    t.field('adminAddLine', {
+      type: Line,
+      args: {
+        name: nonNull(stringArg()),
+        name_ar: nonNull(stringArg()),
+        color: nonNull(stringArg()),
+        priceZoneOne: nonNull(floatArg()),
+        priceZoneOneSeniors: nonNull(floatArg()),
+        priceZoneTwo: nonNull(floatArg()),
+        priceZoneTwoSeniors: nonNull(floatArg()),
+        priceZoneThree: nonNull(floatArg()),
+        priceZoneThreeSeniors: nonNull(floatArg()),
+      },
+      resolve: addLine,
     })
   },
 })

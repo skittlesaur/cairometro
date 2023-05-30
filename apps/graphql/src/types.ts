@@ -7,6 +7,7 @@ import LinesAndStationsAnalyticsType from './types/lines-and-stations-type'
 import LngLatType from './types/lng-lat'
 import LngLatInputType from './types/lng-lat-input'
 import passengersInputType from './types/passengers-input'
+import PricingType from './types/pricing'
 import RideTicketDataType from './types/ride-ticket-data'
 import RideTicketSchedule from './types/ride-ticket-schedule'
 import scheduleTimeType from './types/schedule-time'
@@ -35,6 +36,7 @@ const types = [
   TripRouteType,
   LinesAndStationsAnalyticsType,
   LngLatInputType,
+  PricingType,
 ]
 
 export default types

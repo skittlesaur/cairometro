@@ -10,7 +10,6 @@ const secretDummyStationsData: FieldResolver<'Mutation', 'secretDummyStationsDat
     secretPathPermission(ctx)
     const { prisma } = ctx
 
-    await prisma.schedule.deleteMany()
     await prisma.station.deleteMany()
     await prisma.line.deleteMany()
 

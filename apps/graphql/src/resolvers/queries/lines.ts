@@ -13,6 +13,7 @@ const stations: FieldResolver<'Query', 'lines'> =
             station: true,
           },
         },
+        pricing: true,
       },
       orderBy: {
         name: 'asc',

@@ -189,7 +189,7 @@ const StationExpanded = ({
             <Input
               dir="rtl"
               id="station-name-ar"
-              placeholder="Arabic Station Name"
+              placeholder="اسم المحطة"
               value={stationEdit.name_ar}
               className="font-medium"
               onChange={e => setStationEdit({
