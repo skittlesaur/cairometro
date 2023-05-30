@@ -23,10 +23,8 @@ interface LineProps {
 }
 
 const Line = ({
-  line, expanded, setExpanded, optimisticDeleteStation, optimisticUpdateStation, optimisticUpdateLine, optimisticAddLine,
+  line, expanded, setExpanded, optimisticDeleteStation, optimisticUpdateStation, optimisticUpdateLine,
 }: LineProps) => {
-
-  console.log(line)
   return (
     <div className="flex flex-col gap-2">
       <AnimatePresence mode="wait">
@@ -36,7 +34,6 @@ const Line = ({
             line={line}
             setExpanded={setExpanded}
             optimisticUpdate={optimisticUpdateLine}
-            optimisticAdd={optimisticAddLine}
           />
         ) : (
           <motion.div

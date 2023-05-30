@@ -37,7 +37,7 @@ export const getServerSideProps = async (
     depStation = await graphqlFetcher([STATION_BY_ID_QUERY], { id: departure })
     destStation = await graphqlFetcher([STATION_BY_ID_QUERY], { id: destination })
   } catch (error) {
-    console.log(error)
+    // @todo: error handling
   }
 
   return {
