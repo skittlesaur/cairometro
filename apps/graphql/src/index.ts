@@ -6,6 +6,9 @@ import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 
+import logout from './api/auth/logout'
+import magicLinkVerification from './api/auth/magic-link-verification'
+import otpVerification from './api/auth/otp-verification'
 import cors from './utils/cors'
 import yoga from './utils/yoga'
 
@@ -28,6 +31,14 @@ sgMail.setApiKey(apiKey)
 app.get('/ping', (_, res: Response) => {
   res.status(200).send('pong')
 })
+
+app.post('/auth/magic-link', magicLinkVerification)
+app.post('/auth/otp', otpVerification)
+app.post('/auth/logout', logout)
+
+// app.use((req, res) => {
+//   console.log(req.cookies)
+// })
 
 app.use('/graphql', yoga)
 

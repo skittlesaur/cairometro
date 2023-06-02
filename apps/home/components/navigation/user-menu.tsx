@@ -1,9 +1,12 @@
+import { useCallback } from 'react'
 import Link from 'next/link'
 
 import UserAvatar from '@/components/user-avatar'
 import useUser from '@/graphql/user/me'
 
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
+import axios from 'axios'
+import toast from 'react-hot-toast'
 
 type Path = {
   name: string
@@ -11,7 +14,7 @@ type Path = {
 }
 
 const UserMenu = () => {
-  const { data: user } = useUser()
+  const { data: user, mutate: mutateUser } = useUser()
   
   const paths: Path[] = [
     {
@@ -40,11 +43,24 @@ const UserMenu = () => {
       name: 'Settings',
       href: '/user/settings',
     },
-    {
-      name: 'Logout',
-      href: '/logout',
-    },
   ]
+
+  const handleLogout = useCallback(async () => {
+    try {
+      await mutateUser(async () => {
+        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {}, {
+          withCredentials: true,
+        })
+        return null
+      }, {
+        optimisticData: null,
+        revalidate: true,
+        rollbackOnError: true,
+      })
+    } catch (error) {
+      toast.error('Failed to logout, please try again')
+    }
+  }, [mutateUser])
 
   return (
     <NavigationMenu.Root className="relative">
@@ -100,6 +116,12 @@ const UserMenu = () => {
                     {path.name}
                   </Link>
                 ))}
+                <button
+                  className="text-sm font-medium p-3 hover:bg-gray-100 m-0 text-left w-full"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
               </div>
             </div>
           </NavigationMenu.Content>

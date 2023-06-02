@@ -5,8 +5,12 @@ import authenticatedPermission from '../../permissions/authenticated'
 
 const me: FieldResolver<'Query', 'me'> =
   async (_, args, ctx: Context) => {
-    authenticatedPermission(ctx)
-    return ctx.user
+    try {
+      authenticatedPermission(ctx)
+      return ctx.user
+    } catch (e) {
+      return null
+    }
   }
 
 export default me

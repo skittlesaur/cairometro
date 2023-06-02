@@ -2,7 +2,9 @@ import { useEffect } from 'react'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
-import magicLinkMutation from '@/graphql/user/magic-link'
+import Loader from '@/components/loader'
+
+import axios from 'axios'
 
 const LinkPage: NextPage = () => {
   const router = useRouter()
@@ -12,7 +14,11 @@ const LinkPage: NextPage = () => {
     const verifyMagicLink = async () => {
       try {
         if (!magicLink) return
-        await magicLinkMutation({ link: magicLink })
+        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/magic-link`, {
+          link: magicLink,
+        }, {
+          withCredentials: true,
+        })
         // close window
         setTimeout(() => window.close(), 1000)
       } catch (e) {
@@ -24,11 +30,10 @@ const LinkPage: NextPage = () => {
   }, [magicLink, router])
 
   return (
-    <div>
+    <div className="w-screen h-screen flex items-center justify-center">
+      <Loader />
     </div>
   )
-
-
 }
 
 

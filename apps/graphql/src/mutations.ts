@@ -7,12 +7,9 @@ import adminUpdateLine from './resolvers/mutations/admin-update-line'
 import adminUpdateStation from './resolvers/mutations/admin-update-station'
 import adminDeleteStation from './resolvers/mutations/delete-station'
 import login from './resolvers/mutations/login'
-import logout from './resolvers/mutations/logout'
-import magicLinkVerify from './resolvers/mutations/magic-link-verifier'
 import secretCreateMainAdminAccount from './resolvers/mutations/migrations/create-main-admin-account'
 import secretDummyStationsData from './resolvers/mutations/migrations/dummy-database/dummy-stations-data'
 import secretDummySchedule from './resolvers/mutations/migrations/dummy-database/schedule'
-import otpVerify from './resolvers/mutations/otp-verifier'
 import adminReorderStation from './resolvers/mutations/reorder-station'
 import signUp from './resolvers/mutations/sign-up'
 import updateRefundStatus from './resolvers/mutations/update-refund-status'
@@ -42,29 +39,6 @@ const mutations = mutationType({
         documentUrl: stringArg(),
       },
       resolve: signUp,
-    })
-
-    t.field('magicLinkVerification', {
-      type: 'Boolean',
-      args: {
-        link: nonNull(stringArg()),
-      },
-      resolve: magicLinkVerify
-      ,
-    })
-
-    t.field('otpVerification', {
-      type: 'Boolean',
-      args: {
-        code: nonNull(stringArg()),
-      },
-      resolve: otpVerify
-      ,
-    })
-
-    t.field('logout', {
-      type: 'Boolean',
-      resolve: logout,
     })
 
     t.field('secretDummyStationsData', {
