@@ -24,6 +24,21 @@ model User {
   documentVerified Boolean?
   Subscriptions    Subscriptions[]
   refunds          Refund[]
+  UserTickets      UserTickets[]
+}
+
+model UserTickets {
+  id        String   @id @default(cuid()) @map("_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  from      Station  @relation("fromTickets", fields: [fromId], references: [id], onDelete: Cascade)
+  fromId    String
+  to        Station  @relation("toTickets", fields: [toId], references: [id], onDelete: Cascade)
+  toId      String
+  price     Float
+  date      DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Subscriptions {
@@ -81,6 +96,8 @@ model Station {
   destinationPath       Path[]                  @relation("destinationStation")
   paths                 Path[]                  @relation(fields: [pathIds], references: [id])
   pathIds               String[]
+  fromTickets           UserTickets[]           @relation("fromTickets")
+  toTickets             UserTickets[]           @relation("toTickets")
 }
 
 model StationPositionInLine {
@@ -117,11 +134,12 @@ model Pricing {
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
 }
+
 model Refund {
-  id         String @id @default(cuid()) @map("_id")
-  user       User @relation(fields: [userId], references: [id])
+  id         String       @id @default(cuid()) @map("_id")
+  user       User         @relation(fields: [userId], references: [id])
   userId     String
-  createdAt  DateTime @default(now())
+  createdAt  DateTime     @default(now())
   status     RefundStatus @default(PENDING)
   ticketType TicketType
   message    String
@@ -145,6 +163,7 @@ enum SubscriptionTier {
   TWO_AREAS
   THREE_AREAS
 }
+
 enum RefundStatus {
   ACCEPTED
   REJECTED
