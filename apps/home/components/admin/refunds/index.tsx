@@ -4,15 +4,15 @@ import Header from '@/components/admin/header'
 import RefundRequestCard from '@/components/admin/refunds/refund-request-card'
 import RefundsTable from '@/components/admin/refunds/refunds-table'
 import { Button } from '@/components/button'
-import useAnalyticsAverageCustomerSupportResponse from '@/graphql/admin/analytics/average-response'
-import useAnalyticsSoldTickets from '@/graphql/admin/analytics/sold-tickets'
-import useAnalyticsTotalSubscribers from '@/graphql/admin/analytics/total-subscribers'
-import useAnalyticsTotalUsers from '@/graphql/admin/analytics/total-users'
+import useRefundsAnalytics from '@/graphql/admin/analytics/refunds-analytics'
 import useRefunds from '@/graphql/admin/refunds/refunds'
 import updateRefundRequestMutation, {
   UpdateRefundRequestVariables,
 } from '@/graphql/admin/refunds/update-refund-request'
-import TicketOutlineIcon from '@/icons/ticket-outline.svg'
+import CalendarIcon from '@/icons/calendar-outline.svg'
+import CheckboxIcon from '@/icons/checkbox-outline.svg'
+import CloseCircleIcon from '@/icons/close-circle-outline.svg'
+import PriceTagsIcon from '@/icons/pricetags-outline.svg'
 import Refund from '@/types/refund'
 
 import { AnimatePresence } from 'framer-motion'
@@ -27,33 +27,28 @@ const Refunds = () => {
     take,
   })
 
-  const { data: soldTickets } = useAnalyticsSoldTickets()
-  const { data: totalUsers } = useAnalyticsTotalUsers()
-  const { data: totalSubscribers } = useAnalyticsTotalSubscribers()
-  const { data: averageResponseTime } = useAnalyticsAverageCustomerSupportResponse()
+  const { data: analytics, isLoading: analyticsLoading } = useRefundsAnalytics()
 
-  const allLoaded = soldTickets && totalUsers && totalSubscribers && averageResponseTime
   const data = [
     {
       title: 'Total Refund Requests',
-      value: soldTickets,
-      icon: TicketOutlineIcon,
+      value: analytics?.totarl,
+      icon: PriceTagsIcon,
     },
     {
       title: 'Total Approved',
-      value: totalUsers?.totalUsers,
-      icon: TicketOutlineIcon,
+      value: analytics?.totalApproved,
+      icon: CheckboxIcon,
     },
     {
       title: 'Total Rejected',
-      value: totalSubscribers,
-      icon: TicketOutlineIcon,
+      value: analytics?.totalRejected,
+      icon: CloseCircleIcon,
     },
     {
       title: 'Total Refunds This Month',
-      // response is in minutes convert it to x hours y minutes
-      value: averageResponseTime ? `${Math.floor(averageResponseTime / 60)}h ${averageResponseTime % 60}m` : undefined,
-      icon: TicketOutlineIcon,
+      value: analytics?.totalThisMonth,
+      icon: CalendarIcon,
     },
   ]
 
@@ -91,7 +86,7 @@ const Refunds = () => {
     <div className="w-full">
       <Header
         data={data}
-        allLoaded={allLoaded}
+        allLoaded={!analyticsLoading && analytics}
       />
       <AnimatePresence mode="wait">
         {refundOpen && (

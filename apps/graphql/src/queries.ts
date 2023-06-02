@@ -6,6 +6,7 @@ import analyticsSoldTickets from './resolvers/queries/admin/analytics-sold-ticke
 import analyticsTotalSubscribers from './resolvers/queries/admin/analytics-total-subscribers'
 import analyticsTotalUsers from './resolvers/queries/admin/analytics-total-users'
 import getRefundRequests from './resolvers/queries/admin/get-refund-requests'
+import refundsAnalytics from './resolvers/queries/admin/refunds-analytics'
 import getPrice from './resolvers/queries/get-price'
 import lines from './resolvers/queries/lines'
 import me from './resolvers/queries/me'
@@ -17,6 +18,7 @@ import LineType from './types/line'
 import LinesAndStationsAnalyticsType from './types/lines-and-stations-type'
 import passengersInputType from './types/passengers-input'
 import RefundType from './types/refund'
+import refundAnalyticsType from './types/refund-analytics'
 import RideTicketDataType from './types/ride-ticket-data'
 import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
@@ -83,6 +85,11 @@ const queries = queryType({
     t.field('analyticsActiveLinesAndStations', {
       type: LinesAndStationsAnalyticsType,
       resolve: analyticsActiveLinesAndStations,
+    })
+
+    t.field('refundsAnalytics', {
+      type: refundAnalyticsType,
+      resolve: refundsAnalytics,
     })
 
     t.field('paginateStationsSchedule', {
