@@ -1,10 +1,17 @@
+import { Variables } from 'graphql-request'
+
 import graphqlFetcher from '@/graphql/graphql-fetcher'
 
 import useSWR from 'swr'
 
+interface RefundsVariables extends Variables {
+  page: number
+  take?: number
+}
+
 const REFUNDS_QUERY = /* GraphQL */ `
-query{
-    adminGetRefundRequests(page: 0){
+query ($page: Int!, $take: Int){
+    adminGetRefundRequests(page: $page, take: $take) {
       id
       createdAt
       status
@@ -19,10 +26,10 @@ query{
   }
 `
 
-const useRefunds = () => {
+const useRefunds = (variables: RefundsVariables) => {
   const result = useSWR(
-    [REFUNDS_QUERY],
-    (queryStr: string) => graphqlFetcher(queryStr),
+    [REFUNDS_QUERY, ...Object.values(variables)],
+    (queryStr: string) => graphqlFetcher(queryStr, variables),
   )
 
   return result

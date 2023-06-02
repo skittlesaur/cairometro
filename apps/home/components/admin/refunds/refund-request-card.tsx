@@ -1,120 +1,156 @@
-import * as Dialog from '@radix-ui/react-dialog';
-import updateRefundRequestMutation from '@/graphql/admin/refunds/update-refund-request';
-import { AnimatePresence, motion } from 'framer-motion'
+import { Button } from '@/components/button'
+import { UpdateRefundRequestVariables } from '@/graphql/admin/refunds/update-refund-request'
+import Refund from '@/types/refund'
 
-const RefundRequestCard = (props: any)=>{
+import { motion } from 'framer-motion'
+import toast from 'react-hot-toast'
 
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        const formattedDate = date.toLocaleDateString("en-US", {
-          month: "long",
-          day: "numeric",
-          year: "numeric",
-        });
-        return formattedDate;
-      };
-    const handleUpdate = (refundId: string ,status: any)=>{
-        const variables = {
-            refundRequestId: refundId,
-            status: {refundStatus: status}
-        }
-        updateRefundRequestMutation(variables).then((res)=> console.log("success"))
+interface RefundRequestCardProps {
+  refundId: string
+  userName: string
+  email: string
+  date: Date
+  price: number
+  message: string
+  setRefundOpen: (data: Refund | undefined)=> void
+  optimisticUpdate: (variables: UpdateRefundRequestVariables)=> void
+}
+
+const RefundRequestCard = ({
+  refundId, userName, email, date, price, message, setRefundOpen, optimisticUpdate,
+}: RefundRequestCardProps) => {
+  const formatDate = (dateString: Date) => {
+    const date = new Date(dateString)
+
+    const formattedDate = date.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    })
+
+    const formattedTime = date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+    })
+
+    return `${formattedDate} at ${formattedTime}`
+  }
+
+  const handleUpdate = async (status: 'ACCEPTED' | 'REJECTED')=>{
+    const variables = {
+      refundRequestId: refundId,
+      status: { refundStatus: status },
     }
-
-    var divStyle = null
-    switch(props.status){
-        case "PENDING":
-            divStyle = (
-            <div className="bg-orange-100 p-2 rounded border-orange-500">
-                <p className="text-xs text-orange-500">{props.status}</p>
-            </div>)
-            break
-        case "ACCEPTED":
-            divStyle = (
-                <div className="bg-green-100 p-2 rounded border-green-500">
-                    <p className="text-xs text-green-500">{props.status}</p>
-                </div>)
-                break
-        case "REJECTED":
-            divStyle = (
-                <div className="bg-red-100 p-2 rounded border-red-500">
-                    <p className="text-xs text-red-500">{props.status}</p>
-                </div>)
-                break
+    
+    try {
+      setRefundOpen(undefined)
+      await optimisticUpdate(variables)
+      toast.success('Refund request updated successfully')
+    } catch (e) {
+      toast.error('Something went wrong please try again')
     }
-    return(
-        <Dialog.Root>
-    <Dialog.Trigger asChild>
-    <div className="flex flex-grow items-center justify-between text-gray-900 py-2 hover:cursor-pointer">
-        
-            <div className="flex-col">
-            <div className='flex justify-between gap-8'>
-                        <div>
-                        <p>{props.name}</p>
-                        <p className="text-gray-500">{props.email}</p>
-                        </div>
-                </div>
+  }
+
+  return (
+    <motion.div
+      key="purchase-modal-backdrop"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { delay: 0.1 } }}
+      transition={{ duration: 0.2 }}
+      className="fixed bg-neutral-900/80 backdrop-blur-sm inset-0 z-[100] flex items-center justify-center"
+      onClick={() => {
+        setRefundOpen(undefined)
+      }}
+    >
+      <motion.div
+        key="refund-modal"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1, transition: { delay: 0.1 } }}
+        exit={{ opacity: 0, scale: 0.8 }}
+        transition={{ duration: 0.2 }}
+        className="bg-white w-screen w-full max-h-screen overflow-y-auto no-scrollbar max-w-screen-lg md:rounded-xl justify-between items-center p-5 gap-10"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex flex-col gap-8 items-start">
+          <h1 className="text-lg font-semibold">
+            Would you like to approve or reject this refund request?
+          </h1>
+          <div className="flex flex-col gap-3">
+            <div>
+              <label
+                htmlFor="requested-by"
+                className="text-gray-500 font-medium"
+              >
+                Requested By
+              </label>
+              <p
+                id="requested-by"
+              >
+                {userName} ({email})
+              </p>
             </div>
             <div>
-                <p>{formatDate(props.date)}</p>
+              <label
+                htmlFor="date"
+                className="text-gray-500 font-medium"
+              >
+                Request Date
+              </label>
+              <p
+                id="date"
+              >
+                {formatDate(date)}
+              </p>
             </div>
             <div>
-                {divStyle}
+              <label
+                htmlFor="amount"
+                className="text-gray-500 font-medium"
+              >
+                Refund Amount
+              </label>
+              <p
+                id="amount"
+              >
+                {price.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'EGP',
+                })}
+              </p>
             </div>
             <div>
-                <p>{props.price} EGP</p>
+              <label
+                htmlFor="message"
+                className="text-gray-500 font-medium"
+              >
+                Message
+              </label>
+              <p
+                id="message"
+              >
+                {message}
+              </p>
             </div>
+          </div>
+          <div className="grid grid-cols-2 gap-2 w-full">
+            <Button
+              variant="outline"
+              onClick={() => handleUpdate('ACCEPTED')}
+            >
+              Accept Refund
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => handleUpdate('REJECTED')}
+            >
+              Reject Refund
+            </Button>
+          </div>
         </div>
-    </Dialog.Trigger>
-    <Dialog.Portal>
-        
-      <Dialog.Overlay className="fixed inset-0 bg-blackA9 animate-overlayShow bg-black bg-opacity-50 z-[50]" />
-      
-      <Dialog.Content className=" p-4 rounded-xl shadow-dialogShadow fixed top-1/2 left-1/2 z-[51] transform -translate-x-1/2 -translate-y-1/2 w-2/4 animate-contentShow">
-        
-        <Dialog.Description className="DialogDescription">
-          
-        </Dialog.Description>
-        <motion.div
-            key="refund-modal"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1, transition: { delay: 0.1 } }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.2 }}
-            className="bg-white w-screen w-full max-h-screen overflow-y-auto no-scrollbar max-w-screen-lg md:rounded-xl justify-between items-center p-5 gap-10"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Dialog.Title className="font-semibold leading-7">Would you like to approve or reject this refund request?</Dialog.Title>
-            <div className='flex flex-col gap-2'>
-                <div>
-                    <p className='font-medium leading-6 text-gray-500'>Requested By</p>
-                    <p className='leading-6'>{props.email}</p>
-                </div>
-                <div>
-                    <p className='font-medium leading-6 text-gray-500'>Request Date</p>
-                    <p className='leading-6'>{formatDate(props.date)}</p>
-                </div>
-                <div>
-                    <p className='font-medium leading-6 text-gray-500'>Refund Amount</p>
-                    <p className='leading-6'>{props.price}</p>
-                </div>
-                <div>
-                    <p className='font-medium leading-6 text-gray-500'>Message</p>
-                    <p className='leading-6'>{props.message}</p>
-                </div>
-            
-        </div>
-        <div className='flex justify-between pt-10'>
-            <button onClick={()=>{handleUpdate(props.refundId, "ACCEPTED")}} className='w-1/2 border rounded-md mr-2 p-2 hover:bg-green-100 hover:border-green-500'>Accept Refund</button>
-            <button onClick={()=>{handleUpdate(props.refundId, "REJECTED")}} className='w-1/2 border rounded-md mr-2 p-2 hover:bg-red-100 hover:border-red-500'>Reject Refund</button>
-        </div>
-          </motion.div>
-        
-      </Dialog.Content>
-    </Dialog.Portal>
-  </Dialog.Root>
-        
-    )
+      </motion.div>
+    </motion.div>
+  )
 }
 
 export default RefundRequestCard

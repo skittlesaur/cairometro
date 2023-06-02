@@ -1,196 +1,160 @@
-import * as Tabs from '@radix-ui/react-tabs';
-import ArrowDown from '@/icons/arrow-down-outline.svg'
-import ArrowUp from '@/icons/arrow-up-outline.svg'
-import useRefunds from '@/graphql/admin/refunds/refunds';
-import RefundRequestCard from './refund-request-card';
+import { useState } from 'react'
+
+import DataTable from '@/components/data-table'
+import Input from '@/components/input'
 import SearchIcon from '@/icons/search-outline.svg'
-import ForwardIcon from '@/icons/chevron-forward-outline.svg'
-import BackIcon from '@/icons/chevron-back-outline.svg'
-import { useState, useEffect } from 'react';
-// import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import Refund from '@/types/refund'
 
-const RefundsTable = ()=>{
-    const { data, error, isLoading } = useRefunds();
-    const currentTabStyle = "border-b-2 border-red-500 transition duration-500 ease-in-out"
-    const [currentTab, setCurrentTab] = useState("all")
-    const [sortedData, setSortedData] = useState<any[]>([]);
-    console.log(currentTab)
-    useEffect(() => {
-        if (data) {
-          setSortedData(data);
-        }
-      }, [data]); 
-      useEffect(() => {
+import * as Tabs from '@radix-ui/react-tabs'
+import cn from 'classnames'
 
-      }, [sortedData]);
-    const sortArray = (arr: any[], sortBy: string): any[] => {
-        const sortedArray = [...arr];
-        return sortedArray.sort((a, b) => {
-          if (sortBy === 'name') {
-            const nameA = a.user.name.toLowerCase();
-            const nameB = b.user.name.toLowerCase();
-            return nameA.localeCompare(nameB);
-          } else if (sortBy === 'createdAt') {
-            const dateA = new Date(a.createdAt);
-            const dateB = new Date(b.createdAt);
-            return dateA.getTime() - dateB.getTime();
-          } else if (sortBy === 'status') {
-            const statusA = a.status.toLowerCase();
-            const statusB = b.status.toLowerCase();
-            return statusA.localeCompare(statusB);
-          } else if (sortBy === 'amount') {
-            return a.price - b.price;
+interface Cell {
+  row: {
+    getValue: (cell: string)=> unknown
+  }
+}
+
+const columns = [
+  {
+    accessorKey: 'user',
+    header: 'User',
+    cell: ({ row }: Cell) => {
+      const user = row.getValue('user') as {name: string, email: string}
+      return (
+        <div className="flex flex-col">
+          <div className="text-sm font-medium text-gray-900">{user.name}</div>
+          <div className="text-xs text-gray-500">{user.email}</div>
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: 'createdAt',
+    header: 'Date',    
+    cell: ({ row }: Cell) => {
+      const date = row.getValue('createdAt') as Date
+      return (
+        <p className="text-sm text-gray-500">{new Date(date).toLocaleDateString(
+          'en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
           }
-          return 0;
-        });
-      };
-      if (error) {
-        console.error('Error:', error);
-        return <div>{error.message}</div>;
-      }
-    return(
-        <div className="p-4 mx-72">
-            <Tabs.Root className="TabsRoot" defaultValue="all" onValueChange={(value)=> setCurrentTab(value)}>
-                
-                <Tabs.List className="border-b">
-                <div className='flex gap-8 my-2 p-2'>
-                    <div className={`${currentTab === 'all'? currentTabStyle: ''}`}>
-                        <Tabs.Trigger className='' value="all">
-                            <h1 className='text-gray-500 text-base leading-6 font-medium'>All</h1>
-                        </Tabs.Trigger>
-                    </div>
-                
-                    <div className={`${currentTab === 'pending'? currentTabStyle: ''}`}>
-                        <Tabs.Trigger className="TabsTrigger" value="pending">
-                            <h1 className='text-gray-500 text-base leading-6 font-medium'>Pending</h1>
-                        </Tabs.Trigger>
-                    </div>
-                    <div className={`${currentTab === 'accepted'? currentTabStyle: ''}`}>
-                        <Tabs.Trigger className="TabsTrigger" value="accepted">
-                            <h1 className='text-gray-500 text-base leading-6 font-medium'>Approved</h1>
-                        </Tabs.Trigger>
-                    </div>
-                    <div className={`${currentTab === 'rejected'? currentTabStyle: ''}`}>
-                        <Tabs.Trigger className="TabsTrigger" value="rejected">
-                            <h1 className='text-gray-500 text-base leading-6 font-medium'>Rejected</h1>
-                        </Tabs.Trigger>
-                    </div>
-        </div>
-                
-                </Tabs.List>
-                <div className='my-3 flex bg-gray-100 rounded-xl px-2'>
-                    <SearchIcon className='w-5' />
-                    <input className='p-2 bg-gray-100 w-full' placeholder='Search by user name, email, or id'></input>
-                </div>
-                <div className='border-b'></div>
-                <div className='flex justify-between py-4'>
-                    <div className='flex justify-between gap-8'>
-                        <input type='radio'></input>
-                    <div className='flex gap-x-3'>
-                        <p className='text-base text-gray-500 leading-6 font-medium'>User</p>
+        )} at {new Date(date).toLocaleTimeString(
+          'en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+          }
+        )}
+        </p>
+      )
+    },
+  },
+  {
+    accessorKey: 'status',
+    header: 'Status',
+    cell: ({ row }: Cell) => {
+      const status = row.getValue('status') as string
+      const capitalFirstLetter = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
+      return (
+        <p
+          className={cn(
+            'px-4 py-2 rounded text-xs font-medium border w-fit',
+            {
+              'bg-orange-100 border-orange-200 text-orange-500': status.toLowerCase() === 'pending',
+              'bg-green-100 border-green-200 text-green-500': status.toLowerCase() === 'accepted',
+              'bg-red-100 border-red-200 text-red-500': status.toLowerCase() === 'rejected',
+            },
+          )}
+        >
+          {capitalFirstLetter}
+        </p>
+      )
+    },
+  },
+  {
+    accessorKey: 'price',
+    header: 'Amount',
+    cell: ({ row }: Cell) => {
+      const amount = row.getValue('price') as number
+      const formatted = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'EGP',
+      }).format(amount)
+      
+      return (
+        <p className="text-sm text-gray-500">{formatted}</p>
+      )
+    },
+  },
+]
 
-                        <button onClick={()=>{setSortedData(sortArray(data, "name"));console.log(sortedData)}}>
-                        <div className='flex'>
-                            <ArrowDown className="w-3 text-gray-500"/>
-                            <ArrowUp className="w-3 text-gray-500"/>
-                        </div>
-                        </button>
-                        
-                    </div>
-                    </div>
-                    <div className='flex gap-x-3'>
-                        <p className='text-base text-gray-500 leading-6 font-medium'>Date</p>
+interface RefundsTableProps {
+  setRefundOpen: (refund: Refund | undefined)=> void
+  data: Refund[]
+}
+const RefundsTable = ({ setRefundOpen, data }: RefundsTableProps) => {
+  const [currentTab, setCurrentTab] = useState('all')
 
-                        <button onClick={()=>{setSortedData(sortArray(data, "createdAt"));console.log(sortedData)}}>
-                        <div className='flex'>
-                            <ArrowDown className="w-3 text-gray-500"/>
-                            <ArrowUp className="w-3 text-gray-500"/>
-                        </div>
-                        </button>
-                    </div>
-                    <div className='flex gap-x-3'>
-                        <p className='text-base text-gray-500 leading-6 font-medium'>Status</p>
+  const tabs = [
+    'All',
+    'Pending',
+    'Accepted',
+    'Rejected',
+  ]
 
-                        <button onClick={()=>{setSortedData(sortArray(data, "status"));console.log(sortedData)}}>
-                        <div className='flex'>
-                            <ArrowDown className="w-3 text-gray-500"/>
-                            <ArrowUp className="w-3 text-gray-500"/>
-                        </div>
-                        </button>
-                    </div>
-                    <div className='flex gap-x-3'>
-                        <p className='text-base text-gray-500 leading-6 font-medium'>Amount</p>
-
-                        <button onClick={()=>{setSortedData(sortArray(data, "amount"));console.log(sortedData)}}>
-                        <div className='flex'>
-                            <ArrowDown className="w-3 text-gray-500"/>
-                            <ArrowUp className="w-3 text-gray-500"/>
-                        </div>
-                        </button>
-                    </div>
-                </div>
-                <div className='border-b'></div>
-
-                
-
-            <Tabs.Content className="" value="all">
-            {isLoading? <h1>Loading...</h1>
-                : 
-                <>
-                {sortedData.map((r: any, idx: number) => (<div className='flex gap-8 border-b'><input type='radio'></input><RefundRequestCard key={idx} name={r.user.name} refundId={r.id} email={r.user.email} date={r.createdAt} status={r.status} price={r.price} message={r.message} /></div>))}
-                </>}
-            </Tabs.Content>
-            <Tabs.Content className="" value="pending">
-            {isLoading? <h1>Loading...</h1>
-                : 
-                <>
-                {sortedData.filter((r: any)=> r.status == "PENDING").map((r: any, idx: number)=> 
-                    (<RefundRequestCard key={idx} name={r.user.name} refundId={r.id} email={r.user.email} date={r.createdAt} status={r.status} price={r.price} message={r.message} />)
-                )}
-
-            </>}
-            </Tabs.Content>
-
-            <Tabs.Content className="" value="accepted">
-            {isLoading? <h1>Loading...</h1>
-                : 
-                <>
-                {sortedData.filter((r: any)=> r.status == "ACCEPTED").map((r: any, idx: number)=> 
-                    (<RefundRequestCard key={idx} name={r.user.name} refundId={r.id} email={r.user.email} date={r.createdAt} status={r.status} price={r.price} message={r.message} />)
-                )}
-
-            </>}
-            </Tabs.Content>
-
-            <Tabs.Content className="" value="rejected">
-            {isLoading? <h1>Loading...</h1>
-                : 
-                <>
-                {sortedData.filter((r: any)=> r.status == "REJECTED").map((r: any, idx: number)=> 
-                    (<RefundRequestCard key={idx} name={r.user.name} refundId={r.id} email={r.user.email} date={r.createdAt} status={r.status} price={r.price} message={r.message} />)
-                )}
-
-            </>}
-            </Tabs.Content>
-            <div className='flex justify-between items-center py-8'>
-                <div className='flex items-center gap-4'>
-                    <p className='text-gray-900 font-medium'>Show result: </p>
-                    <div className='p-2 border'>6</div>
-                </div>
-                <div className='flex gap-8 text-gray-500'>
-                    <button><BackIcon className='w-4' /></button>
-                    <button>1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <button>4</button>
-                    <button>5</button>
-                    <button><ForwardIcon className='w-4'/></button>
-                    
-                </div>
-            </div>
-        </Tabs.Root>
-        </div>
-    )
+  return (
+    <div className="w-full flex flex-col gap-5">
+      <Tabs.Root
+        defaultValue="all"
+        className="flex flex-col gap-3"
+        onValueChange={(value) => setCurrentTab(value)}
+      >
+        <Tabs.List className="border-b">
+          {tabs.map((tab) => (
+            <Tabs.Trigger
+              key={tab}
+              value={tab.toLowerCase()}
+              className={cn(
+                'px-4 py-2 text-sm font text-gray-500 transition duration-200 ease-in-out',
+                {
+                  'border-b-2 border-primary font-semibold text-primary': currentTab === tab.toLowerCase(),
+                  'hover:text-gray-700': currentTab !== tab.toLowerCase(),
+                },
+              )}
+            >
+              {tab}
+            </Tabs.Trigger>
+          ))}
+        </Tabs.List>
+        <label
+          htmlFor="search"
+          className="flex gap-2 bg-gray-50 rounded-lg px-2"
+        >
+          <SearchIcon className="w-5" />
+          <Input
+            id="search"
+            className="p-2 w-full border-0"
+            placeholder="Search by user name, email, or id"
+          />
+        </label>
+      </Tabs.Root>
+      <div className="border-b" />
+      <DataTable
+        columns={columns}
+        data={data}
+        rowOnClick={(row) => {
+          // if (row.status !== 'PENDING'){
+          //   toast(`Refund has been already ${row.status} and cannot be updated`, {
+          //     icon: '⚠️',
+          //   })
+          //   return
+          // }
+          setRefundOpen(row)
+        }}
+      />
+    </div>
+  )
 }
 
 export default RefundsTable

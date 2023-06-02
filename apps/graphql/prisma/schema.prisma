@@ -122,7 +122,7 @@ model Refund {
   user       User @relation(fields: [userId], references: [id])
   userId     String
   createdAt  DateTime @default(now())
-  status     RefundStatus
+  status     RefundStatus @default(PENDING)
   ticketType TicketType
   message    String
   price      Float

@@ -1,6 +1,7 @@
 import { arg, floatArg, intArg, list, mutationType, nonNull, stringArg } from 'nexus'
 
 import addLine from './resolvers/mutations/add-line'
+import addRefund from './resolvers/mutations/add-refund'
 import addStation from './resolvers/mutations/add-station'
 import adminUpdateLine from './resolvers/mutations/admin-update-line'
 import adminUpdateStation from './resolvers/mutations/admin-update-station'
@@ -14,14 +15,13 @@ import secretDummySchedule from './resolvers/mutations/migrations/dummy-database
 import otpVerify from './resolvers/mutations/otp-verifier'
 import adminReorderStation from './resolvers/mutations/reorder-station'
 import signUp from './resolvers/mutations/sign-up'
+import updateRefundStatus from './resolvers/mutations/update-refund-status'
 import Line from './types/line'
 import LngLatInputType from './types/lng-lat-input'
-import StationType from './types/station'
-import UserRoleEnumArg from './types/user-role-enum-arg'
-import addRefund from './resolvers/mutations/add-refund'
 import RefundStatusEnumArg from './types/refund-status-enum-arg'
+import StationType from './types/station'
 import TicketTypeEnumArg from './types/ticket-type-enum-arg'
-import updateRefundStatus from './resolvers/mutations/update-refund-status'
+import UserRoleEnumArg from './types/user-role-enum-arg'
 
 const mutations = mutationType({
   definition(t) {
@@ -85,13 +85,12 @@ const mutations = mutationType({
     t.field('requestRefund', {
       type: 'Boolean',
       args: {
-        status: nonNull(arg({ type: RefundStatusEnumArg })),
         ticketType: nonNull(arg({ type: TicketTypeEnumArg })),
         userId: nonNull(stringArg()),
         message: nonNull(stringArg()),
-        price: nonNull(floatArg())
+        price: nonNull(floatArg()),
       },
-      resolve: addRefund
+      resolve: addRefund,
     })
 
     t.field('adminUpdateRefundRequest', {
@@ -100,7 +99,7 @@ const mutations = mutationType({
         refundRequestId: nonNull(stringArg()),
         status: nonNull(arg({ type: RefundStatusEnumArg })),
       },
-      resolve: updateRefundStatus
+      resolve: updateRefundStatus,
     })
     
     t.field('adminAddStation', {

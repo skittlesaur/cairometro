@@ -1,16 +1,20 @@
-import { FieldResolver, arg } from "nexus"
-import adminPermission from "../../../permissions/admin"
+import { FieldResolver } from 'nexus'
 
-const getRefundRequests: FieldResolver< 'Query', 'getRefundRequests' > = async(_, args, ctx)=>{
-    const { prisma } = ctx
+const getRefundRequests: FieldResolver<'Query', 'getRefundRequests'> = async (
+  _, args, ctx,
+) => {
+  const { prisma } = ctx
 
-    // adminPermission(ctx)
-    const refundRequests = await prisma.refund.findMany({
-        skip: args.page * 10,
-        take: 10
-    })
+  // adminPermission(ctx)
 
-    return refundRequests
+  const take = args.take ?? 1
+
+  const refundRequests = await prisma.refund.findMany({
+    skip: args.page * take,
+    take: take,
+  })
+
+  return refundRequests
 }
 
 export default getRefundRequests 

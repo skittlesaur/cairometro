@@ -2,22 +2,21 @@ import { Variables } from 'graphql-request'
 
 import mutate from '@/graphql/mutate'
 
-interface UpdateRefundRequestVariables extends Variables {
+export interface UpdateRefundRequestVariables extends Variables {
   refundRequestId: string,
   status: {
-    refundStatus: "ACCEPTED" | "REJECTED"
+    refundStatus: 'ACCEPTED' | 'REJECTED'
    }
 }
 
-const UPDATE_REFUND_REQUEST_MUTAION = /* GraphQL */ `
+const UPDATE_REFUND_REQUEST_MUTATION = /* GraphQL */ `
   mutation adminUpdateRefundRequest($refundRequestId: String!, $status: RefundStatusEnumArg!) {
-        adminUpdateRefundRequest(refundRequestId: $refundRequestId, status: $status)
-      }
-  
+    adminUpdateRefundRequest(refundRequestId: $refundRequestId, status: $status)
+  }
 `
 
 const updateRefundRequestMutation = (variables: UpdateRefundRequestVariables) => {
-    return mutate(UPDATE_REFUND_REQUEST_MUTAION, variables)
+  return mutate(UPDATE_REFUND_REQUEST_MUTATION, variables)
 }
 
 export default updateRefundRequestMutation
