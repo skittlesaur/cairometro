@@ -32,7 +32,7 @@ const Refunds = () => {
   const data = [
     {
       title: 'Total Refund Requests',
-      value: analytics?.totarl,
+      value: analytics?.total,
       icon: PriceTagsIcon,
     },
     {
