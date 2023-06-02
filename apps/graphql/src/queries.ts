@@ -5,6 +5,7 @@ import analyticsAverageCustomerSupportResponse from './resolvers/queries/admin/a
 import analyticsSoldTickets from './resolvers/queries/admin/analytics-sold-tickets'
 import analyticsTotalSubscribers from './resolvers/queries/admin/analytics-total-subscribers'
 import analyticsTotalUsers from './resolvers/queries/admin/analytics-total-users'
+import getRefundRequests from './resolvers/queries/admin/get-refund-requests'
 import getPrice from './resolvers/queries/get-price'
 import lines from './resolvers/queries/lines'
 import me from './resolvers/queries/me'
@@ -15,6 +16,7 @@ import stations from './resolvers/queries/stations'
 import LineType from './types/line'
 import LinesAndStationsAnalyticsType from './types/lines-and-stations-type'
 import passengersInputType from './types/passengers-input'
+import RefundType from './types/refund'
 import RideTicketDataType from './types/ride-ticket-data'
 import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
@@ -104,6 +106,15 @@ const queries = queryType({
         passengers: nonNull(arg({ type: passengersInputType })),
       },
       resolve: getPrice,
+    })
+
+    t.list.field('adminGetRefundRequests', {
+      type: RefundType,
+      args: {
+        page: nonNull(intArg()),
+        take: intArg(),
+      },
+      resolve: getRefundRequests,
     })
   },
 })

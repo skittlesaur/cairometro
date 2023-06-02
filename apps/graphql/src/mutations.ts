@@ -1,6 +1,7 @@
 import { arg, floatArg, intArg, list, mutationType, nonNull, stringArg } from 'nexus'
 
 import addLine from './resolvers/mutations/add-line'
+import addRefund from './resolvers/mutations/add-refund'
 import addStation from './resolvers/mutations/add-station'
 import adminUpdateLine from './resolvers/mutations/admin-update-line'
 import adminUpdateStation from './resolvers/mutations/admin-update-station'
@@ -14,9 +15,12 @@ import secretDummySchedule from './resolvers/mutations/migrations/dummy-database
 import otpVerify from './resolvers/mutations/otp-verifier'
 import adminReorderStation from './resolvers/mutations/reorder-station'
 import signUp from './resolvers/mutations/sign-up'
+import updateRefundStatus from './resolvers/mutations/update-refund-status'
 import Line from './types/line'
 import LngLatInputType from './types/lng-lat-input'
+import RefundStatusEnumArg from './types/refund-status-enum-arg'
 import StationType from './types/station'
+import TicketTypeEnumArg from './types/ticket-type-enum-arg'
 import UserRoleEnumArg from './types/user-role-enum-arg'
 
 const mutations = mutationType({
@@ -77,6 +81,26 @@ const mutations = mutationType({
       type: 'Boolean',
       resolve: secretCreateMainAdminAccount,
     })
+
+    t.field('requestRefund', {
+      type: 'Boolean',
+      args: {
+        ticketType: nonNull(arg({ type: TicketTypeEnumArg })),
+        userId: nonNull(stringArg()),
+        message: nonNull(stringArg()),
+        price: nonNull(floatArg()),
+      },
+      resolve: addRefund,
+    })
+
+    t.field('adminUpdateRefundRequest', {
+      type: 'Boolean',
+      args: {
+        refundRequestId: nonNull(stringArg()),
+        status: nonNull(arg({ type: RefundStatusEnumArg })),
+      },
+      resolve: updateRefundStatus,
+    })
     
     t.field('adminAddStation', {
       type: StationType,
@@ -88,7 +112,7 @@ const mutations = mutationType({
       },
       resolve: addStation,
     })
-    
+
     t.field('adminReorderStation', {
       type: 'Boolean',
       args: {
