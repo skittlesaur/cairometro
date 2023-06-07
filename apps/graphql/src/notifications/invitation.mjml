@@ -1,0 +1,37 @@
+<mjml>
+  <mj-body background-color="#F3F4F6">
+    <mj-section>
+      <mj-column>
+        <mj-image width="100px" src="https://cairometro.baraa.app/assets/logo.png" alt="img"/>
+        <mj-text font-size="18px" align="center" font-weight="400">Hi <span style="font-weight: 600;">{{name}}</span>,
+          <br/>
+          You have been invited to join Cairo Metro as a <span style="font-weight: 600;">{{role}}</span>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-wrapper border-radius="10px" background-color="#FFFFFF">
+      <mj-section padding-top="20px" padding-bottom="0px" padding-left="30px" padding-right="30px">
+        <mj-column>
+          <mj-image width="200px" src="https://cairometro.baraa.app/assets/emails/invitation.png" alt="img"/>
+          <mj-text font-size="16px" color="#737373" align="center" line-height="24px" font-weight="400">
+            Click the button below to accept the invitation
+          </mj-text>
+          <mj-text color="#EA3347" font-weight="600" line-height="24px" align="center">
+            <a href={{link}} style="color: #EA3347; text-decoration: none;">{{link}}</a>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+    <mj-section>
+      <mj-column>
+        <mj-text line-height="20px" color="#737373" font-weight="400" align="center" font-size="14px">Need help? Email
+          us at {{helpEmail}}
+        </mj-text>
+        <mj-text line-height="24px" color="#000000" font-weight="500" align="center" font-size="16px">Cairo Metro
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+  </mj-body>
+</mjml>

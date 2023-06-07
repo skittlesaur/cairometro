@@ -3,6 +3,8 @@ import { arg, floatArg, intArg, list, mutationType, nonNull, stringArg } from 'n
 import addLine from './resolvers/mutations/add-line'
 import addRefund from './resolvers/mutations/add-refund'
 import addStation from './resolvers/mutations/add-station'
+import adminInviteTeammate from './resolvers/mutations/admin-invite-teammate'
+import adminRemoveTeammate from './resolvers/mutations/admin-remove-teammate'
 import adminUpdateLine from './resolvers/mutations/admin-update-line'
 import adminUpdateStation from './resolvers/mutations/admin-update-station'
 import adminDeleteStation from './resolvers/mutations/delete-station'
@@ -12,11 +14,13 @@ import secretDummyStationsData from './resolvers/mutations/migrations/dummy-data
 import secretDummySchedule from './resolvers/mutations/migrations/dummy-database/schedule'
 import adminReorderStation from './resolvers/mutations/reorder-station'
 import signUp from './resolvers/mutations/sign-up'
+import updateInvitation from './resolvers/mutations/update-invitation'
 import updateRefundStatus from './resolvers/mutations/update-refund-status'
 import Line from './types/line'
 import LngLatInputType from './types/lng-lat-input'
 import RefundStatusEnumArg from './types/refund-status-enum-arg'
 import StationType from './types/station'
+import StatusEnum from './types/status-arg'
 import TicketTypeEnumArg from './types/ticket-type-enum-arg'
 import UserRoleEnumArg from './types/user-role-enum-arg'
 
@@ -54,6 +58,15 @@ const mutations = mutationType({
     t.field('secretCreateMainAdminAccount', {
       type: 'Boolean',
       resolve: secretCreateMainAdminAccount,
+    })
+
+    t.field('updateInvitation', {
+      type: 'Boolean',
+      args: {
+        token: nonNull(stringArg()),
+        status: nonNull(StatusEnum),
+      },
+      resolve: updateInvitation,
     })
 
     t.field('requestRefund', {
@@ -148,6 +161,24 @@ const mutations = mutationType({
         priceZoneThreeSeniors: nonNull(floatArg()),
       },
       resolve: addLine,
+    })
+
+    t.field('adminRemoveTeammate', {
+      type: 'Boolean',
+      args: {
+        email: nonNull(stringArg()),
+      },
+      resolve: adminRemoveTeammate,
+    })
+    
+    t.field('adminInviteTeammate', {
+      type: 'Boolean',
+      args: {
+        email: nonNull(stringArg()),
+        name: nonNull(stringArg()),
+        role: nonNull(arg({ type: UserRoleEnumArg })),
+      },
+      resolve: adminInviteTeammate,
     })
   },
 })

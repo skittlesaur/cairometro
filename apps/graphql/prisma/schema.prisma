@@ -12,19 +12,20 @@ datasource db {
 }
 
 model User {
-  id               String          @id @default(cuid()) @map("_id")
-  email            String          @unique
+  id               String            @id @default(cuid()) @map("_id")
+  email            String            @unique
   name             String
   role             UserRole
   magicToken       MagicToken[]
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
   Otp              Otp[]
   documentUrl      String?
   documentVerified Boolean?
   Subscriptions    Subscriptions[]
   refunds          Refund[]
   UserTickets      UserTickets[]
+  StaffInvitation  StaffInvitation[]
 }
 
 model UserTickets {
@@ -39,6 +40,16 @@ model UserTickets {
   date      DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model StaffInvitation {
+  id          String   @id @default(cuid()) @map("_id")
+  role        UserRole
+  name        String
+  email       String   @unique
+  createdAt   DateTime @default(now())
+  invitedBy   User     @relation(fields: [invitedById], references: [id], onDelete: Cascade)
+  invitedById String
 }
 
 model Subscriptions {
@@ -137,7 +148,7 @@ model Pricing {
 
 model Refund {
   id         String       @id @default(cuid()) @map("_id")
-  user       User         @relation(fields: [userId], references: [id])
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
   createdAt  DateTime     @default(now())
   status     RefundStatus @default(PENDING)
@@ -150,6 +161,7 @@ enum UserRole {
   ADULT
   SENIOR
   ADMIN
+  CUSTOMER_SUPPORT
 }
 
 enum SubscriptionType {
