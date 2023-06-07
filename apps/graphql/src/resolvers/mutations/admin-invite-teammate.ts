@@ -1,5 +1,6 @@
 import { GraphQLError } from 'graphql/error'
 
+import { UserRole } from '@prisma/client'
 import { FieldResolver } from 'nexus'
 
 import { Context } from '../../context'
@@ -9,14 +10,17 @@ const adminInviteTeammate: FieldResolver<'Mutation', 'adminInviteTeammate'> =
     const { prisma, user } = ctx
     const { name, email, role } = args
     
-    const userExists = await prisma.user.findUnique({
+    const userExists = await prisma.user.findFirst({
       where: {
         email,
+        role: {
+          in: [UserRole.ADMIN, UserRole.CUSTOMER_SUPPORT],
+        },
       },
     })
     
     if (userExists) {
-      throw new GraphQLError('User already exists')
+      throw new GraphQLError('User already a team member')
     }
     
     const invite = await prisma.staffInvitation.findUnique({
