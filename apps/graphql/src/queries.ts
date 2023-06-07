@@ -6,14 +6,18 @@ import analyticsSoldTickets from './resolvers/queries/admin/analytics-sold-ticke
 import analyticsTotalSubscribers from './resolvers/queries/admin/analytics-total-subscribers'
 import analyticsTotalUsers from './resolvers/queries/admin/analytics-total-users'
 import getRefundRequests from './resolvers/queries/admin/get-refund-requests'
+import pendingInvitations from './resolvers/queries/admin/pending-invitations'
 import refundsAnalytics from './resolvers/queries/admin/refunds-analytics'
+import teamMembers from './resolvers/queries/admin/team-members'
 import getPrice from './resolvers/queries/get-price'
+import invitation from './resolvers/queries/invitation'
 import lines from './resolvers/queries/lines'
 import me from './resolvers/queries/me'
 import paginateStationsSchedule from './resolvers/queries/paginate-stations-schedule'
 import rideRouteByDate from './resolvers/queries/ride-route-by-date'
 import stationById from './resolvers/queries/station-by-id'
 import stations from './resolvers/queries/stations'
+import InvitationType from './types/invitation'
 import LineType from './types/line'
 import LinesAndStationsAnalyticsType from './types/lines-and-stations-type'
 import passengersInputType from './types/passengers-input'
@@ -114,6 +118,14 @@ const queries = queryType({
       },
       resolve: getPrice,
     })
+    
+    t.field('getInvitation', {
+      type: InvitationType,
+      args: {
+        token: nonNull(stringArg()),
+      },
+      resolve: invitation,
+    })
 
     t.list.field('adminGetRefundRequests', {
       type: RefundType,
@@ -122,6 +134,16 @@ const queries = queryType({
         take: intArg(),
       },
       resolve: getRefundRequests,
+    })
+
+    t.list.field('adminTeamMembers', {
+      type: UserType,
+      resolve: teamMembers,
+    })
+    
+    t.list.field('adminPendingInvitations', {
+      type: InvitationType,
+      resolve: pendingInvitations,
     })
   },
 })

@@ -1,6 +1,9 @@
 // import { useRouter } from 'next/router'
 
+import { useRouter } from 'next/router'
+
 import AdminNavigation, { AdminNavigationProps } from '@/components/admin/navigation'
+import useUser from '@/graphql/user/me'
 // import useUser from '@/graphql/user/me'
 
 interface AdminProps {
@@ -9,15 +12,15 @@ interface AdminProps {
 }
 
 const AdminLayout = ({ children, navigationProps }: AdminProps) => {
-  // const { data: user, isLoading: userLoading } = useUser()
-  // const router = useRouter()
+  const { data: user, isLoading: userLoading } = useUser()
+  const router = useRouter()
   
-  // if (userLoading) return null
+  if (userLoading) return null
   
-  // if (!user || user.role !== 'ADMIN') {
-  //   router.push('/')
-  //   return null
-  // }
+  if (!user || user.role !== 'ADMIN') {
+    router.push('/')
+    return null
+  }
     
   
   return (
