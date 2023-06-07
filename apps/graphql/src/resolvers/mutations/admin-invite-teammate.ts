@@ -4,6 +4,8 @@ import { UserRole } from '@prisma/client'
 import { FieldResolver } from 'nexus'
 
 import { Context } from '../../context'
+import capitalizeFirstLetters from '../../lib/capitalize-first-letters'
+import sendEmail, { EmailTemplate } from '../../lib/send-email'
 
 const adminInviteTeammate: FieldResolver<'Mutation', 'adminInviteTeammate'> =
   async (_, args, ctx: Context) => {
@@ -33,7 +35,7 @@ const adminInviteTeammate: FieldResolver<'Mutation', 'adminInviteTeammate'> =
       throw new GraphQLError('Invitation already exists')
     }
     
-    await prisma.staffInvitation.create({
+    const invitation = await prisma.staffInvitation.create({
       data: {
         name,
         email,
@@ -46,7 +48,16 @@ const adminInviteTeammate: FieldResolver<'Mutation', 'adminInviteTeammate'> =
       },
     })
 
-    // @todo: send email
+    await sendEmail<EmailTemplate.INVITATION>(
+      email,
+      'You have been invited to join Cairo Metro',
+      EmailTemplate.INVITATION,
+      {
+        name,
+        role: capitalizeFirstLetters(invitation.role.replace('_', ' ')),
+        link: `${process.env.FRONTEND_URL}/invitation/${invitation.id}`,
+      }
+    )
 
     return true
   }

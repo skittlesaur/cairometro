@@ -6,7 +6,9 @@ import getMjmlTemplate from './get-mjml-template'
 
 export enum EmailTemplate {
   SIGNUP = 'signup',
-  LOGIN = 'login'
+  LOGIN = 'login',
+  INVITATION = 'invitation',
+  INVITATION_RESPONSE = 'invitation-response',
 }
 
 interface SignupEmailVariables {
@@ -23,9 +25,26 @@ interface LoginEmailVariables {
   helpEmail?: string;
 }
 
+interface InvitationEmailVariables {
+  name: string;
+  role: string;
+  link: string;
+  helpEmail?: string;
+}
+
+interface InvitationResponseEmailVariables {
+  name: string;
+  email: string;
+  status: string;
+  role: string;
+  helpEmail?: string;
+}
+
 interface EmailVariablesMap {
   [EmailTemplate.SIGNUP]: SignupEmailVariables;
   [EmailTemplate.LOGIN]: LoginEmailVariables;
+  [EmailTemplate.INVITATION]: InvitationEmailVariables;
+  [EmailTemplate.INVITATION_RESPONSE]: InvitationResponseEmailVariables;
 }
 
 export type EmailVariables<T extends EmailTemplate> = EmailVariablesMap[T];
