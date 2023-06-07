@@ -19,8 +19,14 @@ const updateInvitation: FieldResolver<'Mutation', 'updateInvitation'> = async (
   }
   
   if (status === 'ACCEPTED') {
-    await prisma.user.create({
-      data: {
+    await prisma.user.upsert({
+      where: {
+        email: invitation.email,
+      },
+      update: {
+        role: invitation.role,
+      },
+      create: {
         email: invitation.email,
         name: invitation.name,
         role: invitation.role,
