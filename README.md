@@ -122,4 +122,4 @@ The repository follows the following structure:
 | Omar Elbarbary | 3rd Party API Integrator and Backend Developer             | [@ElBarBary01](https://github.com/ElBarBary01)       |
 | Youssef Saad   | Localizations, Animations, and Full Stack Developer        | [@YoussefElbasha](https://github.com/YoussefElbasha) |
 | Youssef Khaled | Frontend 3rd Party API Integrator and Full Stack Developer | [@sbayce](https://github.com/sbayce)                 |
-| Momen Yasser   | QA Tested and Full Stack Developer                         | [@thethirdsh](https://github.com/thethirdsh)         |
+| Momen Yasser   | QA Tester and Full Stack Developer                         | [@thethirdsh](https://github.com/thethirdsh)         |
