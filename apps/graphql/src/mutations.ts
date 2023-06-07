@@ -14,6 +14,7 @@ import secretDummyStationsData from './resolvers/mutations/migrations/dummy-data
 import secretDummySchedule from './resolvers/mutations/migrations/dummy-database/schedule'
 import adminReorderStation from './resolvers/mutations/reorder-station'
 import signUp from './resolvers/mutations/sign-up'
+import createSubscription from './resolvers/mutations/subscription'
 import updateInvitation from './resolvers/mutations/update-invitation'
 import updateRefundStatus from './resolvers/mutations/update-refund-status'
 import Line from './types/line'
@@ -179,6 +180,17 @@ const mutations = mutationType({
         role: nonNull(arg({ type: UserRoleEnumArg })),
       },
       resolve: adminInviteTeammate,
+    })
+    
+    t.field('createSubscription', {
+      type: 'Boolean',
+      args: {
+        cardNumber: nonNull(stringArg()),
+        expiryMonth: nonNull(stringArg()),
+        expiryYear: nonNull(stringArg()),
+        cardCvc: nonNull(stringArg()),
+      },
+      resolve: createSubscription,
     })
   },
 })
