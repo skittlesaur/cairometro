@@ -15,13 +15,16 @@ interface DateTimePickerProps {
 }
 
 const DateTimePicker = forwardRef(({ from, to, ..._ }: DateTimePickerProps, ref) => {
+
+  const [hour, minute] = format(new Date(), 'hh:mm').split(':')
+  const meridiemValue = format(new Date(), 'a') === 'am'
   
   const { language } = useTranslation('home').i18n
 
   const [date, setDate] = useState<Date>()
-  const [meridiem, setMeridiem] = useState(true)
-  const [hours, setHours] = useState('01')
-  const [minutes, setMinutes] = useState('00')
+  const [meridiem, setMeridiem] = useState(meridiemValue)
+  const [hours, setHours] = useState(hour)
+  const [minutes, setMinutes] = useState(minute)
 
   const yesterday = new Date()
   yesterday.setDate(new Date().getDate() - 1)
