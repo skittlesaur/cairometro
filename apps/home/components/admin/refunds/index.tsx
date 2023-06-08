@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { use, useState } from 'react'
 
 import Header from '@/components/admin/header'
 import RefundRequestCard from '@/components/admin/refunds/refund-request-card'
@@ -21,10 +21,13 @@ const Refunds = () => {
   const [refundOpen, setRefundOpen] = useState<Refund | undefined>(undefined)
   const [page, setPage] = useState(0)
   const [take, setTake] = useState(6)
+  const [filterBy, setFilterBy] = useState('ALL')
+ 
 
   const { data: refunds, mutate: mutateRefunds } = useRefunds({
     page,
     take,
+    filterBy
   })
 
   const { data: analytics, isLoading: analyticsLoading } = useRefundsAnalytics()
@@ -106,6 +109,7 @@ const Refunds = () => {
       <RefundsTable
         setRefundOpen={setRefundOpen}
         data={refunds}
+        setFilterBy={setFilterBy}
       />
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">

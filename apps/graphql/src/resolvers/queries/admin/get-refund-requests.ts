@@ -1,20 +1,24 @@
-import { FieldResolver } from 'nexus'
+import { FieldResolver } from "nexus";
 
-const getRefundRequests: FieldResolver<'Query', 'getRefundRequests'> = async (
-  _, args, ctx,
+const getRefundRequests: FieldResolver<"Query", "getRefundRequests"> = async (
+  _,
+  args,
+  ctx
 ) => {
-  const { prisma } = ctx
+  const { prisma } = ctx;
 
   // adminPermission(ctx)
 
-  const take = args.take ?? 1
+  const take = args.take ?? 1;
+  const filterBy = args.filterBy ?? "";
 
   const refundRequests = await prisma.refund.findMany({
     skip: args.page * take,
     take: take,
-  })
+    where: filterBy !== "ALL" ? { status: filterBy } : {},
+  });
 
-  return refundRequests
-}
+  return refundRequests;
+};
 
-export default getRefundRequests 
+export default getRefundRequests;

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import DataTable from '@/components/data-table'
 import Input from '@/components/input'
@@ -7,6 +7,7 @@ import Refund from '@/types/refund'
 
 import * as Tabs from '@radix-ui/react-tabs'
 import cn from 'classnames'
+import useRefunds from '@/graphql/admin/refunds/refunds'
 
 interface Cell {
   row: {
@@ -92,9 +93,11 @@ const columns = [
 interface RefundsTableProps {
   setRefundOpen: (refund: Refund | undefined)=> void
   data: Refund[]
+  setFilterBy: (filterBy: string)=> void
 }
-const RefundsTable = ({ setRefundOpen, data }: RefundsTableProps) => {
+const RefundsTable = ({ setRefundOpen, data, setFilterBy}: RefundsTableProps) => {
   const [currentTab, setCurrentTab] = useState('all')
+  
 
   const tabs = [
     'All',
@@ -103,12 +106,15 @@ const RefundsTable = ({ setRefundOpen, data }: RefundsTableProps) => {
     'Rejected',
   ]
 
+  
   return (
     <div className="w-full flex flex-col gap-5">
       <Tabs.Root
         defaultValue="all"
         className="flex flex-col gap-3"
-        onValueChange={(value) => setCurrentTab(value)}
+        onValueChange={(value) => {setCurrentTab(value) 
+          setFilterBy(value.toUpperCase())}}
+        
       >
         <Tabs.List className="border-b">
           {tabs.map((tab) => (
@@ -144,12 +150,6 @@ const RefundsTable = ({ setRefundOpen, data }: RefundsTableProps) => {
         columns={columns}
         data={data}
         rowOnClick={(row) => {
-          // if (row.status !== 'PENDING'){
-          //   toast(`Refund has been already ${row.status} and cannot be updated`, {
-          //     icon: '⚠️',
-          //   })
-          //   return
-          // }
           setRefundOpen(row)
         }}
       />
@@ -157,4 +157,5 @@ const RefundsTable = ({ setRefundOpen, data }: RefundsTableProps) => {
   )
 }
 
-export default RefundsTable
+
+export default RefundsTable 
