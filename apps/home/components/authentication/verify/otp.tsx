@@ -1,4 +1,10 @@
+import { Button } from '@/components/button'
+
 import { motion } from 'framer-motion'
+
+import ArrowBackIcon from '@/icons/arrow-back-outline.svg'
+import OtpInput from './otp-input'
+import VerifyScreenAnimation from './verify-screen-animation'
 
 interface OtpProps {
   email: string
@@ -12,13 +18,24 @@ const Otp = ({ email, setViewMagicLink }: OtpProps) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ ease: 'easeIn', duration: 0.25 }}
-      className="flex flex-col items-center justify-center h-screen"
+      className="flex flex-col items-center justify-center h-screen gap-4"
     >
-      verify otp {email}
-      <button onClick={setViewMagicLink}>
-        setViewMagicLink
-      </button>
+      <p className="text-3xl font-bold text-center">Email Verification</p>
+      <p className="text-lg font-medium text-center w-full">
+        <span className="text-neutral-500">Enter below the 4 digits one-time password we sent to </span>
+        <span className="text-primary">{email}</span>
+      </p>
+      <OtpInput email={email} />
+      <Button 
+        variant="linkSecondary"
+        onClick={setViewMagicLink}
+        className="text-neutral-400"
+      >
+        <ArrowBackIcon className=" w-4 fill-neutral-400"/> Verify using magic link
+      </Button>
+      {/* <VerifyScreenAnimation /> */}
     </motion.div>
+    
   )
 }
 
