@@ -54,6 +54,7 @@
     "react-day-picker": "^8.7.1",
     "react-dom": "^18.2.0",
     "react-drag-drop-files": "^2.3.10",
+    "react-gapi": "^1.0.2",
     "react-hot-toast": "^2.4.0",
     "react-i18next": "^12.2.2",
     "react-nestable": "^2.0.0",
