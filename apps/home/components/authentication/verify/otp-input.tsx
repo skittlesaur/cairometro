@@ -29,6 +29,7 @@ const OtpInput = ({ email }: OtpInputProps) => {
       toast.error(message)
       setOtp('')
     } finally {
+      setOtp('')
       setIsSubmitting(false)
     }
   }, [email, isSubmitting, otp])

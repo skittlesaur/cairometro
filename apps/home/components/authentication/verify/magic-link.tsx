@@ -1,6 +1,8 @@
 import { Button } from '@/components/button'
+import loginMutation from '@/graphql/user/login'
 
 import { motion } from 'framer-motion'
+import toast from 'react-hot-toast'
 
 interface MagicLinkProps {
   email: string
@@ -8,6 +10,16 @@ interface MagicLinkProps {
 }
 
 const MagicLink = ({ email, setViewOtp }: MagicLinkProps) => {
+  const handleResubmission = async () => {
+    try {
+      await loginMutation({ email: email })
+    } catch (errors) {
+      
+    
+       
+      toast.error(`${t('somethingWentWrong')}`)
+    }
+  }
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -21,14 +33,23 @@ const MagicLink = ({ email, setViewOtp }: MagicLinkProps) => {
         <span className="text-neutral-500">Keep this window open and in a new tab open the link we just sent to </span>
         <span className="text-primary"> {email}</span>
       </p>
-      <Button
-        variant="outline"
-        size="xxl"
-        padding="lg"
-        onClick={setViewOtp}
-      >
-        Verify using OTP
-      </Button>
+      <div className="flex flex-col items-center justify-center">
+        <Button
+          variant="linkSecondary"
+          className="text-neutral-400 !py-0 "
+          onClick={handleResubmission}
+        >
+          Resend Link
+        </Button>
+        <Button
+          variant="outline"
+          size="xxl"
+          padding="lg"
+          onClick={setViewOtp}
+        >
+          Verify using OTP
+        </Button>
+      </div>
     </motion.div>
   )
 }
