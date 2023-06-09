@@ -151,7 +151,7 @@ const TimeField = ({
                 {'م'}
               </button>
               <button
-                className={cn('px-2 py-0.5 transition-all', {
+                className={cn('pl-4 pb-1.5 transition-all', {
                   'font-semibold': meridiem,
                 })}
                 onClick={() => setMeridiem(true)}
