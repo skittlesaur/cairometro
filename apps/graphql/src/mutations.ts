@@ -1,4 +1,4 @@
-import { arg, floatArg, intArg, list, mutationType, nonNull, stringArg } from 'nexus'
+import { arg, booleanArg, floatArg, intArg, list, mutationType, nonNull, stringArg } from 'nexus'
 
 import addLine from './resolvers/mutations/add-line'
 import addRefund from './resolvers/mutations/add-refund'
@@ -15,14 +15,16 @@ import secretDummySchedule from './resolvers/mutations/migrations/dummy-database
 import createPayment from './resolvers/mutations/payment'
 import adminReorderStation from './resolvers/mutations/reorder-station'
 import signUp from './resolvers/mutations/sign-up'
+import createSubscription from './resolvers/mutations/subscription'
 import updateInvitation from './resolvers/mutations/update-invitation'
 import updateRefundStatus from './resolvers/mutations/update-refund-status'
 import Line from './types/line'
 import LngLatInputType from './types/lng-lat-input'
-import paymentArgs from './types/payment-args'
+import oneTimeInput from './types/one-time-input'
 import RefundStatusEnumArg from './types/refund-status-enum-arg'
 import StationType from './types/station'
 import StatusEnum from './types/status-arg'
+import subscriptionEnumArg from './types/subscription-input'
 import TicketTypeEnumArg from './types/ticket-type-enum-arg'
 import UserRoleEnumArg from './types/user-role-enum-arg'
 
@@ -186,8 +188,28 @@ const mutations = mutationType({
     
     t.field('createPayment', {
       type: 'Boolean',
-      args: paymentArgs,
+      args: {
+        cardNumber: nonNull(stringArg()),
+        expiryMonth: nonNull(stringArg()),
+        expiryYear: nonNull(stringArg()),
+        cardCvc: nonNull(stringArg()),
+        saveCard: nonNull(booleanArg()),
+        metaData: oneTimeInput,
+      },
       resolve: createPayment,
+    })
+
+    t.field('createSubscription', {
+      type: 'Boolean',
+      args: {
+        cardNumber: nonNull(stringArg()),
+        expiryMonth: nonNull(stringArg()),
+        expiryYear: nonNull(stringArg()),
+        cardCvc: nonNull(stringArg()),
+        saveCard: nonNull(booleanArg()),
+        subscription: nonNull(subscriptionEnumArg),
+      },
+      resolve: createSubscription,
     })
   },
 })
