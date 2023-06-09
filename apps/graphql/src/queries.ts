@@ -132,6 +132,7 @@ const queries = queryType({
       args: {
         page: nonNull(intArg()),
         take: intArg(),
+        filterBy: stringArg(),
       },
       resolve: getRefundRequests,
     })
