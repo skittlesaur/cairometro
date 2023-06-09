@@ -21,30 +21,6 @@ const subscriptionMapping: SubscriptionMapping = {
   THREE_AREAS_YEARLY: 'price_1NGVuJJ85o4Y1it2aGX1Bjlx',
 }
   
-// define function handle subscription
-  
-const handleSubscription = async (stripe: Stripe, Source: string, subscriptionType: string, subscriptionTier: string, email: string) => {
-  try {
-    const mappingKey = `${subscriptionTier}_${subscriptionType}`
-    const subscriptionId: string | undefined = subscriptionMapping[mappingKey]
-    const plan = await stripe.prices.retrieve(subscriptionId)
-    const customer = await stripe.customers.create({
-      source: Source,
-      email: email,
-    })
-    const subscription = await stripe.subscriptions.create({
-      customer: customer.id,
-      items: [{ plan: plan.id }],
-      expand: ['latest_invoice.payment_intent'],
-    })
-    // TODO: save subscription to database
-    // TODO: link subscription to user
-    return true}
-  catch (err){
-    console.log(err)
-    return false
-  }
-}
 
 const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
 async (_, args, ctx: Context) => {
@@ -55,11 +31,11 @@ async (_, args, ctx: Context) => {
     cardNumber, expiryMonth, expiryYear, cardCvc, saveCard, subscription,
   } = args
   const { subscriptionTier, subscriptionType } = subscription
-  const { user } = ctx
+  const { user, prisma } = ctx
   
-  if (!user) {
-    throw new GraphQLError('User not Authenticated')
-  }
+  // if (!user) {
+  //   throw new GraphQLError('User not Authenticated')
+  // }
   if (!cardNumber || !expiryMonth || !expiryYear || !cardCvc) {
     throw new GraphQLError('Card details are missing')
   }
@@ -80,15 +56,57 @@ async (_, args, ctx: Context) => {
   if (!cardCvcRegex.test(cardCvc)) {
     throw new GraphQLError('Invalid card cvc')
   }
-  const token = await stripe.tokens.create({
-    card: {
-      number: cardNumber,
-      exp_month: expiryMonth,
-      exp_year: expiryYear,
-      cvc: cardCvc,
-    },
-  })
-  return handleSubscription(stripe, token.id, subscriptionType, subscriptionTier, user?.email ?? 'test@gmail.com')
+  try {
+    const token = await stripe.tokens.create({
+      card: {
+        number: cardNumber,
+        exp_month: expiryMonth,
+        exp_year: expiryYear,
+        cvc: cardCvc,
+      },
+    })
+  
+    const mappingKey = `${subscriptionTier}_${subscriptionType}`
+    const subscriptionId: string | undefined = subscriptionMapping[mappingKey]
+    const plan = await stripe.prices.retrieve(subscriptionId)
+    const customer = await stripe.customers.create({
+      source: token.id,
+      email: user.email,
+    })
+    const subscription = await stripe.subscriptions.create({
+      customer: customer.id,
+      items: [{ plan: plan.id }],
+      expand: ['latest_invoice.payment_intent'],
+    })
+
+    if (subscription){
+        
+      await prisma.subscriptions.create({
+        data: {
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+          type: subscriptionType,
+          tier: subscriptionTier,
+          stripeId: subscription.id,
+
+        },
+      })
+      return true}
+    
+    return false
+    
+
+    // TODO: saveCard
+    
+  }
+  catch (err){
+    console.log(err)
+    return false
+  }
+  
 }
 
 
