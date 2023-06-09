@@ -4,6 +4,10 @@ interface PurchaseData {
   title: string
   price: number
   description?: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  metaData: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  mutation: (args: any)=> Promise<void>
 }
 
 interface AppContextType {

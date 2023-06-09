@@ -23,7 +23,7 @@ const PurchaseModal = () => {
   const [cardNumber, setCardNumber] = useState('')
   const [cardHolder, setCardHolder] = useState('')
   const [validThru, setValidThru] = useState('')
-  const [csv, setCsv] = useState('')
+  const [cvc, setCvc] = useState('')
 
   const saveCardRef = useRef<HTMLButtonElement>(null)
 
@@ -57,10 +57,22 @@ const PurchaseModal = () => {
       return
     }
 
-    // validate csv (has to be 3 digits)
+    const expiryMonth = validThru.split('/')[0]
+    const expiryYear = validThru.split('/')[1]
+
+    const now = new Date()
+    const currentMonth = now.getMonth() + 1
+    const currentYear = now.getFullYear() % 100
+
+    if (Number(expiryYear) < currentYear || (Number(expiryYear) === currentYear && Number(expiryMonth) < currentMonth)) {
+      toast.error('Card expired')
+      return
+    }
+
+    // validate cvc (has to be 3 digits)
     const csvRegex = /^[0-9]{3}$/
-    if (!csvRegex.test(csv)) {
-      toast.error('Invalid csv')
+    if (!csvRegex.test(cvc)) {
+      toast.error('Invalid cvc')
       return
     }
 
@@ -70,21 +82,25 @@ const PurchaseModal = () => {
     const data = {
       cardNumber: creditCardWithoutSpaces,
       cardHolder,
-      validThru,
-      csv,
+      expiryMonth,
+      expiryYear,
+      cardCvc: cvc,
       saveCard,
     }
-    
-    console.log(data)
 
-    const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-    await delay(1000)
-    purchaseModal.close()
+    try {
+      await purchaseModal.data.mutation({
+        ...data,
+        metaData: purchaseModal.data.metaData,
+      })
+      purchaseModal.close()
+    } catch (e) {
+      toast('Something went wrong, please try again later')
+    }
   }, [
     cardHolder,
     creditCardWithoutSpaces,
-    csv,
+    cvc,
     purchaseModal,
     validThru,
   ])
@@ -94,7 +110,7 @@ const PurchaseModal = () => {
       setCardNumber('')
       setCardHolder('')
       setValidThru('')
-      setCsv('')
+      setCvc('')
     }
   }, [purchaseModal.isOpen])
 
@@ -268,15 +284,15 @@ const PurchaseModal = () => {
                   </div>
                   <div className="flex flex-col gap-1.5">
                     <label
-                      htmlFor="csv"
+                      htmlFor="cvc"
                       className="text-sm font-medium text-neutral-500"
                     >
-                      CSV
+                      CVC
                     </label>
                     <Input
-                      id="csv"
+                      id="cvc"
                       type="text"
-                      value={csv}
+                      value={cvc}
                       placeholder="•••"
                       maxLength={3}
                       onChange={(event) => {
@@ -286,7 +302,7 @@ const PurchaseModal = () => {
                           .replace(/\D/g, '')
                           .replace(/(^\s+|\s+$)/, '')
 
-                        setCsv(formattedValue)
+                        setCvc(formattedValue)
                       }}
                     />
                   </div>

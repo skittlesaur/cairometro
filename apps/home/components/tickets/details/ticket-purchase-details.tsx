@@ -6,6 +6,7 @@ import { Button, buttonVariants } from '@/components/button'
 import { Separator } from '@/components/separator'
 import { useAppContext } from '@/context/app-context'
 import useGetPrice from '@/graphql/get-price'
+import createPaymentMutation from '@/graphql/payment/create-payment'
 import useRideRoute from '@/graphql/stations/ride-route'
 import useUser from '@/graphql/user/me'
 import LocationIcon from '@/icons/location.svg'
@@ -63,14 +64,30 @@ const TicketPurchaseDetails = () => {
       return
     }
 
+    const metaData = {
+      from: ride?.[0].station.id,
+      to: ride?.[ride?.length - 1].station.id,
+      passengers: {
+        adults,
+        seniors,
+        children,
+      },
+      departureTime: ride?.[0].time,
+    }
+
     purchaseModal.open({
       title: `Purchase Ticket (${ride?.[0].station.name} - ${ride?.[ride?.length - 1].station.name})`,
       price,
+      metaData,
+      mutation: createPaymentMutation,
     })
-  }, [price,
+  }, [adults,
+    children,
+    price,
     purchaseModal,
     ride,
     router,
+    seniors,
     user])
 
   const getAdultsText = () =>

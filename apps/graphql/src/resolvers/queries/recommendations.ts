@@ -157,8 +157,7 @@ const recommendations: FieldResolver<'Query', 'recommendations'> =
           }, 0)
         )
 
-        const now = new Date()
-        const travelTime = new Date(2023, 0, 1, now.getHours(), now.getMinutes(), 0)
+        const travelTime = new Date()
 
         return getScheduleBasedOnGivenTime(rideDuration, travelTime, 1, 1)
       })

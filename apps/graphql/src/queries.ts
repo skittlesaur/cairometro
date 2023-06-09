@@ -115,6 +115,7 @@ const queries = queryType({
         from: nonNull(stringArg()),
         to: nonNull(stringArg()),
         travelTime: arg({ type: scheduleTimeType }),
+        date: nonNull(stringArg()),
         page: nonNull(intArg()),
         take: nonNull(intArg()),
         passengers: nonNull(arg({ type: passengersInputType })),

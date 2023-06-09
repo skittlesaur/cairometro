@@ -33,7 +33,7 @@ const Discover = () => {
             arrival={i18n.language === 'ar' ? recommendation.to.name_ar : recommendation.to.name}
             departureTime={new Date(recommendation.schedule[0].departureTime)}
             arrivalTime={new Date(recommendation.schedule[0].arrivalTime)}
-            href={`/tickets/${recommendation.from.id}/${recommendation.to.id}/${new Date(recommendation.schedule[0].departureTime).getTime()}?adults=${1}&children=${0}&seniors=${0}`}
+            href={`/tickets/${recommendation.from.id}/${recommendation.to.id}/${new Date(recommendation.schedule[0].departureTime).toISOString()}?adults=${1}&children=${0}&seniors=${0}`}
             price={recommendation.price}
             stations={recommendation.noOfStationsOnPath}
           />

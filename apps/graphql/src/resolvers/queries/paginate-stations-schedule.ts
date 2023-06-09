@@ -13,8 +13,8 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
   async (_, args, ctx: Context) => {
     const { prisma, user } = ctx
 
-    const from = args.from
-    const to = args.to
+    const { from, to, date } = args
+    console.log(date)
 
     const departureStation = await prisma.station.findUnique({
       where: {
@@ -70,7 +70,13 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
         travelHour = travelHour - 1
         minutesOffset = 60 + minutesOffset
       }
-      travelTime = new Date(2023, 0, 1, travelHour, minutesOffset, 0)
+
+      const travelDate = new Date(date)
+      travelDate.setHours(travelHour)
+      travelDate.setMinutes(minutesOffset)
+      travelDate.setSeconds(0)
+      travelDate.setMilliseconds(0)
+      travelTime = travelDate
       
       if (user) {
         await prisma.searchHistory.create({
