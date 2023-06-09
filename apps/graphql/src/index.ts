@@ -36,10 +36,6 @@ app.post('/auth/magic-link', magicLinkVerification)
 app.post('/auth/otp', otpVerification)
 app.post('/auth/logout', logout)
 
-// app.use((req, res) => {
-//   console.log(req.cookies)
-// })
-
 app.use('/graphql', yoga)
 
 app.listen(PORT, () => {
