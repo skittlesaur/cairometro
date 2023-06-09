@@ -1,62 +1,62 @@
 {
-  "language": "ar",
-  "name": "العربية",
-  "title": "مترو القاهرة",
-  "navigation": {
-    "home": "الرئيسية",
-    "support": "الدعم",
-    "subscriptions": "الاشتراكات",
-    "help": "مركز المساعدة",
-    "instructions": {
-      "title": "التعليمات",
-      "content": {
-        "specialNeeds": {
-          "title": "الاحتياجات الخاصة",
-          "description": "خدمات اصحاب الهمم المتاحة"
+    "language": "ar",
+    "name": "العربية",
+    "title": "مترو القاهرة",
+    "navigation": {
+        "home": "الرئيسية",
+        "support": "الدعم",
+        "subscriptions": "الاشتراكات",
+        "help": "مركز المساعدة",
+        "instructions": {
+            "title": "التعليمات",
+            "content": {
+                "specialNeeds": {
+                    "title": "الاحتياجات الخاصة",
+                    "description": "خدمات اصحاب الهمم المتاحة"
+                },
+                "rules": {
+                    "title": "القوانين وقواعد السلوك",
+                    "description": "القواعد والأنظمة التي يجب أن يتبعها المسافرون"
+                },
+                "linesAndSchedule": {
+                    "title": "الخطوط وجدول القطارات",
+                    "description": "الخطوط وجدول القطارات"
+                }
+            }
         },
-        "rules": {
-          "title": "القوانين وقواعد السلوك",
-          "description": "القواعد والأنظمة التي يجب أن يتبعها المسافرون"
+        "login": "تسجيل الدخول",
+        "createAccount": "إنشاء حساب",
+        "createAnAccount": "إنشاء حساب"
+    },
+    "footer": {
+        "metro": {
+            "title": "المترو",
+            "stations": "المحطات",
+            "subscriptions": "الاشتراكات",
+            "lines": "الخطوط",
+            "tickets": "التذاكر"
         },
-        "linesAndSchedule": {
-          "title": "الخطوط وجدول القطارات",
-          "description": "الخطوط وجدول القطارات"
+        "instructions": {
+            "title": "التعليمات",
+            "specialNeeds": "الاحتياجات الخاصة",
+            "rules": "القوانين وقواعد السلوك",
+            "schedule": "جدول القطارات"
+        },
+        "development": {
+            "title": "التطوير",
+            "github": "Github Repository"
+        },
+        "getTheApp": "احصل على التطبيق"
+    },
+    "components": {
+        "continueWithGoogle": {
+            "text": "تسجيل الدخول باستخدام جوجل"
         }
-      }
     },
-    "login": "تسجيل الدخول",
-    "createAccount": "إنشاء حساب",
-    "createAnAccount": "إنشاء حساب"
-  },
-  "footer": {
-    "metro": {
-      "title": "المترو",
-      "stations": "المحطات",
-      "subscriptions": "الاشتراكات",
-      "lines": "الخطوط",
-      "tickets": "التذاكر"
+    "ticket": {
+        "viewDetails": "عرض التفاصيل",
+        "stations": "محطات"
     },
-    "instructions": {
-      "title": "التعليمات",
-      "specialNeeds": "الاحتياجات الخاصة",
-      "rules": "القوانين وقواعد السلوك",
-      "schedule": "جدول القطارات"
-    },
-    "development": {
-      "title": "التطوير",
-      "github": "Github Repository"
-    },
-    "getTheApp": "احصل على التطبيق"
-  },
-  "components": {
-    "continueWithGoogle": {
-      "text": "تسجيل الدخول باستخدام جوجل"
-    }
-  },
-  "ticket": {
-    "viewDetails": "عرض التفاصيل",
-    "stations": "محطات"
-  },
-  "egp": "جنيه مصري",
-  "egpShort": "ج.م"
+    "egp": "جنيه مصري",
+    "egpShort": "ج.م"
 }
