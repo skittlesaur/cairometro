@@ -1,10 +1,9 @@
 import { Button } from '@/components/button'
+import ArrowBackIcon from '@/icons/arrow-back-outline.svg'
 
 import { motion } from 'framer-motion'
 
-import ArrowBackIcon from '@/icons/arrow-back-outline.svg'
 import OtpInput from './otp-input'
-import VerifyScreenAnimation from './verify-screen-animation'
 
 interface OtpProps {
   email: string
@@ -26,16 +25,15 @@ const Otp = ({ email, setViewMagicLink }: OtpProps) => {
         <span className="text-primary">{email}</span>
       </p>
       <OtpInput email={email} />
-      <Button 
+      <Button
         variant="linkSecondary"
-        onClick={setViewMagicLink}
         className="text-neutral-400"
+        onClick={setViewMagicLink}
       >
-        <ArrowBackIcon className=" w-4 fill-neutral-400"/> Verify using magic link
+        <ArrowBackIcon className=" w-4 fill-neutral-400" /> Verify using magic link
       </Button>
-      {/* <VerifyScreenAnimation /> */}
     </motion.div>
-    
+
   )
 }
 
