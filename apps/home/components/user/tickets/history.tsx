@@ -32,6 +32,13 @@ const History = () => {
           <Loader />
         </div>
       )}
+      {data.length === 0 && !isLoading && (
+        <div className="mt-7 flex flex-col">
+          <p className="text-center text-neutral-500">
+            No tickets found
+          </p>
+        </div>
+      )}
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       {data?.map((ticket: any) => (
         <div key={ticket.id}>
