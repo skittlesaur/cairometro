@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import DataTable from '@/components/data-table'
 import Input from '@/components/input'
+import { RefundsVariables } from '@/graphql/admin/refunds/refunds'
 import SearchIcon from '@/icons/search-outline.svg'
 import Refund from '@/types/refund'
 
@@ -19,7 +20,7 @@ const columns = [
     accessorKey: 'user',
     header: 'User',
     cell: ({ row }: Cell) => {
-      const user = row.getValue('user') as {name: string, email: string}
+      const user = row.getValue('user') as { name: string, email: string }
       return (
         <div className="flex flex-col">
           <div className="text-sm font-medium text-gray-900">{user.name}</div>
@@ -30,7 +31,7 @@ const columns = [
   },
   {
     accessorKey: 'createdAt',
-    header: 'Date',    
+    header: 'Date',
     cell: ({ row }: Cell) => {
       const date = row.getValue('createdAt') as Date
       return (
@@ -39,12 +40,12 @@ const columns = [
             year: 'numeric',
             month: 'long',
             day: 'numeric',
-          }
+          },
         )} at {new Date(date).toLocaleTimeString(
           'en-US', {
             hour: 'numeric',
             minute: 'numeric',
-          }
+          },
         )}
         </p>
       )
@@ -81,7 +82,7 @@ const columns = [
         style: 'currency',
         currency: 'EGP',
       }).format(amount)
-      
+
       return (
         <p className="text-sm text-gray-500">{formatted}</p>
       )
@@ -92,9 +93,12 @@ const columns = [
 interface RefundsTableProps {
   setRefundOpen: (refund: Refund | undefined)=> void
   data: Refund[]
+  setFilterBy: (filterBy: RefundsVariables['filterBy'])=> void
 }
-const RefundsTable = ({ setRefundOpen, data }: RefundsTableProps) => {
+
+const RefundsTable = ({ setRefundOpen, data, setFilterBy }: RefundsTableProps) => {
   const [currentTab, setCurrentTab] = useState('all')
+
 
   const tabs = [
     'All',
@@ -103,12 +107,17 @@ const RefundsTable = ({ setRefundOpen, data }: RefundsTableProps) => {
     'Rejected',
   ]
 
+
   return (
     <div className="w-full flex flex-col gap-5">
       <Tabs.Root
         defaultValue="all"
         className="flex flex-col gap-3"
-        onValueChange={(value) => setCurrentTab(value)}
+        onValueChange={(value) => {
+          setCurrentTab(value)
+          setFilterBy(value.toUpperCase() as RefundsVariables['filterBy'])
+        }}
+
       >
         <Tabs.List className="border-b">
           {tabs.map((tab) => (
@@ -144,12 +153,6 @@ const RefundsTable = ({ setRefundOpen, data }: RefundsTableProps) => {
         columns={columns}
         data={data}
         rowOnClick={(row) => {
-          // if (row.status !== 'PENDING'){
-          //   toast(`Refund has been already ${row.status} and cannot be updated`, {
-          //     icon: '⚠️',
-          //   })
-          //   return
-          // }
           setRefundOpen(row)
         }}
       />
@@ -157,4 +160,5 @@ const RefundsTable = ({ setRefundOpen, data }: RefundsTableProps) => {
   )
 }
 
-export default RefundsTable
+
+export default RefundsTable 

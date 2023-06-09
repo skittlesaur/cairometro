@@ -1,4 +1,5 @@
 import * as Avatar from '@radix-ui/react-avatar'
+import cn from 'classnames'
 import { AnimatePresence, motion } from 'framer-motion'
 import gradientAvatar from 'gradient-avatar'
 
@@ -6,14 +7,21 @@ interface UserAvatarProps {
   id: string
   name: string
   image?: string
+  className?: string
+  textClassName?: string
 }
 
-const UserAvatar = ({ id, name, image }: UserAvatarProps) => {
+const UserAvatar = ({
+  id, name, image, className, textClassName,
+}: UserAvatarProps) => {
   return (
     <AnimatePresence mode="wait">
       <Avatar.Root
         asChild
-        className="relative w-8 h-8 rounded-full overflow-hidden border border-gray-900/30 hover:border-gray-700"
+        className={cn(
+          'relative w-8 h-8 rounded-full overflow-hidden border border-gray-900/30 hover:border-gray-700',
+          className
+        )}
       >
         <motion.div
           initial={{ opacity: 0 }}
@@ -30,7 +38,10 @@ const UserAvatar = ({ id, name, image }: UserAvatarProps) => {
             <div className="relative w-full h-full">
               <p
                 aria-hidden="true"
-                className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 font-semibold select-none"
+                className={cn(
+                  'absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 font-semibold select-none',
+                  textClassName
+                )}
               >
                 {name[0]}
               </p>

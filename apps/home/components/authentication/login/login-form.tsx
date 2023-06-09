@@ -38,7 +38,7 @@ const LoginForm = ({ nextView }: LoginFormProps) => {
   }
 
   return (
-    <div className="w-[calc(50%-6em)] h-screen flex flex-col gap-10 items-center justify-center">
+    <div className="w-full lg:w-[calc(50%-6em)] h-screen flex flex-col gap-10 items-center justify-center">
       <div className="w-full flex flex-col gap-16 px-12">
         <div className="flex flex-col gap-9">
           <div className="flex flex-col gap-7">

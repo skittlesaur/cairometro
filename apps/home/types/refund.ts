@@ -1,4 +1,5 @@
 interface Refund {
+  status: string;
   id: string
   user: {
     name: string
