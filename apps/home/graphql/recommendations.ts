@@ -28,7 +28,12 @@ const USER_QUERY = /* GraphQL */ `
 const useRecommendations = () => {
   const result = useSWR(
     [USER_QUERY],
-    (queryStr: string) => graphqlFetcher(queryStr)
+    (queryStr: string) => graphqlFetcher(queryStr),
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
   )
 
   return result
