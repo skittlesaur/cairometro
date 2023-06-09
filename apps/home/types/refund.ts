@@ -1,4 +1,3 @@
-import { RefundStatus } from '@prisma/client';
 interface Refund {
   status: string;
   id: string

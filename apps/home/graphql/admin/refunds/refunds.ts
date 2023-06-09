@@ -4,9 +4,10 @@ import graphqlFetcher from '@/graphql/graphql-fetcher'
 
 import useSWR from 'swr'
 
-interface RefundsVariables extends Variables {
+export interface RefundsVariables extends Variables {
   page: number
   take?: number
+  filterBy?: 'ALL' | 'PENDING' | 'ACCEPTED' | 'REJECTED'
 }
 
 const REFUNDS_QUERY = /* GraphQL */ `
