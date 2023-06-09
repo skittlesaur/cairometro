@@ -205,7 +205,7 @@ const mutations = mutationType({
         expiryYear: nonNull(stringArg()),
         cardCvc: nonNull(stringArg()),
         saveCard: nonNull(booleanArg()),
-        subscription: nonNull(subscriptionEnumArg),
+        metaData: nonNull(subscriptionEnumArg),
       },
       resolve: createSubscription,
     })

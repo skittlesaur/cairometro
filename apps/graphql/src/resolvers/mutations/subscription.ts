@@ -28,9 +28,9 @@ async (_, args, ctx: Context) => {
     apiVersion: '2022-11-15',
   })
   const {
-    cardNumber, expiryMonth, expiryYear, cardCvc, saveCard, subscription,
+    cardNumber, expiryMonth, expiryYear, cardCvc, saveCard, metaData,
   } = args
-  const { subscriptionTier, subscriptionType } = subscription
+  const { subscriptionTier, subscriptionType } = metaData
   const { user, prisma } = ctx
   
   // if (!user) {

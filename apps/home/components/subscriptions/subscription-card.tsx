@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 
 import { Separator } from '@/components/separator'
 import { useAppContext } from '@/context/app-context'
+import createSubscriptionMutation from '@/graphql/payment/create-subscription'
 import useUser from '@/graphql/user/me'
 import CheckmarkIcon from '@/icons/checkmark.svg'
 
@@ -35,9 +36,16 @@ const SubscriptionCard = ({
       return
     }
     
+    const metaData = {
+      subscriptionType: subscription.toUpperCase(),
+      subscriptionTier: area.toUpperCase().replace(' ', '_'),
+    }
+    
     purchaseModal.open({
       title: `Purchase ${subscription} Subscription (${area})`,
       price,
+      metaData,
+      mutation: createSubscriptionMutation,
     })
   }, [
     area,

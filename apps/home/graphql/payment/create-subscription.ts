@@ -2,34 +2,28 @@ import { Variables } from 'graphql-request'
 
 import mutate from '@/graphql/mutate'
 
-interface CreatePaymentVariables extends Variables {
+interface CreateSubscriptionVariables extends Variables {
   cardNumber: string
   expiryMonth: string
   expiryYear: string
   cardCvc: string
   saveCard: boolean
   metaData: {
-    from: string,
-    to: string,
-    passengers: {
-      adults: number,
-      seniors: number,
-      children: number
-    },
-    departureTime: string,
+    subscriptionType: 'MONTHLY' | 'QUARTERLY' | 'YEARLY'
+    subscriptionTier: 'ONE_AREA' | 'TWO_AREAS' | 'THREE_AREAS'
   }
 }
 
-const CREATE_PAYMENT_QUERY = /* GraphQL */ `
-  mutation createPayment(
+const CREATE_SUBSCRIPTION_QUERY = /* GraphQL */ `
+  mutation createSubscription(
     $cardNumber: String!
     $expiryMonth: String!
     $expiryYear: String!
     $cardCvc: String!
     $saveCard: Boolean!
-    $metaData: oneTimeInput!
+    $metaData: subscriptionEnumArg!
   ) {
-    createPayment(
+    createSubscription(
       cardNumber: $cardNumber
       expiryMonth: $expiryMonth
       expiryYear: $expiryYear
@@ -40,8 +34,8 @@ const CREATE_PAYMENT_QUERY = /* GraphQL */ `
   }
 `
 
-const createPaymentMutation = (variables: CreatePaymentVariables) => {
-  return mutate(CREATE_PAYMENT_QUERY, variables)
+const createSubscriptionMutation = (variables: CreateSubscriptionVariables) => {
+  return mutate(CREATE_SUBSCRIPTION_QUERY, variables)
 }
 
-export default createPaymentMutation
+export default createSubscriptionMutation
