@@ -91,7 +91,7 @@ const DesktopTicket = ({
       <div className=" w-[1px] h-16 border-dashed border-gray-300 border-r" />
       <div className="flex items-center gap-12 justify-end">
         <span className="text-2xl font-semibold text-primary w-[150px] ltr:text-right rtl:text-left">
-          {price.toFixed(2)} {t('egpShort')}
+          {price.toLocaleString([i18n.language === 'ar' ? 'ar-EG' : 'en-US'], { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace('٫', '.')} {t('egpShort')}
         </span>
         <Button
           variant={'ticket'}
@@ -103,5 +103,7 @@ const DesktopTicket = ({
     </Link>
   )
 }
+
+// price.toLocaleString('ar-EG', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
 export default Ticket
