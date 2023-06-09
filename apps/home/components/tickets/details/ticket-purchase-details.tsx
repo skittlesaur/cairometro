@@ -14,6 +14,7 @@ import QrCodeIcon from '@/icons/qr-code.svg'
 import ForwardIcon from '@/icons/return-up-forward.svg'
 import TicketIcon from '@/icons/ticket.svg'
 import TrainIcon from '@/icons/train.svg'
+import Line from '@/types/line'
 import Station from '@/types/station'
 
 import cn from 'classnames'
@@ -174,7 +175,24 @@ const TicketPurchaseDetails = () => {
             const time = timeFormat.split(' ')[0]
             const period = timeFormat.split(' ')[1]
 
-            const isTransfer = false
+            let isTransfer = false
+            
+            if (index > 0 && index < ride.length - 1) {
+              const previousStation = ride?.[index - 1]
+              const nextStation = ride?.[index + 1]
+
+              if (previousStation && nextStation) {
+                const previousLines = previousStation.station.lines
+                const nextLines = nextStation.station.lines
+
+                const nextHasSameLineAsPrevious = nextLines.some((nextLine: Line) =>
+                  previousLines.some((previousLine: Line) => previousLine.id === nextLine.id))
+
+                if (!nextHasSameLineAsPrevious) {
+                  isTransfer = true
+                }
+              }
+            }
 
             return (
               <>
