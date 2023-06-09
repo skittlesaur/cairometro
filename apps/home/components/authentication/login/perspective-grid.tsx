@@ -1,29 +1,44 @@
+import Radial from '@/components/radial-animation'
 import Location from '@/icons/location.svg'
-
 
 const PerspectiveGrid = () => {
   return (
     <div
-      className="absolute w-[calc(100%+26em)] h-full -translate-y-24 z-0"
+      className="absolute w-[calc(100%+26em)] h-full bottom-0 top-0 -translate-y-24"
       style={{ perspective: '500px' }}
     >
 
       <div className="absolute left-0 right-0 bottom-0 top-[25%] bg-gradient-to-b from-white via-transparent to-transparent z-0" />
 
       <Location
-        className="absolute fill-primary w-10 top-[34.7%] right-[33.9%] " 
+        className="absolute fill-primary w-10 top-[34.7%] right-[33.9%] "
       />
+
+      {/* <Location
+        className="absolute fill-green-500 w-10 top-[34.7%] left-[62.8%] "
+      />  */}
+
+      <div className="absolute bg-green-500 w-1 h-10 top-[34.7%] left-[62.8%] " />
+     
+      <div className="absolute left-[47.4%] bottom-0 z-[1]">
+        <Radial character="M" />
+      </div>
      
       <div
         className="absolute w-full h-full left-0 bottom-0 z-[-1]"
         style={{ transform: 'rotateX(45deg)' }}
       >
 
+        <Location
+          className="absolute fill-blue-500 w-10 top-[28%] left-[65.2%] "
+          
+        />
+
         <div className="absolute top-[31.8%] right-[32.1%] w-6 h-6 rounded-full bg-neutral-500 " />
         <div id="Glowing lines">
-          <div className="absolute border-primary h-[calc(100%-34.3em)] border-2 border-solid left-[49.89%] bottom-[10%] z-[-3]" />
-          <div className="absolute border-primary w-[calc(100%-62.1em)] border-2 border-solid left-[49.89%] bottom-[33%] z-[-3]" />
-          <div className="absolute border-primary h-[calc(100%-29em)] border-2 border-solid right-[33%] bottom-[33%] z-[-3]" />
+          <div className="absolute border-primary h-[23%] border-2 border-solid left-[49.89%] bottom-[10%] z-[-3]" />
+          <div className="absolute border-primary w-[17%] border-2 border-solid left-[49.89%] bottom-[33%] z-[-3]" />
+          <div className="absolute border-primary h-[35%] border-2 border-solid right-[33%] bottom-[33%] z-[-3]" />
         </div>
 
         <div id="vertical lines">
@@ -47,9 +62,9 @@ const PerspectiveGrid = () => {
         </div>
 
         <div id="Vertical moving lines">
-          <div
+          {/* <div
             className="absolute border-red-600 border-2 border-solid rounded-full h-[75px] top-[100%]  animate-moveDotVertical1"
-          />
+          /> */}
           <div
             className="absolute border-red-600 border-2 border-solid rounded-full h-[75px] top-[100%] left-[33%] animate-moveDotVertical2"
           />
@@ -94,3 +109,56 @@ const PerspectiveGrid = () => {
 }
 
 export default PerspectiveGrid
+
+
+
+{/* <div className="absolute h-full border-2 border-solid  z-[-5]" />
+<div className="absolute h-full border-2 border-solid left-[12em] z-[-5]" />
+<div className="absolute h-full border-2 border-solid left-[24.7em] z-[-5]" />
+<div className="absolute h-full border-2 border-solid left-[37.2em] z-[-5]" />
+<div className="absolute h-full border-2 border-solid right-[24.7em] z-[-5]" />
+<div className="absolute h-full border-2 border-solid right-[12em]  z-[-5]" />
+<div className="absolute h-full border-2 border-solid" /> */}
+
+{/* <div id="vertical lines">
+<div className="absolute h-full border-2 border-solid  z-[-5]" />
+<div className="absolute h-full border-2 border-solid left-[12em] z-[-5]" />
+<div className="absolute h-full border-2 border-solid left-[24.8em] z-[-5]" />
+<div className="absolute h-full border-2 border-solid left-[37.4em] z-[-5]" />
+<div className="absolute h-full border-2 border-solid right-[24.8em] z-[-5]" />
+<div className="absolute h-full border-2 border-solid right-[12em]  z-[-5]" />
+<div className="absolute h-full border-2 border-solid" />
+</div>
+
+<div id="horizontal lines">
+<div className="absolute w-full border-2 border-solid z-[-5]" />
+<div className="absolute w-full border-2 border-solid top-[7.2em] z-[-5]" />
+<div className="absolute w-full border-2 border-solid top-[14.7em] z-[-5]" />
+<div className="absolute w-full border-2 border-solid top-[22.3em] z-[-5]" />
+<div className="absolute w-full border-2 border-solid bottom-[14.7em] z-[-5]" />
+<div className="absolute w-full border-2 border-solid bottom-[7.2em]  z-[-5]" />
+<div className="absolute w-full border-2 border-solid  " />
+</div> */}
+
+{/* <div
+className="absolute w-[calc(100vw-25em)] h-full -translate-y-24 z-0"
+style={{ perspective: '500px' }}
+>
+
+<div className="absolute left-0 right-0 bottom-0 top-[25%] bg-gradient-to-b from-white via-transparent to-transparent z-0" />
+
+<Location
+  className="absolute fill-primary w-10 top-[34.7%] right-[33.9%] " 
+/>
+
+<div
+  className="absolute w-full h-full left-0 bottom-0 z-[-1]"
+  style={{ transform: 'rotateX(45deg)' }}
+>
+
+  <div className="absolute top-[31.8%] right-[32.1%] w-6 h-6 rounded-full bg-neutral-500 " />
+  <div id="Glowing lines">
+    <div className="absolute border-primary h-[23vh] border-2 border-solid left-[49.89%] bottom-[10%] z-[-3]" />
+    <div className="absolute border-primary w-[12.5vw] border-2 border-solid left-[49.89%] bottom-[33%] z-[-3]" />
+    <div className="absolute border-primary h-[35vh] border-2 border-solid right-[33%] bottom-[33%] z-[-3]" />
+  </div> */}
