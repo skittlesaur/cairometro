@@ -14,6 +14,7 @@ import invitation from './resolvers/queries/invitation'
 import lines from './resolvers/queries/lines'
 import me from './resolvers/queries/me'
 import paginateStationsSchedule from './resolvers/queries/paginate-stations-schedule'
+import recommendations from './resolvers/queries/recommendations'
 import rideRouteByDate from './resolvers/queries/ride-route-by-date'
 import stationById from './resolvers/queries/station-by-id'
 import stations from './resolvers/queries/stations'
@@ -49,6 +50,11 @@ const queries = queryType({
         id: nonNull(stringArg()),
       },
       resolve: stationById,
+    })
+    
+    t.list.field('recommendations', {
+      type: RideTicketDataType,
+      resolve: recommendations,
     })
 
     t.list.field('rideRouteByDate', {
