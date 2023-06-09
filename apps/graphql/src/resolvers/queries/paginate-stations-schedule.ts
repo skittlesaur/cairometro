@@ -11,7 +11,7 @@ import findRoute from '../../lib/find-route'
 
 const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule'> =
   async (_, args, ctx: Context) => {
-    const { prisma } = ctx
+    const { prisma, user } = ctx
 
     const from = args.from
     const to = args.to
@@ -48,6 +48,8 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
         return acc + duration
       }, 0)
     )
+    
+    let travelTime = dayStart
 
     if (args.travelTime?.hour || args.travelTime?.minute){
 
@@ -68,15 +70,31 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
         travelHour = travelHour - 1
         minutesOffset = 60 + minutesOffset
       }
-      const travelTime = new Date(2023, 0, 1, travelHour, minutesOffset, 0)
-
-      return {
-        from: departureStation,
-        to: arrivalStation,
-        noOfStationsOnPath: path.stationsInPath.length,
-        price: calculatePricing(path, args.passengers, ctx),
-        schedule: getScheduleBasedOnGivenTime(rideDuration, travelTime, take, page),
+      travelTime = new Date(2023, 0, 1, travelHour, minutesOffset, 0)
+      
+      if (user) {
+        await prisma.searchHistory.create({
+          data: {
+            user: {
+              connect: {
+                id: user.id,
+              },
+            },
+            from: {
+              connect: {
+                id: departureStation.id,
+              },
+            },
+            to: {
+              connect: {
+                id: arrivalStation.id,
+              },
+            },
+            departureTime: travelTime,
+          },
+        })
       }
+      
     }
 
     return {
@@ -84,7 +102,7 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
       to: arrivalStation,
       noOfStationsOnPath: path.stationsInPath.length,
       price: calculatePricing(path, args.passengers, ctx),
-      schedule: getScheduleBasedOnGivenTime(rideDuration, dayStart, take, page),
+      schedule: getScheduleBasedOnGivenTime(rideDuration, travelTime, take, page),
     }
   }
 

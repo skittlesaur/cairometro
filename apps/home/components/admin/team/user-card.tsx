@@ -44,7 +44,7 @@ const UserCard = ({ user, isCurrentUser, handleRemoveTeammate }: UserCardProps) 
           <AlertDialogTrigger asChild>
             <Button
               variant="ghost"
-              className="hover:text-white hover:bg-red-800"
+              className="hover:text-white hover:bg-primary"
             >
               <PersonRemoveIcon className="w-4 h-4" />
             </Button>

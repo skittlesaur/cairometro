@@ -5,7 +5,7 @@ import RefundRequestCard from '@/components/admin/refunds/refund-request-card'
 import RefundsTable from '@/components/admin/refunds/refunds-table'
 import { Button } from '@/components/button'
 import useRefundsAnalytics from '@/graphql/admin/analytics/refunds-analytics'
-import useRefunds from '@/graphql/admin/refunds/refunds'
+import useRefunds, { RefundsVariables } from '@/graphql/admin/refunds/refunds'
 import updateRefundRequestMutation, {
   UpdateRefundRequestVariables,
 } from '@/graphql/admin/refunds/update-refund-request'
@@ -21,10 +21,13 @@ const Refunds = () => {
   const [refundOpen, setRefundOpen] = useState<Refund | undefined>(undefined)
   const [page, setPage] = useState(0)
   const [take, setTake] = useState(6)
+  const [filterBy, setFilterBy] = useState<RefundsVariables['filterBy']>('ALL')
+
 
   const { data: refunds, mutate: mutateRefunds } = useRefunds({
     page,
     take,
+    filterBy,
   })
 
   const { data: analytics, isLoading: analyticsLoading } = useRefundsAnalytics()
@@ -106,13 +109,14 @@ const Refunds = () => {
       <RefundsTable
         setRefundOpen={setRefundOpen}
         data={refunds}
+        setFilterBy={setFilterBy}
       />
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <label className="text-gray-500 text-sm">
             Show result
           </label>
-          <select 
+          <select
             className="border px-2 py-1.5 rounded-lg text-sm font-medium"
             value={take}
             onChange={(e) => {
