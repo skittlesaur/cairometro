@@ -6,7 +6,6 @@ import TimeField from '@/components/ticket-search/calendar/time-field'
 
 import cn from 'classnames'
 import { format } from 'date-fns'
-import { ar } from 'date-fns/locale'
 import { useTranslation } from 'react-i18next'
 
 interface DateTimePickerProps {
