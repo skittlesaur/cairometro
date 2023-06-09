@@ -2,6 +2,7 @@ import { Button } from '@/components/button'
 import loginMutation from '@/graphql/user/login'
 
 import { motion } from 'framer-motion'
+import { useTranslation } from 'next-i18next'
 import toast from 'react-hot-toast'
 
 interface MagicLinkProps {
@@ -10,6 +11,7 @@ interface MagicLinkProps {
 }
 
 const MagicLink = ({ email, setViewOtp }: MagicLinkProps) => {
+  const { t } = useTranslation('login')
   const handleResubmission = async () => {
     try {
       await loginMutation({ email: email })

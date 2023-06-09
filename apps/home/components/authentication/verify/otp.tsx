@@ -3,6 +3,7 @@ import loginMutation from '@/graphql/user/login'
 import ArrowBackIcon from '@/icons/arrow-back-outline.svg'
 
 import { motion } from 'framer-motion'
+import { useTranslation } from 'next-i18next'
 import toast from 'react-hot-toast'
 
 import OtpInput from './otp-input'
@@ -13,6 +14,7 @@ interface OtpProps {
 }
 
 const Otp = ({ email, setViewMagicLink }: OtpProps) => {
+  const { t } = useTranslation('login')
   const handleResubmission = async () => {
     try {
       await loginMutation({ email: email })
