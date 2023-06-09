@@ -1,6 +1,8 @@
 
 import { GraphQLError } from 'graphql/error'
+import { DateTime } from 'graphql-scalars/typings/mocks'
 
+import { parse } from 'handlebars'
 import { FieldResolver } from 'nexus'
 import Stripe from 'stripe'
 
@@ -21,7 +23,7 @@ async (_, args, ctx: Context) => {
   const {
     from, to, passengers, departureTime, 
   } = metaData
-  const { user } = ctx
+  const { user, prisma } = ctx
   
   if (!user) {
     throw new GraphQLError('User not Authenticated')
@@ -56,7 +58,6 @@ async (_, args, ctx: Context) => {
       },
     })
     const Source = token.id
-    console.log(token)
     const path = await findRoute(from, to, ctx)
     const price = await calculatePricing(path, passengers, ctx) 
   
@@ -74,6 +75,32 @@ async (_, args, ctx: Context) => {
     })
     
     if (payment.status === 'succeeded'){
+
+      const date = new Date(parseInt(departureTime))
+            
+      // add userTicket to database
+      const purchase = await prisma.userTickets.create({
+        data: {
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+          from: {
+            connect: {
+              id: from,
+            },
+          },
+          to: {
+            connect: {
+              id: to,
+            },
+          },
+          date: date,
+          price: price,
+          
+        },
+      })
       return true
     }
     return false
