@@ -42,7 +42,11 @@ const DateTimePicker = forwardRef(({ from, to, ..._ }: DateTimePickerProps, ref)
     }),
   }))
 
-  const popoverText =  language === 'ar' ? date ? format(date, 'd MMMM', { locale: ar }) + ' في ' + `${parseInt(hours).toLocaleString('ar-EG').padStart(2, '٠')}:${parseInt(minutes).toLocaleString('ar-EG').padStart(2, '٠')} ${meridiem ? 'ص' : 'م'}` : <span>اختار المعاد</span> : date ? format(date, 'd MMMM') + ' at ' + `${hours}:${minutes} ${meridiem ? 'AM' : 'PM'}` : <span>Pick a date</span> 
+  const arabicDate = date ? `${date?.toLocaleString('ar-EG', { day: 'numeric' })} ${date?.toLocaleString('ar-EG', { month: 'long' })}  في ${parseInt(hours).toLocaleString('ar-EG').padStart(2, '٠')}:${parseInt(minutes).toLocaleString('ar-EG').padStart(2, '٠')} ${meridiem ? 'ص' : 'م'}` : <span>اختار المعاد</span>
+
+  const englishDate = date ? format(date, 'd MMMM') + ' at ' + `${hours}:${minutes} ${meridiem ? 'AM' : 'PM'}` : <span>Pick a date</span> 
+
+  const popoverText =  language === 'ar' ? arabicDate : englishDate   
 
   return (
     <Popover>
