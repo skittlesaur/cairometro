@@ -77,10 +77,8 @@ const mutations = mutationType({
     t.field('requestRefund', {
       type: 'Boolean',
       args: {
+        id: nonNull(stringArg()),
         ticketType: nonNull(arg({ type: TicketTypeEnumArg })),
-        userId: nonNull(stringArg()),
-        message: nonNull(stringArg()),
-        price: nonNull(floatArg()),
       },
       resolve: addRefund,
     })

@@ -151,14 +151,16 @@ model Pricing {
 }
 
 model Refund {
-  id         String       @id @default(cuid()) @map("_id")
-  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String
-  createdAt  DateTime     @default(now())
-  status     RefundStatus @default(PENDING)
-  ticketType TicketType
-  message    String
-  price      Float
+  id          String       @id @default(cuid()) @map("_id")
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  status      RefundStatus @default(PENDING)
+  ticketType  TicketType
+  referenceId String
+  message     String
+  price       Float
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 }
 
 model SearchHistory {
