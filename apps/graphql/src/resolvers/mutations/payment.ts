@@ -96,6 +96,7 @@ async (_, args, ctx: Context) => {
           },
           date: date,
           price: price,
+          paymentId: payment.id,
           
         },
       })
