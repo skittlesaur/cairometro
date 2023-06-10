@@ -1,14 +1,14 @@
 
 import { GraphQLError } from 'graphql/error'
-import { DateTime } from 'graphql-scalars/typings/mocks'
 
-import { parse } from 'handlebars'
 import { FieldResolver } from 'nexus'
 import Stripe from 'stripe'
 
 import { Context } from '../../context'
 import calculatePricing from '../../lib/calculate-pricing'
 import findRoute from '../../lib/find-route'
+import getSavedCard from '../../lib/get-saved-card'
+import saveUserCard from '../../lib/save-user-card'
 import sendEmail, { EmailTemplate } from '../../lib/send-email'
 
 
@@ -19,7 +19,7 @@ async (_, args, ctx: Context) => {
     apiVersion: '2022-11-15',
   })
   const {
-    cardNumber, expiryMonth, expiryYear, cardCvc, saveCard, metaData,
+    cardNumber, expiryMonth, expiryYear, cardCvc, saveCard, metaData, cardHolder, cardId,
   } = args
   const {
     from, to, passengers, departureTime, 
@@ -29,34 +29,52 @@ async (_, args, ctx: Context) => {
   if (!user) {
     throw new GraphQLError('User not Authenticated')
   }
-  if (!cardNumber || !expiryMonth || !expiryYear || !cardCvc) {
-    throw new GraphQLError('Card details are missing')
+  
+  let card = {
+    number: cardNumber,
+    exp_month: expiryMonth,
+    exp_year: expiryYear,
+    cvc: cardCvc,
   }
-  // validate card details
-  const cardNumberRegex = new RegExp('^[0-9]{16}$')
-  const expiryMonthRegex = new RegExp('^[0-9]{2}$')
-  const expiryYearRegex = new RegExp('^[0-9]{2}$')
-  const cardCvcRegex = new RegExp('^[0-9]{3}$')
-  if (!cardNumberRegex.test(cardNumber)) {
-    throw new GraphQLError('Invalid card number')
+  
+  if (cardId){
+    card = await getSavedCard(cardId, ctx)
+  } else {
+    if (!cardNumber || !expiryMonth || !expiryYear || !cardCvc) {
+      throw new GraphQLError('Card details are missing')
+    }
+    // validate card details
+    const cardNumberRegex = new RegExp('^[0-9]{16}$')
+    const expiryMonthRegex = new RegExp('^[0-9]{2}$')
+    const expiryYearRegex = new RegExp('^[0-9]{2}$')
+    const cardCvcRegex = new RegExp('^[0-9]{3}$')
+    if (!cardNumberRegex.test(cardNumber)) {
+      throw new GraphQLError('Invalid card number')
+    }
+    if (!expiryMonthRegex.test(expiryMonth)) {
+      throw new GraphQLError('Invalid expiry month')
+    }
+    if (!expiryYearRegex.test(expiryYear)) {
+      throw new GraphQLError('Invalid expiry year')
+    }
+    if (!cardCvcRegex.test(cardCvc)) {
+      throw new GraphQLError('Invalid card cvc')
+    }
   }
-  if (!expiryMonthRegex.test(expiryMonth)) {
-    throw new GraphQLError('Invalid expiry month')
+  
+  if (saveCard){
+    await saveUserCard({
+      cardNumber,
+      expiryMonth,
+      expiryYear,
+      cardCvc,
+      holderName: cardHolder,
+    }, ctx)
   }
-  if (!expiryYearRegex.test(expiryYear)) {
-    throw new GraphQLError('Invalid expiry year')
-  }
-  if (!cardCvcRegex.test(cardCvc)) {
-    throw new GraphQLError('Invalid card cvc')
-  }
+  
   try {
     const token = await stripe.tokens.create({
-      card: {
-        number: cardNumber,
-        exp_month: expiryMonth,
-        exp_year: expiryYear,
-        cvc: cardCvc,
-      },
+      card,
     })
     const Source = token.id
     const path = await findRoute(from, to, ctx)

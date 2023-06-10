@@ -200,6 +200,8 @@ const mutations = mutationType({
     t.field('createPayment', {
       type: 'Boolean',
       args: {
+        cardId: stringArg(),
+        cardHolder: nonNull(stringArg()),
         cardNumber: nonNull(stringArg()),
         expiryMonth: nonNull(stringArg()),
         expiryYear: nonNull(stringArg()),
