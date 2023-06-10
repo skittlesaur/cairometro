@@ -4,12 +4,12 @@ import mutate from '@/graphql/mutate'
 
 interface CreatePaymentVariables extends Variables {
   cardId?: string
-  cardHolder: string
-  cardNumber: string
-  expiryMonth: string
-  expiryYear: string
-  cardCvc: string
-  saveCard: boolean
+  cardHolder?: string
+  cardNumber?: string
+  expiryMonth?: string
+  expiryYear?: string
+  cardCvc?: string
+  saveCard?: boolean
   metaData: {
     from: string,
     to: string,
@@ -25,12 +25,12 @@ interface CreatePaymentVariables extends Variables {
 const CREATE_PAYMENT_QUERY = /* GraphQL */ `
   mutation createPayment(
     $cardId: String
-    $cardHolder: String!
-    $cardNumber: String!
-    $expiryMonth: String!
-    $expiryYear: String!
-    $cardCvc: String!
-    $saveCard: Boolean!
+    $cardHolder: String
+    $cardNumber: String
+    $expiryMonth: String
+    $expiryYear: String
+    $cardCvc: String
+    $saveCard: Boolean
     $metaData: oneTimeInput!
   ) {
     createPayment(

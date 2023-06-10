@@ -18,18 +18,19 @@ const History = ({ subscriptionOnly = false }: HistoryProps) => {
   })
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const { i18n } = useTranslation()
+  const { t } = useTranslation('user-ticket')
 
   return (
     <div className="">
       <div className="grid grid-cols-[2fr_1fr_1fr] border-b border-neutral-200 pb-2 px-4">
         <p className="font-medium">
-          Ride
+          {t('ride')}
         </p>
         <p className="font-medium">
-          Price
+          {t('price')}
         </p>
         <p className="font-medium">
-          Date
+          {t('Date')}
         </p>
       </div>
       {isLoading && (
@@ -40,7 +41,7 @@ const History = ({ subscriptionOnly = false }: HistoryProps) => {
       {data?.length === 0 && !isLoading && (
         <div className="mt-7 flex flex-col">
           <p className="text-center text-neutral-500">
-            No tickets found
+            {t('NoHistory')}
           </p>
         </div>
       )}
@@ -61,19 +62,20 @@ const History = ({ subscriptionOnly = false }: HistoryProps) => {
                 return ticket.id
               })}
             >
-              <div className="w-full text-left grid grid-cols-[2fr_1fr_1fr] border-b border-neutral-200 py-3 px-4">
-                <p className="">
-                  {ticket.from.name} to {ticket.to.name}
+              <div className="w-full text-left grid grid-cols-[2fr_1fr_1fr] border-b border-neutral-200 py-3 px-4 ">
+                <p className="ltr:text-left rtl:text-right">
+                
+                  {i18n.language === 'ar' ? ticket.from.name_ar : ticket.from.name} {t('to')} {i18n.language === 'ar' ? ticket.to.name_ar : ticket.to.name}
                 </p>
-                <p className="text-neutral-500">
+                <p className="text-neutral-500 ltr:text-left rtl:text-right">
                   {ticket.price.toLocaleString([i18n.language === 'ar' ? 'ar-EG' : 'en-US'], {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}
                   {' '}
-                  EGP
+                  {t('EGP')}
                 </p>
-                <p className="text-neutral-500">
+                <p className="text-neutral-500 ltr:text-left rtl:text-right">
                   {new Date(ticket.date).toLocaleDateString(
                     i18n.language === 'ar' ? 'ar-EG' : 'en-US',
                     {
@@ -83,7 +85,7 @@ const History = ({ subscriptionOnly = false }: HistoryProps) => {
                     },
                   )}
                   {' '}
-                  at
+                  {t('at')}
                   {' '}
                   {new Date(ticket.date).toLocaleTimeString(
                     i18n.language === 'ar' ? 'ar-EG' : 'en-US',
@@ -99,33 +101,33 @@ const History = ({ subscriptionOnly = false }: HistoryProps) => {
               <div className="px-4 py-2 ml-5 text-sm text-neutral-500 mb-4 flex flex-col items-start gap-2">
                 <div>
                   <p className="font-medium">
-                    Passengers
+                    {t('passengers')}
                   </p>
                   <p>
                     {ticket.passengers?.adults ?? 1}
                     {' '}
-                    adults
+                    {t('adults')}
                   </p>
                   <p>
                     {ticket.passengers?.seniors ?? 0}
                     {' '}
-                    seniors
+                    {t('seniors')}
                   </p>
                   <p>
                     {ticket.passengers?.children ?? 0}
                     {' '}
-                    children
+                    {t('children')}
                   </p>
                 </div>
                 <div className="flex flex-col gap-1">
                   {ticket.refundRequest ? (
                     <>
                       <p className="font-medium mt-4">
-                        Refund Request
+                        {t('Refund')} {t('Request')}
                       </p>
                       <div>
                         <p className="font-medium">
-                          Status
+                          {t('Status')}
                         </p>
                         <p>
                           {capitalizeFirstLetters(ticket.refundRequest.status)}
@@ -133,7 +135,7 @@ const History = ({ subscriptionOnly = false }: HistoryProps) => {
                       </div>
                       <div>
                         <p className="font-medium">
-                          Requested at
+                          {t('RequestedAt')}
                         </p>
                         <p>
                           {new Date(ticket.refundRequest.createdAt).toLocaleDateString(
@@ -145,7 +147,7 @@ const History = ({ subscriptionOnly = false }: HistoryProps) => {
                             },
                           )}
                           {' '}
-                          at
+                          {t('at')}
                           {' '}
                           {new Date(ticket.refundRequest.createdAt).toLocaleTimeString(
                             i18n.language === 'ar' ? 'ar-EG' : 'en-US',
@@ -159,7 +161,7 @@ const History = ({ subscriptionOnly = false }: HistoryProps) => {
                       {ticket.refundRequest.status !== 'PENDING' && (
                         <div>
                           <p className="font-medium">
-                            Reviewed at
+                            {t('ReviewedAt')}
                           </p>
                           <p>
                             {new Date(ticket.refundRequest.updatedAt).toLocaleDateString(
@@ -171,7 +173,7 @@ const History = ({ subscriptionOnly = false }: HistoryProps) => {
                               },
                             )}
                             {' '}
-                            at
+                            {t('at')}
                             {' '}
                             {new Date(ticket.refundRequest.updatedAt).toLocaleTimeString(
                               i18n.language === 'ar' ? 'ar-EG' : 'en-US',
@@ -206,7 +208,7 @@ const History = ({ subscriptionOnly = false }: HistoryProps) => {
                             }
                           }}
                         >
-                          Request Refund
+                          {t('Request')} {t('Refund')}
                         </Button>
                       )}
                     </>

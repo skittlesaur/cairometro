@@ -77,7 +77,8 @@ const TicketPurchaseDetails = () => {
     }
 
     if (price === 0){
-      alert('FREE RIDE')
+      createPaymentMutation({ metaData })
+      // router.push('/user/tickets')
       return
     }
 

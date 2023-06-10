@@ -14,7 +14,7 @@ const paginateStationsSchedule: FieldResolver<'Query', 'paginateStationsSchedule
     const { prisma, user } = ctx
 
     const { from, to, date } = args
-    console.log(date)
+    // console.log(date)
 
     const departureStation = await prisma.station.findUnique({
       where: {

@@ -201,12 +201,12 @@ const mutations = mutationType({
       type: 'Boolean',
       args: {
         cardId: stringArg(),
-        cardHolder: nonNull(stringArg()),
-        cardNumber: nonNull(stringArg()),
-        expiryMonth: nonNull(stringArg()),
-        expiryYear: nonNull(stringArg()),
-        cardCvc: nonNull(stringArg()),
-        saveCard: nonNull(booleanArg()),
+        cardHolder: (stringArg()),
+        cardNumber: (stringArg()),
+        expiryMonth: (stringArg()),
+        expiryYear: (stringArg()),
+        cardCvc: (stringArg()),
+        saveCard: (booleanArg()),
         metaData: oneTimeInput,
       },
       resolve: createPayment,
@@ -215,6 +215,8 @@ const mutations = mutationType({
     t.field('createSubscription', {
       type: 'Boolean',
       args: {
+        cardId: stringArg(),
+        cardHolder: nonNull(stringArg()),
         cardNumber: nonNull(stringArg()),
         expiryMonth: nonNull(stringArg()),
         expiryYear: nonNull(stringArg()),

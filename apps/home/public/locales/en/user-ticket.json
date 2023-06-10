@@ -1,0 +1,22 @@
+{
+  "ride": "Ride",
+  "to": "to",
+  "price": "price",
+  "History": "Purchase History",
+  "NoHistory": "No tickets found",
+  "Date": "Date",
+  "at": "at",
+  "EGP": "EGP",
+  "adults": "Adults",
+  "child": "Child",
+  "children": "Children",
+  "senior": "Senior",
+  "seniors": "Seniors",
+  "passengers": "Passengers",
+  "noPassengersSelected": "No passengers selected",
+  "ReviewedAt": "Reviewed at",
+  "RequestedAt": "Requested at",
+  "Status": "Status",
+  "Request": "Request",
+  "Refund": "Refund"
+}
