@@ -9,15 +9,31 @@ const Subscription = objectType({
     t.field(Subscriptions.user)
     t.field(Subscriptions.type)
     t.field(Subscriptions.tier)
+    t.field(Subscriptions.createdAt)
+    t.field(Subscriptions.expiresAt)
     t.field('isActive', {
       type: 'Boolean',
       resolve: async (parent) => {
         const expiresAt = parent.expiresAt
         const now = new Date()
         
-        const diffInDays = Math.floor((expiresAt.getTime() - now.getTime()) / (1000 * 3600 * 24))
+        return expiresAt > now
+      },
+    })
+    t.field('refundRequest', {
+      type: 'DateTime',
+      resolve: async (parent, _, ctx) => {
+        const { prisma, user } = ctx
 
-        return diffInDays > 0
+        const refund = await prisma.refund.findFirst({
+          where: {
+            referenceId: parent.id,
+            ticketType: 'SUBSCRIPTION',
+            userId: user?.id,
+          },
+        })
+
+        return refund?.createdAt
       },
     })
   },

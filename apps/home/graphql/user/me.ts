@@ -13,6 +13,8 @@ const USER_QUERY = /* GraphQL */ `
         type
         tier
         isActive
+        expiresAt
+        refundRequest
       }
     }
   }
