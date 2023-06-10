@@ -16,6 +16,8 @@ interface CreateSubscriptionVariables extends Variables {
 
 const CREATE_SUBSCRIPTION_QUERY = /* GraphQL */ `
   mutation createSubscription(
+    $cardId: String
+    $cardHolder: String!
     $cardNumber: String!
     $expiryMonth: String!
     $expiryYear: String!
@@ -24,6 +26,8 @@ const CREATE_SUBSCRIPTION_QUERY = /* GraphQL */ `
     $metaData: subscriptionEnumArg!
   ) {
     createSubscription(
+      cardHolder : $cardHolder
+      cardId: $cardId
       cardNumber: $cardNumber
       expiryMonth: $expiryMonth
       expiryYear: $expiryYear

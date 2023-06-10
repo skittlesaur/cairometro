@@ -42,7 +42,7 @@ model UserTickets {
   date      DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  paymentId String   @unique
+  paymentId String?   
 }
 
 model UserCreditCard {
