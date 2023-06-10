@@ -215,6 +215,8 @@ const mutations = mutationType({
     t.field('createSubscription', {
       type: 'Boolean',
       args: {
+        cardId: stringArg(),
+        cardHolder: nonNull(stringArg()),
         cardNumber: nonNull(stringArg()),
         expiryMonth: nonNull(stringArg()),
         expiryYear: nonNull(stringArg()),

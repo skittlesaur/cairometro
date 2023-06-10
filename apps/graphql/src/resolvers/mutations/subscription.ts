@@ -4,6 +4,8 @@ import { FieldResolver } from 'nexus'
 import Stripe from 'stripe'
 
 import { Context } from '../../context'
+import getSavedCard from '../../lib/get-saved-card'
+import saveUserCard from '../../lib/save-user-card'
 
 import { subscriptionMapping } from './migrations/dummy-database/subscriptions-pricing'
 
@@ -14,7 +16,7 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
       apiVersion: '2022-11-15',
     })
     const {
-      cardNumber, expiryMonth, expiryYear, cardCvc, saveCard, metaData,
+      cardNumber, expiryMonth, expiryYear, cardCvc, saveCard, metaData, cardId, cardHolder,
     } = args
     const { subscriptionTier, subscriptionType } = metaData
     const { user, prisma } = ctx
@@ -22,34 +24,51 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
     if (!user) {
       throw new GraphQLError('User not Authenticated')
     }
-    if (!cardNumber || !expiryMonth || !expiryYear || !cardCvc) {
-      throw new GraphQLError('Card details are missing')
+
+    let card = {
+      number: cardNumber,
+      exp_month: expiryMonth,
+      exp_year: expiryYear,
+      cvc: cardCvc,
     }
-    // validate card details
-    const cardNumberRegex = new RegExp('^[0-9]{16}$')
-    const expiryMonthRegex = new RegExp('^[0-9]{2}$')
-    const expiryYearRegex = new RegExp('^[0-9]{2}$')
-    const cardCvcRegex = new RegExp('^[0-9]{3}$')
-    if (!cardNumberRegex.test(cardNumber)) {
-      throw new GraphQLError('Invalid card number')
+    
+    if (cardId){
+      card = await getSavedCard(cardId, ctx)
+    } else {
+      if (!cardNumber || !expiryMonth || !expiryYear || !cardCvc) {
+        throw new GraphQLError('Card details are missing')
+      }
+      // validate card details
+      const cardNumberRegex = new RegExp('^[0-9]{16}$')
+      const expiryMonthRegex = new RegExp('^[0-9]{2}$')
+      const expiryYearRegex = new RegExp('^[0-9]{2}$')
+      const cardCvcRegex = new RegExp('^[0-9]{3}$')
+      if (!cardNumberRegex.test(cardNumber)) {
+        throw new GraphQLError('Invalid card number')
+      }
+      if (!expiryMonthRegex.test(expiryMonth)) {
+        throw new GraphQLError('Invalid expiry month')
+      }
+      if (!expiryYearRegex.test(expiryYear)) {
+        throw new GraphQLError('Invalid expiry year')
+      }
+      if (!cardCvcRegex.test(cardCvc)) {
+        throw new GraphQLError('Invalid card cvc')
+      }
+      if (saveCard){
+        await saveUserCard({
+          cardNumber,
+          expiryMonth,
+          expiryYear,
+          cardCvc,
+          holderName: cardHolder,
+        }, ctx)
+      }
     }
-    if (!expiryMonthRegex.test(expiryMonth)) {
-      throw new GraphQLError('Invalid expiry month')
-    }
-    if (!expiryYearRegex.test(expiryYear)) {
-      throw new GraphQLError('Invalid expiry year')
-    }
-    if (!cardCvcRegex.test(cardCvc)) {
-      throw new GraphQLError('Invalid card cvc')
-    }
+    
     try {
       const token = await stripe.tokens.create({
-        card: {
-          number: cardNumber,
-          exp_month: expiryMonth,
-          exp_year: expiryYear,
-          cvc: cardCvc,
-        },
+        card,
       })
 
       const mappingKey = `${user.role}_${subscriptionTier}_${subscriptionType}`
@@ -88,8 +107,6 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
 
       return false
 
-
-      // TODO: saveCard
 
     } catch (err) {
       throw new GraphQLError(err.code)

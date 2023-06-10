@@ -126,22 +126,7 @@ async (_, args, ctx: Context) => {
   } catch (err){
     throw new GraphQLError(err.message)
   }
-  
-
-
-
-  // if (saveCard) {
-  //   const customer = await stripe.customers.create({
-  //     email: user?.email,
-  //     source: Source,
-  //   })
-  //   const paymentMethod = await stripe.paymentMethods.attach(Source, {
-  //     customer: customer.id,
-  //   })
-  //   console.log(paymentMethod)
-  // }
-  
-  
+    
 }
 
 
