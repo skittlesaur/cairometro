@@ -21,6 +21,8 @@ import TripRouteType from './types/trip-route'
 import UserType from './types/user'
 import UserRoleEnum from './types/user-role'
 import UserAnalyticsType from './types/users-analytics'
+import VerificationStatusEnum from './types/verification-status'
+import VerificationStatusEnumArg from './types/verification-status-enum-arg'
 
 const DateTime = asNexusMethod(DateTimeResolver, 'date')
 
@@ -42,6 +44,8 @@ const types = [
   LngLatInputType,
   PricingType,
   StatusEnum,
+  VerificationStatusEnum,
+  VerificationStatusEnumArg,
   oneTimeInput,
   subscriptionEnumArg,
   Subscription,

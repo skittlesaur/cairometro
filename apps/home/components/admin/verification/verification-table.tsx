@@ -2,9 +2,9 @@ import { useState } from 'react'
 
 import DataTable from '@/components/data-table'
 import Input from '@/components/input'
-import { RefundsVariables } from '@/graphql/admin/refunds/refunds'
+import { VerificationVariables } from '@/graphql/admin/verifications/verifications'
 import SearchIcon from '@/icons/search-outline.svg'
-import Refund from '@/types/refund'
+import User from '@/types/user'
 
 import * as Tabs from '@radix-ui/react-tabs'
 import cn from 'classnames'
@@ -20,18 +20,18 @@ const columns = [
     accessorKey: 'user',
     header: 'User',
     cell: ({ row }: Cell) => {
-      const user = row.getValue('user') as { name: string, email: string }
+      const user = row.getValue('user') as {name: string, email: string}
       return (
         <div className="flex flex-col">
-          <div className="text-sm font-medium text-gray-900">{user.name}</div>
-          <div className="text-xs text-gray-500">{user.email}</div>
+          <div className="text-sm font-medium text-gray-900">{user?.name}</div>
+          <div className="text-xs text-gray-500">{user?.email}</div>
         </div>
       )
     },
   },
   {
     accessorKey: 'createdAt',
-    header: 'Date',
+    header: 'Date',    
     cell: ({ row }: Cell) => {
       const date = row.getValue('createdAt') as Date
       return (
@@ -40,31 +40,31 @@ const columns = [
             year: 'numeric',
             month: 'long',
             day: 'numeric',
-          },
+          }
         )} at {new Date(date).toLocaleTimeString(
           'en-US', {
             hour: 'numeric',
             minute: 'numeric',
-          },
+          }
         )}
         </p>
       )
     },
   },
   {
-    accessorKey: 'status',
+    accessorKey: 'documentVerified',
     header: 'Status',
     cell: ({ row }: Cell) => {
-      const status = row.getValue('status') as string
-      const capitalFirstLetter = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
+      const status = row.getValue('documentVerified') as string
+      const capitalFirstLetter = status?.charAt(0).toUpperCase() + status?.slice(1).toLowerCase()
       return (
         <p
           className={cn(
             'px-4 py-2 rounded text-xs font-medium border w-fit',
             {
-              'bg-orange-100 border-orange-200 text-orange-500': status.toLowerCase() === 'pending',
-              'bg-green-100 border-green-200 text-green-500': status.toLowerCase() === 'accepted',
-              'bg-red-100 border-red-200 text-red-500': status.toLowerCase() === 'rejected',
+              'bg-orange-100 border-orange-200 text-orange-500': status?.toLowerCase() === 'pending',
+              'bg-green-100 border-green-200 text-green-500': status?.toLowerCase() === 'accepted',
+              'bg-red-100 border-red-200 text-red-500': status?.toLowerCase() === 'rejected',
             },
           )}
         >
@@ -73,36 +73,19 @@ const columns = [
       )
     },
   },
-  {
-    accessorKey: 'price',
-    header: 'Amount',
-    cell: ({ row }: Cell) => {
-      const amount = row.getValue('price') as number
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'EGP',
-      }).format(amount)
-
-      return (
-        <p className="text-sm text-gray-500">{formatted}</p>
-      )
-    },
-  },
 ]
 
-interface RefundsTableProps {
-  setRefundOpen: (refund: Refund | undefined)=> void
-  data: Refund[]
-  setFilterBy: (filterBy: RefundsVariables['filterBy'])=> void
+interface VerificationsTableProps {
+  setUserOpen: (user: User | undefined)=> void
+  data: User[]
+  setFilterBy: (filterBy: VerificationVariables['filterBy'])=> void
   search: string
   setSearch: (search: string)=> void
 }
-
-const RefundsTable = ({
-  setRefundOpen, data, setFilterBy, search, setSearch,
-}: RefundsTableProps) => {
+const VerificationsTable = ({
+  setUserOpen, data, setFilterBy, search, setSearch, 
+}: VerificationsTableProps) => {
   const [currentTab, setCurrentTab] = useState('all')
-
 
   const tabs = [
     'All',
@@ -111,7 +94,6 @@ const RefundsTable = ({
     'Rejected',
   ]
 
-
   return (
     <div className="w-full flex flex-col gap-5">
       <Tabs.Root
@@ -119,9 +101,8 @@ const RefundsTable = ({
         className="flex flex-col gap-3"
         onValueChange={(value) => {
           setCurrentTab(value)
-          setFilterBy(value.toUpperCase() as RefundsVariables['filterBy'])
+          setFilterBy(value as VerificationVariables['filterBy'])
         }}
-
       >
         <Tabs.List className="border-b">
           {tabs.map((tab) => (
@@ -150,9 +131,7 @@ const RefundsTable = ({
             className="p-2 w-full border-0"
             placeholder="Search by user name, email, or id"
             value={search}
-            onChange={(e) => {
-              setSearch(e.target.value)
-            }}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </label>
       </Tabs.Root>
@@ -161,12 +140,17 @@ const RefundsTable = ({
         columns={columns}
         data={data}
         rowOnClick={(row) => {
-          setRefundOpen(row)
+          // if (row.status !== 'PENDING'){
+          //   toast(`Refund has been already ${row.status} and cannot be updated`, {
+          //     icon: '⚠️',
+          //   })
+          //   return
+          // }
+          setUserOpen(row)
         }}
       />
     </div>
   )
 }
 
-
-export default RefundsTable 
+export default VerificationsTable

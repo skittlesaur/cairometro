@@ -12,21 +12,22 @@ datasource db {
 }
 
 model User {
-  id               String            @id @default(cuid()) @map("_id")
-  email            String            @unique
+  id               String             @id @default(cuid()) @map("_id")
+  email            String             @unique
   name             String
   role             UserRole
   magicToken       MagicToken[]
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
   Otp              Otp[]
   documentUrl      String?
-  documentVerified Boolean?
+  documentVerified VerificationStatus @default(PENDING)
   Subscriptions    Subscriptions[]
   refunds          Refund[]
   UserTickets      UserTickets[]
   StaffInvitation  StaffInvitation[]
   SearchHistory    SearchHistory[]
+  userCreditCards   UserCreditCard[]
 }
 
 model UserTickets {
@@ -42,6 +43,19 @@ model UserTickets {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   paymentId String   @unique
+}
+
+model UserCreditCard {
+  id          String   @id @default(cuid()) @map("_id")
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  cardHolder  String
+  cardNumber  String
+  expiryMonth String
+  expiryYear  String
+  cardCvc     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model StaffInvitation {
@@ -198,6 +212,12 @@ enum SubscriptionTier {
 }
 
 enum RefundStatus {
+  ACCEPTED
+  REJECTED
+  PENDING
+}
+
+enum VerificationStatus {
   ACCEPTED
   REJECTED
   PENDING

@@ -59,6 +59,14 @@
         "free": "مجانا",
         "withSubscription": "مع اشتراك"
     },
+    "userMenu": {
+        "admin": "ادارة الموقع",
+        "account": "حسابي",
+        "adminPanel": "لوحة التحكم",
+        "myTickets": "تذاكري",
+        "mySubscriptions": "اشتراكاتي",
+        "logout": "تسجيل الخروج"
+    },
     "egp": "جنيه مصري",
     "egpShort": "ج.م"
 }

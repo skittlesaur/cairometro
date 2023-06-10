@@ -1,42 +1,40 @@
 import { useState } from 'react'
 
 import Header from '@/components/admin/header'
-import RefundRequestCard from '@/components/admin/refunds/refund-request-card'
-import RefundsTable from '@/components/admin/refunds/refunds-table'
 import { Button } from '@/components/button'
-import useRefundsAnalytics from '@/graphql/admin/analytics/refunds-analytics'
-import useRefunds, { RefundsVariables } from '@/graphql/admin/refunds/refunds'
-import updateRefundRequestMutation, {
-  UpdateRefundRequestVariables,
-} from '@/graphql/admin/refunds/update-refund-request'
+import useSeniorsAnalytics from '@/graphql/admin/analytics/seniors-analytics'
+import updateVerificationRequestMutation, { UpdateVerificationRequestVariables } from '@/graphql/admin/verifications/update-verification-request'
+import useVerifications, { VerificationVariables } from '@/graphql/admin/verifications/verifications'
 import CalendarIcon from '@/icons/calendar-outline.svg'
 import CheckboxIcon from '@/icons/checkbox-outline.svg'
 import CloseCircleIcon from '@/icons/close-circle-outline.svg'
 import PriceTagsIcon from '@/icons/pricetags-outline.svg'
-import Refund from '@/types/refund'
+import User from '@/types/user'
 
 import { AnimatePresence } from 'framer-motion'
 
-const Refunds = () => {
-  const [refundOpen, setRefundOpen] = useState<Refund | undefined>(undefined)
+import VerificationRequestCard from './verification-request-card'
+import VerificationsTable from './verification-table'
+
+const Verifications = () => {
+  const [userOpen, setUserOpen] = useState<User | undefined>(undefined)
   const [page, setPage] = useState(0)
   const [take, setTake] = useState(6)
-  const [filterBy, setFilterBy] = useState<RefundsVariables['filterBy']>('ALL')
+  const [filterBy, setFilterBy] = useState<VerificationVariables['filterBy']>('ALL')
   const [search, setSearch] = useState('')
-
-
-  const { data: refunds, mutate: mutateRefunds } = useRefunds({
+  
+  const { data: verifications, mutate: mutateVerifications } = useVerifications({
     page,
     take,
     filterBy,
     search,
   })
 
-  const { data: analytics, isLoading: analyticsLoading } = useRefundsAnalytics()
+  const { data: analytics, isLoading: analyticsLoading } = useSeniorsAnalytics()
 
   const data = [
     {
-      title: 'Total Refund Requests',
+      title: 'Total Senior Requests',
       value: analytics?.total,
       icon: PriceTagsIcon,
     },
@@ -51,35 +49,35 @@ const Refunds = () => {
       icon: CloseCircleIcon,
     },
     {
-      title: 'Total Refunds This Month',
+      title: 'Total Seniors This Month',
       value: analytics?.totalThisMonth,
       icon: CalendarIcon,
     },
   ]
 
-  const optimisticUpdate = async (variables: UpdateRefundRequestVariables) => {
-    await mutateRefunds(async () => {
-      await updateRefundRequestMutation(variables)
-      return refunds.map((refund: Refund) => {
-        if (refund.id === variables.refundRequestId) {
+  const optimisticUpdate = async (variables: UpdateVerificationRequestVariables) => {
+    await mutateVerifications(async () => {
+      await updateVerificationRequestMutation(variables)
+      return verifications.map((user: User) => {
+        if (user.id === variables.userId) {
           return {
-            ...refund,
-            status: variables.status.refundStatus,
+            ...user,
+            documentVerified: variables.documentVerified.verificationstatus,
           }
         }
 
-        return refund
+        return user
       })
     }, {
-      optimisticData: refunds.map((refund: Refund) => {
-        if (refund.id === variables.refundRequestId) {
+      optimisticData: verifications.map((user: User) => {
+        if (user.id === variables.userId) {
           return {
-            ...refund,
-            status: variables.status.refundStatus,
+            ...user,
+            documentVerified: variables.documentVerified.verificationstatus,
           }
         }
 
-        return refund
+        return user
       }),
       rollbackOnError: true,
       populateCache: true,
@@ -94,33 +92,41 @@ const Refunds = () => {
         allLoaded={!analyticsLoading && analytics}
       />
       <AnimatePresence mode="wait">
-        {refundOpen && (
-          <RefundRequestCard
-            key={refundOpen.id}
-            refundId={refundOpen.id}
-            userName={refundOpen.user.name}
-            email={refundOpen.user.email}
-            price={refundOpen.price}
-            date={refundOpen.createdAt}
-            message={refundOpen.message}
-            setRefundOpen={setRefundOpen}
+        {userOpen && (
+          <VerificationRequestCard
+            key={userOpen.id}
+            userId={userOpen.id}
+            userName={userOpen.name}
+            email={userOpen.email}
+            date={new Date(userOpen.createdAt)}
+            role={userOpen.role}
+            documentVerified={userOpen.documentVerified}
+            documentUrl={userOpen.documentUrl}
+            setUserOpen={setUserOpen}
             optimisticUpdate={optimisticUpdate}
           />
         )}
       </AnimatePresence>
-      <RefundsTable
-        setRefundOpen={setRefundOpen}
-        data={refunds}
-        setFilterBy={setFilterBy}
+      <VerificationsTable
         search={search}
         setSearch={setSearch}
+        setUserOpen={setUserOpen}
+        setFilterBy={setFilterBy}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data={verifications?.map((datum: any) => ({
+          ...datum,
+          user: {
+            name: datum.name,
+            email: datum.email,
+          },
+        }))}
       />
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <label className="text-gray-500 text-sm">
             Show result
           </label>
-          <select
+          <select 
             className="border px-2 py-1.5 rounded-lg text-sm font-medium"
             value={take}
             onChange={(e) => {
@@ -150,7 +156,7 @@ const Refunds = () => {
           <Button
             variant="outline"
             size="sm"
-            disabled={!refunds || refunds?.length < take}
+            disabled={!verifications || verifications?.length < take}
             onClick={() => setPage(prev => prev + 1)}
           >
             Next
@@ -161,4 +167,4 @@ const Refunds = () => {
   )
 }
 
-export default Refunds
+export default Verifications

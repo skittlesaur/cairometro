@@ -59,6 +59,14 @@
     "free": "FREE",
     "withSubscription": "with subscription"
   },
+  "userMenu": {
+    "admin": "Admin",
+    "account": "Account",
+    "adminPanel": "Admin Panel",
+    "myTickets": "My Tickets",
+    "mySubscriptions": "My Subscriptions",
+    "logout": "Logout"
+  },
   "egp": "EGP",
   "egpShort": "EGP"
 }

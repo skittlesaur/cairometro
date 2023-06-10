@@ -6,8 +6,10 @@ import analyticsSoldTickets from './resolvers/queries/admin/analytics-sold-ticke
 import analyticsTotalSubscribers from './resolvers/queries/admin/analytics-total-subscribers'
 import analyticsTotalUsers from './resolvers/queries/admin/analytics-total-users'
 import getRefundRequests from './resolvers/queries/admin/get-refund-requests'
+import getVerificationRequests from './resolvers/queries/admin/get-verification-requests'
 import pendingInvitations from './resolvers/queries/admin/pending-invitations'
 import refundsAnalytics from './resolvers/queries/admin/refunds-analytics'
+import seniorsAnalytics from './resolvers/queries/admin/seniors-analytics'
 import teamMembers from './resolvers/queries/admin/team-members'
 import getPrice from './resolvers/queries/get-price'
 import invitation from './resolvers/queries/invitation'
@@ -18,6 +20,7 @@ import recommendations from './resolvers/queries/recommendations'
 import rideRouteByDate from './resolvers/queries/ride-route-by-date'
 import stationById from './resolvers/queries/station-by-id'
 import stations from './resolvers/queries/stations'
+import userCards from './resolvers/queries/user-cards'
 import userPurchaseHistory from './resolvers/queries/user-purchase-history'
 import InvitationType from './types/invitation'
 import LineType from './types/line'
@@ -30,6 +33,7 @@ import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
 import TripRouteType from './types/trip-route'
 import UserType from './types/user'
+import UserCardType from './types/user-card'
 import UserTicketType from './types/user-ticket'
 import UserAnalyticsType from './types/users-analytics'
 
@@ -39,6 +43,11 @@ const queries = queryType({
     t.field('me', {
       type: UserType,
       resolve: me,
+    })
+    
+    t.list.field('userCards', {
+      type: UserCardType,
+      resolve: userCards,
     })
 
     t.list.field('stations', {
@@ -109,6 +118,11 @@ const queries = queryType({
       resolve: refundsAnalytics,
     })
 
+    t.field('seniorsAnalytics', {
+      type: refundAnalyticsType,
+      resolve: seniorsAnalytics,
+    })
+
     t.field('paginateStationsSchedule', {
       type: RideTicketDataType,
       args: {
@@ -147,6 +161,7 @@ const queries = queryType({
         page: nonNull(intArg()),
         take: intArg(),
         filterBy: stringArg(),
+        search: stringArg(),
       },
       resolve: getRefundRequests,
     })
@@ -159,6 +174,17 @@ const queries = queryType({
     t.list.field('adminPendingInvitations', {
       type: InvitationType,
       resolve: pendingInvitations,
+    })
+
+    t.list.field('adminGetVerificationRequests', {
+      type: UserType,
+      args: {
+        page: nonNull(intArg()),
+        take: intArg(),
+        filterBy: stringArg(),
+        search: stringArg(),
+      },
+      resolve: getVerificationRequests,
     })
   },
 })
