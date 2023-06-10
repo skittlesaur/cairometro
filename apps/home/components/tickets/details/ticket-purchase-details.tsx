@@ -20,6 +20,12 @@ import Station from '@/types/station'
 import cn from 'classnames'
 import { useTranslation } from 'next-i18next'
 
+const AREA_LIMITS: { [key: string]: number } = {
+  ONE_AREA: 9,
+  TWO_AREAS: 16,
+  THREE_AREAS: Infinity,
+}
+
 const TicketPurchaseDetails = () => {
   const { purchaseModal } = useAppContext()
   const { t, i18n } = useTranslation('tickets-details')
@@ -75,6 +81,11 @@ const TicketPurchaseDetails = () => {
       },
       departureTime: ride?.[0].time,
     }
+    
+    if (user?.subscription?.isActive && AREA_LIMITS[user.subscription.tier] >= ride.length){
+      alert('FREE RIDE')
+      return
+    }
 
     purchaseModal.open({
       title: `Purchase Ticket (${ride?.[0].station.name} - ${ride?.[ride?.length - 1].station.name})`,
@@ -127,10 +138,18 @@ const TicketPurchaseDetails = () => {
         </h1>
         <div className="flex justify-end gap-x-2.5 items-center">
           <div className="text-right">
-            {price && (
+            {user?.subscription?.isActive && AREA_LIMITS[user.subscription.tier] >= ride?.length ? (
               <p className="font-semibold text-xl leading-7">
-                {price.toFixed(2)} EGP
+                Free with subscription
               </p>
+            ) : (
+              <>
+                {price && (
+                  <p className="font-semibold text-xl leading-7">
+                    {price.toFixed(2)} EGP
+                  </p>
+                )}
+              </>
             )}
             <p className="leading-6 text-base font-normal text-neutral-600">
               {getPassengersText()}, Standard

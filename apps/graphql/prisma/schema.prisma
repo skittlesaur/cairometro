@@ -61,6 +61,7 @@ model Subscriptions {
   tier      SubscriptionTier
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
+  expiresAt DateTime
   stripeId  String           @unique
 }
 

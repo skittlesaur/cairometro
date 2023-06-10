@@ -15,6 +15,7 @@ import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
 import StationPositionInLineType from './types/station-position-in-line'
 import StatusEnum from './types/status-arg'
+import Subscription from './types/subscription'
 import subscriptionEnumArg from './types/subscription-input'
 import TripRouteType from './types/trip-route'
 import UserType from './types/user'
@@ -43,6 +44,7 @@ const types = [
   StatusEnum,
   oneTimeInput,
   subscriptionEnumArg,
+  Subscription,
 ]
 
 export default types

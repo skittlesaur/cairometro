@@ -55,7 +55,9 @@
     },
     "ticket": {
         "viewDetails": "عرض التفاصيل",
-        "stations": "محطات"
+        "stations": "محطات",
+        "free": "مجانا",
+        "withSubscription": "مع اشتراك"
     },
     "egp": "جنيه مصري",
     "egpShort": "ج.م"

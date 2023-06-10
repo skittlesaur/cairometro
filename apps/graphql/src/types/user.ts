@@ -1,6 +1,7 @@
 import { objectType } from 'nexus'
 import { User } from 'nexus-prisma'
 
+import Subscription from './subscription'
 import UserRoleEnum from './user-role'
 
 
@@ -12,6 +13,22 @@ const UserType = objectType({
     t.field(User.email)
     t.field(User.name)
     t.field(User.createdAt)
+
+    t.field('subscription', {
+      type: Subscription,
+      resolve: async (parent, _, ctx) => {
+        const subscription = await ctx.prisma.subscriptions.findFirst({
+          where: {
+            userId: parent.id,
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+        })
+
+        return subscription
+      },
+    })
   },
 })
 

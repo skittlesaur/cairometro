@@ -55,7 +55,9 @@
   },
   "ticket": {
     "viewDetails": "View Details",
-    "stations": "stations"
+    "stations": "stations",
+    "free": "FREE",
+    "withSubscription": "with subscription"
   },
   "egp": "EGP",
   "egpShort": "EGP"
