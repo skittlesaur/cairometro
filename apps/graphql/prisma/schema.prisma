@@ -40,6 +40,9 @@ model UserTickets {
   toId      String
   price     Float
   date      DateTime
+  adults    Int?
+  children  Int?
+  seniors   Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
