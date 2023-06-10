@@ -15,7 +15,7 @@ const MastercardCard = ({ validThru, cardHolder, formattedCardNumber }: DefaultC
       animate={{ opacity: 1, scale: 1, transition: { delay: 0.1 } }}
       exit={{ opacity: 0, scale: 0.8 }}
       transition={{ duration: 0.1 }}
-      className="relative z-[1] bg-gradient-to-br from-[#000000] to-[#0FB8B8] text-white p-8 flex flex-col justify-end w-full md:w-2/5 min-h-40 aspect-video rounded-2xl font-mono"
+      className="relative z-[1] bg-gradient-to-br from-[#000000] to-[#0FB8B8] text-white p-8 flex flex-col justify-end min-h-40 aspect-video rounded-2xl font-mono"
     >
       <p className="text-sm">
         {validThru || 'MM/YY'}

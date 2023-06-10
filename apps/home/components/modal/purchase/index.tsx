@@ -5,6 +5,7 @@ import { Checkbox } from '@/components/checkbox'
 import Input from '@/components/input'
 import DefaultCard from '@/components/modal/purchase/default-card'
 import MastercardCard from '@/components/modal/purchase/mastercard-card'
+import SavedCards from '@/components/modal/purchase/saved-cards'
 import VisaCard from '@/components/modal/purchase/visa-card'
 import { useAppContext } from '@/context/app-context'
 import CloseIcon from '@/icons/close.svg'
@@ -20,6 +21,8 @@ import toast from 'react-hot-toast'
 
 const PurchaseModal = () => {
   const { purchaseModal } = useAppContext()
+  const [cardId, setCardId] = useState<string | null>(null)
+  const [cardBrand, setCardBrand] = useState<'Visa' | 'MasterCard' | null>(null)
   const [cardNumber, setCardNumber] = useState('')
   const [cardHolder, setCardHolder] = useState('')
   const [validThru, setValidThru] = useState('')
@@ -36,50 +39,53 @@ const PurchaseModal = () => {
   const isMastercard = creditCardWithoutSpaces.startsWith('5') || creditCardWithoutSpaces.startsWith('2')
 
   const onPayClick = useCallback(async (_: MouseEvent<HTMLButtonElement>) => {
-    // validate card number
-    const cardNumberRegex = /^[0-9]{16}$/
-    if (!cardNumberRegex.test(creditCardWithoutSpaces)) {
-      toast.error('Invalid card number')
-      return
-    }
-
-    // validate card holder (name has to be at least 2 words)
-    const cardHolderRegex = /^[a-zA-Z]+ [a-zA-Z]+$/
-    if (!cardHolderRegex.test(cardHolder)) {
-      toast.error('Invalid card holder')
-      return
-    }
-
-    // validate valid thru (has to be in MM/YY format and not expired)
-    const validThruRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/
-    if (!validThruRegex.test(validThru)) {
-      toast.error('Invalid expiration date')
-      return
-    }
-
     const expiryMonth = validThru.split('/')[0]
     const expiryYear = validThru.split('/')[1]
 
-    const now = new Date()
-    const currentMonth = now.getMonth() + 1
-    const currentYear = now.getFullYear() % 100
+    if (!cardId){
+      // validate card number
+      const cardNumberRegex = /^[0-9]{16}$/
+      if (!cardNumberRegex.test(creditCardWithoutSpaces)) {
+        toast.error('Invalid card number')
+        return
+      }
 
-    if (Number(expiryYear) < currentYear || (Number(expiryYear) === currentYear && Number(expiryMonth) < currentMonth)) {
-      toast.error('Card expired')
-      return
-    }
+      // validate card holder (name has to be at least 2 words)
+      const cardHolderRegex = /^[a-zA-Z]+ [a-zA-Z]+$/
+      if (!cardHolderRegex.test(cardHolder)) {
+        toast.error('Invalid card holder')
+        return
+      }
 
-    // validate cvc (has to be 3 digits)
-    const csvRegex = /^[0-9]{3}$/
-    if (!csvRegex.test(cvc)) {
-      toast.error('Invalid cvc')
-      return
+      // validate valid thru (has to be in MM/YY format and not expired)
+      const validThruRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/
+      if (!validThruRegex.test(validThru)) {
+        toast.error('Invalid expiration date')
+        return
+      }
+
+      const now = new Date()
+      const currentMonth = now.getMonth() + 1
+      const currentYear = now.getFullYear() % 100
+
+      if (Number(expiryYear) < currentYear || (Number(expiryYear) === currentYear && Number(expiryMonth) < currentMonth)) {
+        toast.error('Card expired')
+        return
+      }
+
+      // validate cvc (has to be 3 digits)
+      const csvRegex = /^[0-9]{3}$/
+      if (!csvRegex.test(cvc)) {
+        toast.error('Invalid cvc')
+        return
+      }
     }
 
     // check the data-state of the checkbox
-    const saveCard = saveCardRef.current?.dataset.state === 'checked'
+    const saveCard = !cardId && saveCardRef.current?.dataset.state === 'checked'
     
     const data = {
+      cardId,
       cardNumber: creditCardWithoutSpaces,
       cardHolder,
       expiryMonth,
@@ -97,13 +103,12 @@ const PurchaseModal = () => {
     } catch (e) {
       toast('Something went wrong, please try again later')
     }
-  }, [
-    cardHolder,
+  }, [cardHolder,
+    cardId,
     creditCardWithoutSpaces,
     cvc,
     purchaseModal,
-    validThru,
-  ])
+    validThru])
   
   useEffect(() => {
     if (purchaseModal.isOpen) {
@@ -162,32 +167,46 @@ const PurchaseModal = () => {
               </div>
             </div>
             <div className="flex flex-col md:flex-row items-start gap-5 w-full">
-              <AnimatePresence mode="wait">
-                {!isVisa && !isMastercard && (
-                  <DefaultCard
-                    key="default-card"
-                    validThru={validThru}
-                    cardHolder={cardHolder}
-                    formattedCardNumber={formattedCardNumber}
-                  />
-                )}
-                {isVisa && (
-                  <VisaCard
-                    key="visa-card"
-                    validThru={validThru}
-                    cardHolder={cardHolder}
-                    formattedCardNumber={formattedCardNumber}
-                  />
-                )}
-                {isMastercard && (
-                  <MastercardCard
-                    key="mastercard-card"
-                    validThru={validThru}
-                    cardHolder={cardHolder}
-                    formattedCardNumber={formattedCardNumber}
-                  />
-                )}
-              </AnimatePresence>
+              <div className="w-full md:w-2/5">
+                <AnimatePresence mode="wait">
+                  {cardBrand === null && !isVisa && !isMastercard && (
+                    <DefaultCard
+                      key="default-card"
+                      validThru={validThru}
+                      cardHolder={cardHolder}
+                      formattedCardNumber={formattedCardNumber}
+                    />
+                  )}
+                  {(cardBrand === 'Visa' || isVisa) && (
+                    <VisaCard
+                      key="visa-card"
+                      validThru={validThru}
+                      cardHolder={cardHolder}
+                      formattedCardNumber={formattedCardNumber}
+                    />
+                  )}
+                  {(cardBrand === 'MasterCard' || isMastercard) && (
+                    <MastercardCard
+                      key="mastercard-card"
+                      validThru={validThru}
+                      cardHolder={cardHolder}
+                      formattedCardNumber={formattedCardNumber}
+                    />
+                  )}
+                </AnimatePresence>
+                <SavedCards
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  onCardSelect={(card: any) => {
+                    setCardId(card.id)
+                    const formattedCardNumber = '•'.repeat(12) + card.last4
+                    setCardNumber(formattedCardNumber)
+                    setCardHolder(card.cardHolder)
+                    setValidThru(`${card.expiryMonth}/${card.expiryYear}`)
+                    setCvc('•'.repeat(3))
+                    setCardBrand(card.brand)
+                  }}
+                />
+              </div>
               <div className="flex flex-col w-full md:w-3/5 gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label
@@ -321,6 +340,7 @@ const PurchaseModal = () => {
                     <Checkbox
                       ref={saveCardRef}
                       id="save-card"
+                      disabled={cardId !== null}
                     />
                     <label
                       htmlFor="save-card"

@@ -20,6 +20,7 @@ import recommendations from './resolvers/queries/recommendations'
 import rideRouteByDate from './resolvers/queries/ride-route-by-date'
 import stationById from './resolvers/queries/station-by-id'
 import stations from './resolvers/queries/stations'
+import userCards from './resolvers/queries/user-cards'
 import userPurchaseHistory from './resolvers/queries/user-purchase-history'
 import InvitationType from './types/invitation'
 import LineType from './types/line'
@@ -32,6 +33,7 @@ import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
 import TripRouteType from './types/trip-route'
 import UserType from './types/user'
+import UserCardType from './types/user-card'
 import UserTicketType from './types/user-ticket'
 import UserAnalyticsType from './types/users-analytics'
 
@@ -41,6 +43,11 @@ const queries = queryType({
     t.field('me', {
       type: UserType,
       resolve: me,
+    })
+    
+    t.list.field('userCards', {
+      type: UserCardType,
+      resolve: userCards,
     })
 
     t.list.field('stations', {
