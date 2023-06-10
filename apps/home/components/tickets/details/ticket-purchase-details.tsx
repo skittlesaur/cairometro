@@ -20,12 +20,6 @@ import Station from '@/types/station'
 import cn from 'classnames'
 import { useTranslation } from 'next-i18next'
 
-const AREA_LIMITS: { [key: string]: number } = {
-  ONE_AREA: 9,
-  TWO_AREAS: 16,
-  THREE_AREAS: Infinity,
-}
-
 const TicketPurchaseDetails = () => {
   const { purchaseModal } = useAppContext()
   const { t, i18n } = useTranslation('tickets-details')
@@ -56,7 +50,7 @@ const TicketPurchaseDetails = () => {
   })
 
   const onPurchaseClick = useCallback((_: MouseEvent<HTMLButtonElement>) => {
-    if (!ride || !price) return
+    if (!ride || price === undefined) return
 
     if (!user) {
       const pathname = router.pathname
@@ -81,8 +75,8 @@ const TicketPurchaseDetails = () => {
       },
       departureTime: ride?.[0].time,
     }
-    
-    if (user?.subscription?.isActive && AREA_LIMITS[user.subscription.tier] >= ride.length){
+
+    if (price === 0){
       alert('FREE RIDE')
       return
     }
@@ -138,7 +132,7 @@ const TicketPurchaseDetails = () => {
         </h1>
         <div className="flex justify-end gap-x-2.5 items-center">
           <div className="text-right">
-            {user?.subscription?.isActive && AREA_LIMITS[user.subscription.tier] >= ride?.length ? (
+            {price === 0 ? (
               <p className="font-semibold text-xl leading-7">
                 Free with subscription
               </p>
@@ -160,7 +154,7 @@ const TicketPurchaseDetails = () => {
             variant={'primary'}
             className="py-2.5 px-9"
             disabled={
-              !price ||
+              price === undefined ||
               adults < 0 ||
               seniors < 0 ||
               children < 0 ||

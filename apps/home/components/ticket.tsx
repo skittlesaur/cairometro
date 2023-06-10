@@ -2,15 +2,8 @@ import Link from 'next/link'
 
 import { Button } from '@/components/button'
 import WindowSizeWrapper from '@/components/window-size-wrapper'
-import useUser from '@/graphql/user/me'
 
 import { useTranslation } from 'next-i18next'
-
-const AREA_LIMITS: { [key: string]: number } = {
-  ONE_AREA: 9,
-  TWO_AREAS: 16,
-  THREE_AREAS: Infinity,
-}
 
 interface TicketProps {
   departure: string
@@ -47,7 +40,6 @@ const MobileTicket = ({
 const DesktopTicket = ({
   departure, arrival, departureTime, arrivalTime, href, price, stations,
 }: TicketProps) => {
-  const { data: user } = useUser()
   const { t, i18n } = useTranslation('common')
 
   return (
@@ -100,7 +92,7 @@ const DesktopTicket = ({
       <div className=" w-[1px] h-16 border-dashed border-gray-300 border-r" />
       <div className="flex items-center gap-12 justify-end">
         <span className="relative text-2xl font-semibold text-primary w-[150px] ltr:text-right rtl:text-left">
-          {user?.subscription && user?.subscription?.tier && AREA_LIMITS[user.subscription.tier] >= stations ? (
+          {price === 0 ? (
             <>
               {t('ticket.free')}
               <p className="text-sm font-normal text-neutral-600">

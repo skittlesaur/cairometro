@@ -1,6 +1,12 @@
-import { Path, Station } from '@prisma/client'
+import { Path, Station, UserRole } from '@prisma/client'
 
 import { Context } from '../context'
+
+const AREA_LIMITS: { [key: string]: number } = {
+  ONE_AREA: 9,
+  TWO_AREAS: 16,
+  THREE_AREAS: Infinity,
+}
 
 interface Passengers {
   seniors: number
@@ -11,7 +17,9 @@ interface Passengers {
 const calculatePricing = async (
   path: { stationsInPath: Station[] } & Path, passengers: Passengers, ctx: Context,
 ) => {
-  const { seniors, adults, children } = passengers
+  const { user } = ctx
+  let { seniors, adults } = passengers
+  const { children } = passengers
 
   if (!seniors && !adults && !children) return 0
 
@@ -21,7 +29,29 @@ const calculatePricing = async (
 
   const countOfStationsInLine = getCountOfStationsInLine(stations)
   const pricing = await getLinesPricing(countOfStationsInLine, ctx)
+  
+  if (user) {
+    const userSubscription = await ctx.prisma.subscriptions.findFirst({
+      where: {
+        userId: user.id,
+      },
+      orderBy: {
+        expiresAt: 'desc',
+      },
+    })
 
+    if (userSubscription) {
+      const { expiresAt } = userSubscription
+      const now = new Date()
+      if (expiresAt > now && AREA_LIMITS[userSubscription.tier] > stations.length) {
+        if (user?.role === UserRole.ADULT)
+          adults--
+        else if (user?.role === UserRole.SENIOR)
+          seniors--
+      }
+    }
+  }
+  
   const total = pricing.adults * adults + pricing.seniors * seniors + pricing.children * children
   return total
 }
