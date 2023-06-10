@@ -13,7 +13,7 @@ import LogoBinqueMisr from '@/icons/logo-banque-misr.svg'
 import LogoCIB from '@/icons/logo-cib.svg'
 import LogoMastercard from '@/icons/logo-mastercard.svg'
 import LogoNBE from '@/icons/logo-nbe.svg'
-import LogoPaymobAccept from '@/icons/logo-paymob-accept.svg'
+import LogoStripe from '@/icons/logo-stripe.svg'
 import LogoVisa from '@/icons/logo-visa.svg'
 
 import { AnimatePresence, motion } from 'framer-motion'
@@ -375,7 +375,7 @@ const PurchaseModal = () => {
               <p className="text-xs font-semibold">
                 {t('poweredBy')}
               </p>
-              <LogoPaymobAccept className="h-8 fill-current" />
+              <LogoStripe className="h-8 fill-current" />
             </div>
           </motion.div>
         </motion.div>
