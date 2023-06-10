@@ -412,7 +412,7 @@ const LineExpanded = ({
           className="w-full"
           onClick={addNew ? onAddClick : onSaveClick}
         >
-          {addNew ? 'Add Station' : 'Save Changes'}
+          {addNew ? 'Add Line' : 'Save Changes'}
         </Button>
         <Button
           variant="ghost"
