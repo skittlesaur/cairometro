@@ -13,18 +13,19 @@ const History = () => {
   const { data, isLoading } = usePurchaseHistory()
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const { i18n } = useTranslation()
+  const { t } = useTranslation('user-ticket')
 
   return (
     <div className="">
       <div className="grid grid-cols-[2fr_1fr_1fr] border-b border-neutral-200 pb-2 px-4">
         <p className="font-medium">
-          Ride
+          {t('ride')}
         </p>
         <p className="font-medium">
-          Price
+          {t('price')}
         </p>
         <p className="font-medium">
-          Date
+          {t('Date')}
         </p>
       </div>
       {isLoading && (
@@ -35,7 +36,7 @@ const History = () => {
       {data?.length === 0 && !isLoading && (
         <div className="mt-7 flex flex-col">
           <p className="text-center text-neutral-500">
-            No tickets found
+            {t('NoHistory')}
           </p>
         </div>
       )}
@@ -66,7 +67,7 @@ const History = () => {
                     maximumFractionDigits: 2,
                   })}
                   {' '}
-                  EGP
+                  {t('EGP')}
                 </p>
                 <p className="text-neutral-500">
                   {new Date(ticket.date).toLocaleDateString(
@@ -78,7 +79,7 @@ const History = () => {
                     },
                   )}
                   {' '}
-                  at
+                  {t('at')}
                   {' '}
                   {new Date(ticket.date).toLocaleTimeString(
                     i18n.language === 'ar' ? 'ar-EG' : 'en-US',
