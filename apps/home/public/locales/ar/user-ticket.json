@@ -6,5 +6,17 @@
   "NoHistory": "لا يوجد رحلات سابقة",
   "Date": "التاريخ",
   "at": "الساعة",
-  "EGP": "ج.م"
+  "EGP": "ج.م",
+  "adults": "كبارالسن",
+  "child": "طفل",
+  "children": "اطفال",
+  "senior": "مسن",
+  "seniors": "مسنين",
+  "passengers": "الركاب",
+  "noPassengers": "لا يوجد ركاب",
+  "ReviewedAt": "تمت المراجعة في",
+  "RequestedAt": "تم الطلب في",
+  "Status": "الحالة",
+  "Request": "طلب",
+  "Refund": "استرجاع"
 }
