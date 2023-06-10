@@ -6,6 +6,7 @@ import analyticsSoldTickets from './resolvers/queries/admin/analytics-sold-ticke
 import analyticsTotalSubscribers from './resolvers/queries/admin/analytics-total-subscribers'
 import analyticsTotalUsers from './resolvers/queries/admin/analytics-total-users'
 import getRefundRequests from './resolvers/queries/admin/get-refund-requests'
+import getVerificationRequests from './resolvers/queries/admin/get-verification-requests'
 import pendingInvitations from './resolvers/queries/admin/pending-invitations'
 import refundsAnalytics from './resolvers/queries/admin/refunds-analytics'
 import teamMembers from './resolvers/queries/admin/team-members'
@@ -32,7 +33,6 @@ import TripRouteType from './types/trip-route'
 import UserType from './types/user'
 import UserTicketType from './types/user-ticket'
 import UserAnalyticsType from './types/users-analytics'
-import getVerificationRequests from './resolvers/queries/admin/get-verification-requests'
 
 
 const queries = queryType({
@@ -168,6 +168,8 @@ const queries = queryType({
       args: {
         page: nonNull(intArg()),
         take: intArg(),
+        filterBy: stringArg(),
+        search: stringArg(),
       },
       resolve: getVerificationRequests,
     })

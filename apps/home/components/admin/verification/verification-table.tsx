@@ -2,12 +2,12 @@ import { useState } from 'react'
 
 import DataTable from '@/components/data-table'
 import Input from '@/components/input'
+import { VerificationVariables } from '@/graphql/admin/verifications/verifications'
 import SearchIcon from '@/icons/search-outline.svg'
-import Refund from '@/types/refund'
+import User from '@/types/user'
 
 import * as Tabs from '@radix-ui/react-tabs'
 import cn from 'classnames'
-import User from '@/types/user'
 
 interface Cell {
   row: {
@@ -78,8 +78,13 @@ const columns = [
 interface VerificationsTableProps {
   setUserOpen: (user: User | undefined)=> void
   data: User[]
+  setFilterBy: (filterBy: VerificationVariables['filterBy'])=> void
+  search: string
+  setSearch: (search: string)=> void
 }
-const VerificationsTable = ({ setUserOpen, data }: VerificationsTableProps) => {
+const VerificationsTable = ({
+  setUserOpen, data, setFilterBy, search, setSearch, 
+}: VerificationsTableProps) => {
   const [currentTab, setCurrentTab] = useState('all')
 
   const tabs = [
@@ -94,7 +99,10 @@ const VerificationsTable = ({ setUserOpen, data }: VerificationsTableProps) => {
       <Tabs.Root
         defaultValue="all"
         className="flex flex-col gap-3"
-        onValueChange={(value) => setCurrentTab(value)}
+        onValueChange={(value) => {
+          setCurrentTab(value)
+          setFilterBy(value as VerificationVariables['filterBy'])
+        }}
       >
         <Tabs.List className="border-b">
           {tabs.map((tab) => (
@@ -122,6 +130,8 @@ const VerificationsTable = ({ setUserOpen, data }: VerificationsTableProps) => {
             id="search"
             className="p-2 w-full border-0"
             placeholder="Search by user name, email, or id"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </label>
       </Tabs.Root>

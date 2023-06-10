@@ -45,7 +45,7 @@ const types = [
   PricingType,
   StatusEnum,
   VerificationStatusEnum,
-  VerificationStatusEnumArg
+  VerificationStatusEnumArg,
   oneTimeInput,
   subscriptionEnumArg,
   Subscription,

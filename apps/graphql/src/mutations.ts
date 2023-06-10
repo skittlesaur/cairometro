@@ -18,6 +18,7 @@ import signUp from './resolvers/mutations/sign-up'
 import createSubscription from './resolvers/mutations/subscription'
 import updateInvitation from './resolvers/mutations/update-invitation'
 import updateRefundStatus from './resolvers/mutations/update-refund-status'
+import updateVerificationStatus from './resolvers/mutations/update-verification-status'
 import Line from './types/line'
 import LngLatInputType from './types/lng-lat-input'
 import oneTimeInput from './types/one-time-input'
@@ -28,7 +29,6 @@ import subscriptionEnumArg from './types/subscription-input'
 import TicketTypeEnumArg from './types/ticket-type-enum-arg'
 import UserRoleEnumArg from './types/user-role-enum-arg'
 import VerificationStatusEnumArg from './types/verification-status-enum-arg'
-import updateVerificationStatus from './resolvers/mutations/update-verification-status'
 
 
 const mutations = mutationType({
@@ -194,6 +194,7 @@ const mutations = mutationType({
         documentVerified: nonNull(arg({ type: VerificationStatusEnumArg })),
       },
       resolve: updateVerificationStatus,
+    })
 
     
     t.field('createPayment', {

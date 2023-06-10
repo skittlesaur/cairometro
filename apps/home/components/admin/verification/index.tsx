@@ -1,39 +1,34 @@
 import { useState } from 'react'
 
 import Header from '@/components/admin/header'
-import RefundRequestCard from '@/components/admin/refunds/refund-request-card'
-import RefundsTable from '@/components/admin/refunds/refunds-table'
 import { Button } from '@/components/button'
 import useRefundsAnalytics from '@/graphql/admin/analytics/refunds-analytics'
-import useRefunds from '@/graphql/admin/refunds/refunds'
-import updateRefundRequestMutation, {
-  UpdateRefundRequestVariables,
-} from '@/graphql/admin/refunds/update-refund-request'
+import updateVerificationRequestMutation, { UpdateVerificationRequestVariables } from '@/graphql/admin/verifications/update-verification-request'
+import useVerifications, { VerificationVariables } from '@/graphql/admin/verifications/verifications'
 import CalendarIcon from '@/icons/calendar-outline.svg'
 import CheckboxIcon from '@/icons/checkbox-outline.svg'
 import CloseCircleIcon from '@/icons/close-circle-outline.svg'
 import PriceTagsIcon from '@/icons/pricetags-outline.svg'
-import Refund from '@/types/refund'
 import User from '@/types/user'
-import VerificationsTable from './verification-table'
-import VerificationRequestCard from './verification-request-card'
-import { UpdateVerificationRequestVariables } from '@/graphql/admin/verifications/update-verification-request'
-import updateVerificationRequestMutation from '@/graphql/admin/verifications/update-verification-request'
-
-import useVerifications from '@/graphql/admin/verifications/verifications'
 
 import { AnimatePresence } from 'framer-motion'
+
+import VerificationRequestCard from './verification-request-card'
+import VerificationsTable from './verification-table'
 
 const Verifications = () => {
   const [userOpen, setUserOpen] = useState<User | undefined>(undefined)
   const [page, setPage] = useState(0)
   const [take, setTake] = useState(6)
-
-  const { data: verifications, mutate: mutateVerifications} = useVerifications({
+  const [filterBy, setFilterBy] = useState<VerificationVariables['filterBy']>('ALL')
+  const [search, setSearch] = useState('')
+  
+  const { data: verifications, mutate: mutateVerifications } = useVerifications({
     page,
     take,
+    filterBy,
+    search,
   })
-  console.log(verifications)
 
   const { data: analytics, isLoading: analyticsLoading } = useRefundsAnalytics()
 
@@ -67,7 +62,7 @@ const Verifications = () => {
         if (user.id === variables.userId) {
           return {
             ...user,
-            documentVerified: variables.documentVerified.verificationStatus,
+            documentVerified: variables.documentVerified.verificationstatus,
           }
         }
 
@@ -78,7 +73,7 @@ const Verifications = () => {
         if (user.id === variables.userId) {
           return {
             ...user,
-            documentVerified: variables.documentVerified.verificationStatus,
+            documentVerified: variables.documentVerified.verificationstatus,
           }
         }
 
@@ -113,13 +108,17 @@ const Verifications = () => {
         )}
       </AnimatePresence>
       <VerificationsTable
+        search={search}
+        setSearch={setSearch}
         setUserOpen={setUserOpen}
-        data={verifications?.map(datum => ({
+        setFilterBy={setFilterBy}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data={verifications?.map((datum: any) => ({
           ...datum,
           user: {
             name: datum.name,
             email: datum.email,
-          }
+          },
         }))}
       />
       <div className="flex items-center justify-between">

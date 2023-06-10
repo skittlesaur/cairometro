@@ -1,8 +1,6 @@
 import { Button } from '@/components/button'
-import { UpdateRefundRequestVariables } from '@/graphql/admin/refunds/update-refund-request'
-import Refund from '@/types/refund'
-import User from '@/types/user'
 import { UpdateVerificationRequestVariables } from '@/graphql/admin/verifications/update-verification-request'
+import User from '@/types/user'
 
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
@@ -21,7 +19,7 @@ interface VerificationRequestCardProps {
 }
 
 const VerificationRequestCard = ({
-  userId, userName, email, date, role, documentVerified, documentUrl, setUserOpen, optimisticUpdate,
+  userId, userName, email, date, documentUrl, setUserOpen, optimisticUpdate,
 }: VerificationRequestCardProps) => {
   const formatDate = (dateString: Date) => {
     const date = new Date(dateString)
@@ -43,13 +41,13 @@ const VerificationRequestCard = ({
   const handleUpdate = async (documentVerified: 'ACCEPTED' | 'REJECTED')=>{
     const variables = {
       userId: userId,
-      documentVerified: { verificationStatus: documentVerified },
+      documentVerified: { verificationstatus: documentVerified },
     }
     
     try {
       setUserOpen(undefined)
       await optimisticUpdate(variables)
-      toast.success('Refund request updated successfully')
+      toast.success('Successfully updated verification request')
     } catch (e) {
       toast.error('Something went wrong please try again')
     }
@@ -108,8 +106,12 @@ const VerificationRequestCard = ({
               </p>
             </div>
           </div>
-          <div className='mx-auto'>
-            <img className='w-full max-h-[20em] object-cover' src={documentUrl}></img>
+          <div className="mx-auto">
+            <img
+              className="w-full max-h-[20em] object-cover"
+              src={documentUrl}
+            >
+            </img>
           </div>
           <div className="grid grid-cols-2 gap-2 w-full">
             <Button

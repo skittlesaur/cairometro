@@ -5,13 +5,13 @@ import mutate from '@/graphql/mutate'
 export interface UpdateVerificationRequestVariables extends Variables {
   userId: string,
   documentVerified: {
-    verificationStatus: 'ACCEPTED' | 'REJECTED' | 'PENDING'
+    verificationstatus: 'ACCEPTED' | 'REJECTED' | 'PENDING'
    }
 }
 
 const UPDATE_VERIFICATION_REQUEST_MUTATION = /* GraphQL */ `
-  mutation adminUpdateVerificationRequest($userId: String!, $documentVerified: VerificationsStatusEnumArg!) {
-    adminUpdateRefundRequest(userId: $userId, documentVerified: $documentVerified)
+  mutation adminUpdateVerificationRequest($userId: String!, $documentVerified: VerificationStatusEnumArg!) {
+    adminUpdateVerificationRequest(userId: $userId, documentVerified: $documentVerified)
   }
 `
 
