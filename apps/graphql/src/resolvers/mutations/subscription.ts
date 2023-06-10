@@ -63,6 +63,7 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
         customer: customer.id,
         items: [{ plan: plan.id }],
         expand: ['latest_invoice.payment_intent'],
+        cancel_at_period_end: true,
       })
 
       if (subscription) {
@@ -78,9 +79,10 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
             tier: subscriptionTier,
             stripeId: subscription.id,
             expiresAt,
+            price: subscription.latest_invoice.amount_due / 100,
           },
         })
-      
+        
         return true
       }
 

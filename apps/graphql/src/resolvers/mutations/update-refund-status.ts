@@ -1,7 +1,10 @@
+import { GraphQLError } from 'graphql/error'
+
 import { TicketType } from '@prisma/client'
-import { arg, FieldResolver } from 'nexus'
+import { FieldResolver } from 'nexus'
 import Stripe from 'stripe'
 
+import { refundSubscription } from '../../lib/refund-subscription'
 import adminPermission from '../../permissions/admin'
 
 const updateRefundStatus: FieldResolver< 'Mutation', 'updateRefundStatus' > = async(_, args, ctx)=>{
@@ -26,20 +29,52 @@ const updateRefundStatus: FieldResolver< 'Mutation', 'updateRefundStatus' > = as
       id: args.refundRequestId,
     },
   })
-  if (args.status.refundStatus === 'ACCEPTED' && request.ticketType === TicketType.TICKET){
+  if (args.status.refundStatus === 'ACCEPTED'){
 
-    const purchase = await prisma.userTickets.findUnique({
-      where: {
-        id: request.referenceId,
-      },
-    })
+    if (request.ticketType === TicketType.TICKET){
 
-    await stripe.refunds.create({
-      payment_intent: purchase.paymentId,
-    })
+      try {
+        const purchase = await prisma.userTickets.findUnique({
+          where: {
+            id: request.referenceId,
+          },
+        })
 
+        await stripe.refunds.create({
+          payment_intent: purchase.paymentId,
+        })
+      }
+      catch (e){
+        throw new GraphQLError('refund failed')
+      }
+    }
+
+    else if (request.ticketType === TicketType.SUBSCRIPTION){
+      try {
+        const purchase = await prisma.subscriptions.findUnique({
+          where: {
+            id: request.referenceId,
+          },
+        })
+        const subscription = await stripe.subscriptions.retrieve(purchase.stripeId, {
+          expand: ['latest_invoice.payment_intent'],
+        })
+
+        await refundSubscription(subscription, stripe)
+        await stripe.subscriptions.cancel(purchase.stripeId)
+        await prisma.subscriptions.update({
+          where: {
+            id: purchase.id,
+          },
+          data: {
+            expiresAt: new Date(),
+          },
+        })
+      } catch (e){
+        throw new GraphQLError('refund failed')
+      }
+    } 
   }
-
   return true
 }
 

@@ -60,6 +60,7 @@ model Subscriptions {
   userId    String
   type      SubscriptionType
   tier      SubscriptionTier
+  price       Float
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
   expiresAt DateTime
