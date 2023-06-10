@@ -1,6 +1,8 @@
 import LinesAndStations from '@/components/admin/lines-and-stations'
 import AdminLayout from '@/layouts/admin'
 
+import { NextSeo } from 'next-seo'
+
 const LinesAndStationsPage = () => {
   return (
     <AdminLayout
@@ -8,6 +10,11 @@ const LinesAndStationsPage = () => {
         activePath: '/admin/lines-and-stations',
       }}
     >
+      <NextSeo
+        title="Lines and Stations"
+        description="Lines and Stations"
+        titleTemplate="%s - Admin Panel"
+      />
       <LinesAndStations />
     </AdminLayout>
   )

@@ -43,9 +43,9 @@ const MonthlyRevenue = () => {
             onMouseLeave={() => setCurrentHover(undefined)}
           >
             <div
-              className="relative bg-gray-200 w-full rounded"
+              className="relative bg-gray-200 w-full rounded min-h-[1em] max-h-[calc(100%-2em)]"
               style={{
-                height: `clamp(1em, ${value / maxValue * 100}%, calc(100%-2em))`,
+                height: value / maxValue * 100,
               }}
             >
               <AnimatePresence mode="wait">
