@@ -8,11 +8,12 @@ export interface RefundsVariables extends Variables {
   page: number
   take?: number
   filterBy?: 'ALL' | 'PENDING' | 'ACCEPTED' | 'REJECTED'
+  search?: string
 }
 
 const REFUNDS_QUERY = /* GraphQL */ `
-query ($page: Int!, $take: Int, $filterBy: String){
-    adminGetRefundRequests(page: $page, take: $take, filterBy: $filterBy) {
+query ($page: Int!, $take: Int, $filterBy: String, $search: String) {
+    adminGetRefundRequests(page: $page, take: $take, filterBy: $filterBy, search: $search) {
       id
       createdAt
       status

@@ -94,9 +94,13 @@ interface RefundsTableProps {
   setRefundOpen: (refund: Refund | undefined)=> void
   data: Refund[]
   setFilterBy: (filterBy: RefundsVariables['filterBy'])=> void
+  search: string
+  setSearch: (search: string)=> void
 }
 
-const RefundsTable = ({ setRefundOpen, data, setFilterBy }: RefundsTableProps) => {
+const RefundsTable = ({
+  setRefundOpen, data, setFilterBy, search, setSearch,
+}: RefundsTableProps) => {
   const [currentTab, setCurrentTab] = useState('all')
 
 
@@ -145,6 +149,10 @@ const RefundsTable = ({ setRefundOpen, data, setFilterBy }: RefundsTableProps) =
             id="search"
             className="p-2 w-full border-0"
             placeholder="Search by user name, email, or id"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value)
+            }}
           />
         </label>
       </Tabs.Root>

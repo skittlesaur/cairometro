@@ -22,12 +22,14 @@ const Refunds = () => {
   const [page, setPage] = useState(0)
   const [take, setTake] = useState(6)
   const [filterBy, setFilterBy] = useState<RefundsVariables['filterBy']>('ALL')
+  const [search, setSearch] = useState('')
 
 
   const { data: refunds, mutate: mutateRefunds } = useRefunds({
     page,
     take,
     filterBy,
+    search,
   })
 
   const { data: analytics, isLoading: analyticsLoading } = useRefundsAnalytics()
@@ -110,6 +112,8 @@ const Refunds = () => {
         setRefundOpen={setRefundOpen}
         data={refunds}
         setFilterBy={setFilterBy}
+        search={search}
+        setSearch={setSearch}
       />
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
