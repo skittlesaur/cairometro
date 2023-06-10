@@ -90,8 +90,35 @@ const addRefund: FieldResolver<'Mutation', 'addRefund'> = async (
     return true
   }
 
-  // @todo: handle subscription refunds
   if (type === 'SUBSCRIPTION') {
+    const subscription = await prisma.subscriptions.findFirst({
+      where: {
+        id,
+        userId: user.id,
+      },
+    })
+
+    if (!subscription) {
+      throw new GraphQLError('Subscription not found')
+    }
+
+    await prisma.refund.create({
+      data: {
+        referenceId: subscription.id,
+        ticketType: type,
+        price: subscription.price ?? 0,
+        message: 'Subscription refund request',
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+      },
+    })
+
+
+    return true
+  }
 
     const subscription = await prisma.subscriptions.findFirst({
       where: {
