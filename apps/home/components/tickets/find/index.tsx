@@ -17,12 +17,13 @@ const Tickets = ({ departure, destination }: TicketsProps) => {
   const router = useRouter()
 
   const {
-    hours, minutes, meridiem, adults, seniors, children,
+    hours, minutes, meridiem, adults, seniors, children, date,
   } = router.query
 
   const { data: searchResult } = useSchedule({
     from: departure?.id,
     to: destination?.id,
+    date: date as string,
     travelTime: {
       hour: parseInt(hours as string),
       minute: parseInt(minutes as string),
@@ -58,7 +59,7 @@ const Tickets = ({ departure, destination }: TicketsProps) => {
               arrival={searchResult.to.name}
               departureTime={new Date(schedule.departureTime)}
               arrivalTime={new Date(schedule.arrivalTime)}
-              href={`/tickets/${searchResult.from.id}/${searchResult.to.id}/${new Date(schedule.departureTime).getTime()}?adults=${adults}&children=${children}&seniors=${seniors}`}
+              href={`/tickets/${searchResult.from.id}/${searchResult.to.id}/${new Date(schedule.departureTime).toISOString()}?adults=${adults}&children=${children}&seniors=${seniors}`}
               price={searchResult.price}
               stations={searchResult.noOfStationsOnPath}
             />

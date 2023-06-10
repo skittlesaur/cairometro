@@ -36,12 +36,12 @@ const RefundRequestCard = ({
     return `${formattedDate} at ${formattedTime}`
   }
 
-  const handleUpdate = async (status: 'ACCEPTED' | 'REJECTED')=>{
+  const handleUpdate = async (status: 'ACCEPTED' | 'REJECTED') => {
     const variables = {
       refundRequestId: refundId,
       status: { refundStatus: status },
     }
-    
+
     try {
       setRefundOpen(undefined)
       await optimisticUpdate(variables)

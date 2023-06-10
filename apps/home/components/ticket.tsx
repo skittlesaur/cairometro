@@ -41,6 +41,7 @@ const DesktopTicket = ({
   departure, arrival, departureTime, arrivalTime, href, price, stations,
 }: TicketProps) => {
   const { t, i18n } = useTranslation('common')
+
   return (
     <Link
       href={href}
@@ -58,7 +59,7 @@ const DesktopTicket = ({
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true,
-              }
+              },
             )}
           </p>
         </div>
@@ -83,15 +84,31 @@ const DesktopTicket = ({
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true,
-              }
+              },
             )}
           </p>
         </div>
       </div>
       <div className=" w-[1px] h-16 border-dashed border-gray-300 border-r" />
       <div className="flex items-center gap-12 justify-end">
-        <span className="text-2xl font-semibold text-primary w-[150px] ltr:text-right rtl:text-left">
-          {price.toFixed(2)} {t('egpShort')}
+        <span className="relative text-2xl font-semibold text-primary w-[150px] ltr:text-right rtl:text-left">
+          {price === 0 ? (
+            <>
+              {t('ticket.free')}
+              <p className="text-sm font-normal text-neutral-600">
+                {t('ticket.withSubscription')}
+              </p>
+            </>
+          ) : (
+            <>
+              {price.toLocaleString([i18n.language === 'ar' ? 'ar-EG' : 'en-US'], {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+              {' '}
+              {t('egpShort')}
+            </>
+          )}
         </span>
         <Button
           variant={'ticket'}

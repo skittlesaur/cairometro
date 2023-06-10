@@ -12,13 +12,11 @@ const rideRouteByDate: FieldResolver<'Query', 'rideRouteByDate'> =
   async (_, args, ctx: Context) => {
     const { from, to, date } = args
 
-    const dateObj = new Date(parseInt(date))
+    const departureTime = new Date(date)
 
     const path = await findRoute(from, to, ctx)
 
     if (!path) throw new GraphQLError('No route found')
-
-    const departureTime = new Date(2023, 0, 1, dateObj.getHours(), dateObj.getMinutes(), 0)
 
     const locations = path.stationsInPath.map((station) => convertLocationToLatLng(station.location))
 

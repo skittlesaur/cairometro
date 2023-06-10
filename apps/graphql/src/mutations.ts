@@ -1,4 +1,4 @@
-import { arg, floatArg, intArg, list, mutationType, nonNull, stringArg } from 'nexus'
+import { arg, booleanArg, floatArg, intArg, list, mutationType, nonNull, stringArg } from 'nexus'
 
 import addLine from './resolvers/mutations/add-line'
 import addRefund from './resolvers/mutations/add-refund'
@@ -12,19 +12,24 @@ import login from './resolvers/mutations/login'
 import secretCreateMainAdminAccount from './resolvers/mutations/migrations/create-main-admin-account'
 import secretDummyStationsData from './resolvers/mutations/migrations/dummy-database/dummy-stations-data'
 import secretDummySchedule from './resolvers/mutations/migrations/dummy-database/schedule'
+import createPayment from './resolvers/mutations/payment'
 import adminReorderStation from './resolvers/mutations/reorder-station'
 import signUp from './resolvers/mutations/sign-up'
+import createSubscription from './resolvers/mutations/subscription'
 import updateInvitation from './resolvers/mutations/update-invitation'
 import updateRefundStatus from './resolvers/mutations/update-refund-status'
 import Line from './types/line'
 import LngLatInputType from './types/lng-lat-input'
+import oneTimeInput from './types/one-time-input'
 import RefundStatusEnumArg from './types/refund-status-enum-arg'
 import StationType from './types/station'
 import StatusEnum from './types/status-arg'
+import subscriptionEnumArg from './types/subscription-input'
 import TicketTypeEnumArg from './types/ticket-type-enum-arg'
 import UserRoleEnumArg from './types/user-role-enum-arg'
 import VerificationStatusEnumArg from './types/verification-status-enum-arg'
 import updateVerificationStatus from './resolvers/mutations/update-verification-status'
+
 
 const mutations = mutationType({
   definition(t) {
@@ -74,10 +79,8 @@ const mutations = mutationType({
     t.field('requestRefund', {
       type: 'Boolean',
       args: {
+        id: nonNull(stringArg()),
         ticketType: nonNull(arg({ type: TicketTypeEnumArg })),
-        userId: nonNull(stringArg()),
-        message: nonNull(stringArg()),
-        price: nonNull(floatArg()),
       },
       resolve: addRefund,
     })
@@ -183,6 +186,7 @@ const mutations = mutationType({
       resolve: adminInviteTeammate,
     })
 
+
     t.field('adminUpdateVerificationRequest', {
       type: 'Boolean',
       args: {
@@ -190,6 +194,33 @@ const mutations = mutationType({
         documentVerified: nonNull(arg({ type: VerificationStatusEnumArg })),
       },
       resolve: updateVerificationStatus,
+
+    
+    t.field('createPayment', {
+      type: 'Boolean',
+      args: {
+        cardNumber: nonNull(stringArg()),
+        expiryMonth: nonNull(stringArg()),
+        expiryYear: nonNull(stringArg()),
+        cardCvc: nonNull(stringArg()),
+        saveCard: nonNull(booleanArg()),
+        metaData: oneTimeInput,
+      },
+      resolve: createPayment,
+    })
+
+    t.field('createSubscription', {
+      type: 'Boolean',
+      args: {
+        cardNumber: nonNull(stringArg()),
+        expiryMonth: nonNull(stringArg()),
+        expiryYear: nonNull(stringArg()),
+        cardCvc: nonNull(stringArg()),
+        saveCard: nonNull(booleanArg()),
+        metaData: nonNull(subscriptionEnumArg),
+      },
+      resolve: createSubscription,
+
     })
   },
 })

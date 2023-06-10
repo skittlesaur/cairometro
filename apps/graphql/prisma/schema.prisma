@@ -26,6 +26,7 @@ model User {
   refunds          Refund[]
   UserTickets      UserTickets[]
   StaffInvitation  StaffInvitation[]
+  SearchHistory    SearchHistory[]
 }
 
 model UserTickets {
@@ -60,6 +61,8 @@ model Subscriptions {
   tier      SubscriptionTier
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
+  expiresAt DateTime
+  stripeId  String           @unique
 }
 
 model Otp {
@@ -109,6 +112,8 @@ model Station {
   pathIds               String[]
   fromTickets           UserTickets[]           @relation("fromTickets")
   toTickets             UserTickets[]           @relation("toTickets")
+  fromSearch            SearchHistory[]         @relation("fromSearch")
+  toSearch              SearchHistory[]         @relation("toSearch")
 }
 
 model StationPositionInLine {
@@ -147,14 +152,28 @@ model Pricing {
 }
 
 model Refund {
-  id         String       @id @default(cuid()) @map("_id")
-  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String
-  createdAt  DateTime     @default(now())
-  status     RefundStatus @default(PENDING)
-  ticketType TicketType
-  message    String
-  price      Float
+  id          String       @id @default(cuid()) @map("_id")
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  status      RefundStatus @default(PENDING)
+  ticketType  TicketType
+  referenceId String
+  message     String
+  price       Float
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model SearchHistory {
+  id            String   @id @default(cuid()) @map("_id")
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+  from          Station  @relation("fromSearch", fields: [fromId], references: [id], onDelete: Cascade)
+  fromId        String
+  to            Station  @relation("toSearch", fields: [toId], references: [id], onDelete: Cascade)
+  toId          String
+  departureTime DateTime
+  createdAt     DateTime @default(now())
 }
 
 enum UserRole {

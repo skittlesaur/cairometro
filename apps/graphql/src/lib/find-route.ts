@@ -17,7 +17,19 @@ const findRoute = async (departure: string, destination: string, ctx: Context) =
     },
   })
 
-  if (checkIfExists) return checkIfExists
+  if (checkIfExists) {
+    // sort stations in path as they appear in stationsInPathIds
+    const stationsInPath = checkIfExists.stationsInPath.sort((a, b) => {
+      const aIndex = checkIfExists.stationsInPathIds.indexOf(a.id)
+      const bIndex = checkIfExists.stationsInPathIds.indexOf(b.id)
+      return aIndex - bIndex
+    })
+
+    return {
+      ...checkIfExists,
+      stationsInPath,
+    }
+  }
 
   const departureStation = await prisma.station.findUnique({
     where: {
@@ -84,6 +96,15 @@ const findRoute = async (departure: string, destination: string, ctx: Context) =
       stationsInPath: true,
     },
   })
+
+  // sort stations in path as they appear in stationsInPathIds
+  const stationsInPath = result.stationsInPath.sort((a, b) => {
+    const aIndex = result.stationsInPathIds.indexOf(a.id)
+    const bIndex = result.stationsInPathIds.indexOf(b.id)
+    return aIndex - bIndex
+  })
+
+  result.stationsInPath = stationsInPath
 
   return result
 }

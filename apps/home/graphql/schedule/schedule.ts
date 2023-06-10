@@ -9,6 +9,7 @@ interface ScheduleVariables extends Variables {
   to: string
   take: number
   page: number
+  date: string
   passengers: {
     adults: number
     children: number
@@ -29,12 +30,14 @@ query paginateStationsSchedule (
   $page: Int!
   $passengers: passengersInputType!
   $travelTime: scheduleTimeType
+  $date: String!
 ) {
   paginateStationsSchedule(
     from: $from
     to: $to
     take: $take
     page: $page
+    date: $date
     passengers: $passengers
     travelTime: $travelTime
   ) {
