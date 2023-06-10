@@ -25,6 +25,7 @@ const buttonVariants = cva(
         sm: 'h-9 rounded-md',
         lg: 'h-11 rounded-md',
         xl: 'h-12 w-40 rounded',
+        xxl: 'h-11 w-60',
       },
       padding: {
         default: 'px-4 py-2',
