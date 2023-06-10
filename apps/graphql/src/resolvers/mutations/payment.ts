@@ -28,6 +28,36 @@ async (_, args, ctx: Context) => {
   if (!user) {
     throw new GraphQLError('User not Authenticated')
   }
+  const date = new Date(parseInt(departureTime))
+  const path = await findRoute(from, to, ctx)
+  const price = await calculatePricing(path, passengers, ctx) 
+  if (price === 0 ){
+    await prisma.userTickets.create({
+      data: {
+        user: {
+          connect: {
+            id: user.id,
+          },
+        },
+        from: {
+          connect: {
+            id: from,
+          },
+        },
+        to: {
+          connect: {
+            id: to,
+          },
+        },
+        date: date,
+        price: price,
+        paymentId: 'subscriptionTier',
+        
+      },
+    })
+    return true
+  }
+  
   
   let card = {
     number: cardNumber,
@@ -76,8 +106,6 @@ async (_, args, ctx: Context) => {
       card,
     })
     const Source = token.id
-    const path = await findRoute(from, to, ctx)
-    const price = await calculatePricing(path, passengers, ctx) 
   
     const payment = await stripe.paymentIntents.create({
       amount: price * 100,
@@ -93,8 +121,6 @@ async (_, args, ctx: Context) => {
     })
     
     if (payment.status === 'succeeded'){
-
-      const date = new Date(parseInt(departureTime))
             
       // add userTicket to database
       await prisma.userTickets.create({
