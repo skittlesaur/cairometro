@@ -120,41 +120,41 @@ const addRefund: FieldResolver<'Mutation', 'addRefund'> = async (
     return true
   }
 
-    const subscription = await prisma.subscriptions.findFirst({
-      where: {
-        id,
-        userId: user.id,
-      },
-    })
-    if (!subscription){
-      throw new GraphQLError('Subscription not found')
-    }
-    // check if subscription is expired
-    const subscriptionDate = new Date(subscription.expiresAt)
-    const now = new Date()
-    if (subscriptionDate < now){
-      throw new GraphQLError('Subscription is expired')
-    }
-    await prisma.refund.create({
-      data: {
-        referenceId: subscription.id,
-        ticketType: type,
-        userId: user.id,
-        price: subscription.price,
-        message: 'Ticket refund request',
-      },
-    })
-
-    return true
-    // await sendEmail<EmailTemplate.REFUND_REQUEST_SUBSCRIPTION>(
-    //   user.email,
-    //   'Subscription refund request',
-    //   EmailTemplate.REFUND_REQUEST_SUBSCRIPTION,
-    //   {
-    //     name: user.name,
-    //     refundAmount: `${subscription.price.toFixed(2)} EGP`,
-    //   },
-    // )
+  const subscription = await prisma.subscriptions.findFirst({
+    where: {
+      id,
+      userId: user.id,
+    },
+  })
+  if (!subscription){
+    throw new GraphQLError('Subscription not found')
   }
+  // check if subscription is expired
+  const subscriptionDate = new Date(subscription.expiresAt)
+  const now = new Date()
+  if (subscriptionDate < now){
+    throw new GraphQLError('Subscription is expired')
+  }
+  await prisma.refund.create({
+    data: {
+      referenceId: subscription.id,
+      ticketType: type,
+      userId: user.id,
+      price: subscription.price,
+      message: 'Ticket refund request',
+    },
+  })
+
+  return true
+  // await sendEmail<EmailTemplate.REFUND_REQUEST_SUBSCRIPTION>(
+  //   user.email,
+  //   'Subscription refund request',
+  //   EmailTemplate.REFUND_REQUEST_SUBSCRIPTION,
+  //   {
+  //     name: user.name,
+  //     refundAmount: `${subscription.price.toFixed(2)} EGP`,
+  //   },
+  // )
 }
+
 export default addRefund
