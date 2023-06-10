@@ -9,8 +9,13 @@ import capitalizeFirstLetters from '@/lib/capitalize-first-letters'
 import { useTranslation } from 'next-i18next'
 import toast from 'react-hot-toast'
 
-const History = () => {
-  const { data, isLoading } = usePurchaseHistory()
+interface HistoryProps {
+  subscriptionOnly?: boolean
+}
+const History = ({ subscriptionOnly = false }: HistoryProps) => {
+  const { data, isLoading } = usePurchaseHistory({
+    subscriptionOnly,
+  })
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const { i18n } = useTranslation()
   const { t } = useTranslation('user-ticket')
