@@ -8,6 +8,12 @@ const USER_QUERY = /* GraphQL */ `
       id
       name
       role
+      subscription {
+        id
+        type
+        tier
+        isActive
+      }
     }
   }
 `

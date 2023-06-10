@@ -6,6 +6,7 @@
     "home": "Home",
     "support": "Support",
     "subscriptions": "Subscriptions",
+    "help": "Help Center",
     "instructions": {
       "title": "Instructions",
       "content": {
@@ -54,7 +55,9 @@
   },
   "ticket": {
     "viewDetails": "View Details",
-    "stations": "stations"
+    "stations": "stations",
+    "free": "FREE",
+    "withSubscription": "with subscription"
   },
   "egp": "EGP",
   "egpShort": "EGP"

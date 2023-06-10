@@ -6,6 +6,7 @@ import { Button, buttonVariants } from '@/components/button'
 import { Separator } from '@/components/separator'
 import { useAppContext } from '@/context/app-context'
 import useGetPrice from '@/graphql/get-price'
+import createPaymentMutation from '@/graphql/payment/create-payment'
 import useRideRoute from '@/graphql/stations/ride-route'
 import useUser from '@/graphql/user/me'
 import LocationIcon from '@/icons/location.svg'
@@ -13,6 +14,7 @@ import QrCodeIcon from '@/icons/qr-code.svg'
 import ForwardIcon from '@/icons/return-up-forward.svg'
 import TicketIcon from '@/icons/ticket.svg'
 import TrainIcon from '@/icons/train.svg'
+import Line from '@/types/line'
 import Station from '@/types/station'
 
 import cn from 'classnames'
@@ -48,7 +50,7 @@ const TicketPurchaseDetails = () => {
   })
 
   const onPurchaseClick = useCallback((_: MouseEvent<HTMLButtonElement>) => {
-    if (!ride || !price) return
+    if (!ride || price === undefined) return
 
     if (!user) {
       const pathname = router.pathname
@@ -63,14 +65,35 @@ const TicketPurchaseDetails = () => {
       return
     }
 
+    const metaData = {
+      from: ride?.[0].station.id,
+      to: ride?.[ride?.length - 1].station.id,
+      passengers: {
+        adults,
+        seniors,
+        children,
+      },
+      departureTime: ride?.[0].time,
+    }
+
+    if (price === 0){
+      alert('FREE RIDE')
+      return
+    }
+
     purchaseModal.open({
       title: `Purchase Ticket (${ride?.[0].station.name} - ${ride?.[ride?.length - 1].station.name})`,
       price,
+      metaData,
+      mutation: createPaymentMutation,
     })
-  }, [price,
+  }, [adults,
+    children,
+    price,
     purchaseModal,
     ride,
     router,
+    seniors,
     user])
 
   const getAdultsText = () =>
@@ -109,10 +132,18 @@ const TicketPurchaseDetails = () => {
         </h1>
         <div className="flex justify-end gap-x-2.5 items-center">
           <div className="text-right">
-            {price && (
+            {price === 0 ? (
               <p className="font-semibold text-xl leading-7">
-                {price.toFixed(2)} EGP
+                Free with subscription
               </p>
+            ) : (
+              <>
+                {price && (
+                  <p className="font-semibold text-xl leading-7">
+                    {price.toFixed(2)} EGP
+                  </p>
+                )}
+              </>
             )}
             <p className="leading-6 text-base font-normal text-neutral-600">
               {getPassengersText()}, Standard
@@ -123,7 +154,7 @@ const TicketPurchaseDetails = () => {
             variant={'primary'}
             className="py-2.5 px-9"
             disabled={
-              !price ||
+              price === undefined ||
               adults < 0 ||
               seniors < 0 ||
               children < 0 ||
@@ -157,7 +188,24 @@ const TicketPurchaseDetails = () => {
             const time = timeFormat.split(' ')[0]
             const period = timeFormat.split(' ')[1]
 
-            const isTransfer = false
+            let isTransfer = false
+            
+            if (index > 0 && index < ride.length - 1) {
+              const previousStation = ride?.[index - 1]
+              const nextStation = ride?.[index + 1]
+
+              if (previousStation && nextStation) {
+                const previousLines = previousStation.station.lines
+                const nextLines = nextStation.station.lines
+
+                const nextHasSameLineAsPrevious = nextLines.some((nextLine: Line) =>
+                  previousLines.some((previousLine: Line) => previousLine.id === nextLine.id))
+
+                if (!nextHasSameLineAsPrevious) {
+                  isTransfer = true
+                }
+              }
+            }
 
             return (
               <>

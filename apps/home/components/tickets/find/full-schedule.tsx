@@ -19,13 +19,14 @@ const SchedulePage = React.memo(({ page, disableLoadMore }: SchedulePageProps) =
   const router = useRouter()
 
   const {
-    departure, destination, adults, seniors, children, 
+    departure, destination, adults, seniors, children, date,
   } = router.query
 
   const { data, isLoading, error } = useSchedule(
     {
       from: departure as string,
       to: destination as string,
+      date: date as string,
       passengers: {
         adults: parseInt(adults as string),
         seniors: parseInt(seniors as string),
@@ -49,7 +50,7 @@ const SchedulePage = React.memo(({ page, disableLoadMore }: SchedulePageProps) =
           arrival={data.to.name}
           departureTime={new Date(schedule.departureTime)}
           arrivalTime={new Date(schedule.arrivalTime)}
-          href={`/tickets/${data.from.id}/${data.to.id}/${new Date(schedule.departureTime).getTime()}?adults=${adults}&children=${children}&seniors=${seniors}`}
+          href={`/tickets/${data.from.id}/${data.to.id}/${new Date(schedule.departureTime).toISOString()}?adults=${adults}&children=${children}&seniors=${seniors}`}
           price={data.price}
           stations={data.noOfStationsOnPath}
         />

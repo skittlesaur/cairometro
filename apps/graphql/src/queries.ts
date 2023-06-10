@@ -14,9 +14,11 @@ import invitation from './resolvers/queries/invitation'
 import lines from './resolvers/queries/lines'
 import me from './resolvers/queries/me'
 import paginateStationsSchedule from './resolvers/queries/paginate-stations-schedule'
+import recommendations from './resolvers/queries/recommendations'
 import rideRouteByDate from './resolvers/queries/ride-route-by-date'
 import stationById from './resolvers/queries/station-by-id'
 import stations from './resolvers/queries/stations'
+import userPurchaseHistory from './resolvers/queries/user-purchase-history'
 import InvitationType from './types/invitation'
 import LineType from './types/line'
 import LinesAndStationsAnalyticsType from './types/lines-and-stations-type'
@@ -28,6 +30,7 @@ import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
 import TripRouteType from './types/trip-route'
 import UserType from './types/user'
+import UserTicketType from './types/user-ticket'
 import UserAnalyticsType from './types/users-analytics'
 
 
@@ -50,6 +53,11 @@ const queries = queryType({
       },
       resolve: stationById,
     })
+    
+    t.list.field('recommendations', {
+      type: RideTicketDataType,
+      resolve: recommendations,
+    })
 
     t.list.field('rideRouteByDate', {
       type: TripRouteType,
@@ -64,6 +72,11 @@ const queries = queryType({
     t.list.field('lines', {
       type: LineType,
       resolve: lines,
+    })
+    
+    t.list.field('purchaseHistory', {
+      type: UserTicketType,
+      resolve: userPurchaseHistory,
     })
 
     t.field('analyticsSoldTickets', {
@@ -102,6 +115,7 @@ const queries = queryType({
         from: nonNull(stringArg()),
         to: nonNull(stringArg()),
         travelTime: arg({ type: scheduleTimeType }),
+        date: nonNull(stringArg()),
         page: nonNull(intArg()),
         take: nonNull(intArg()),
         passengers: nonNull(arg({ type: passengersInputType })),
@@ -132,6 +146,7 @@ const queries = queryType({
       args: {
         page: nonNull(intArg()),
         take: intArg(),
+        filterBy: stringArg(),
       },
       resolve: getRefundRequests,
     })
