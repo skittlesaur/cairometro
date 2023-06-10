@@ -4,6 +4,8 @@
     "description": "اشتر تذكرة مترو القاهرة من {0} إلى {1}. قارن بين طرق المترو وأوقاته ومحطاته للتخطيط لرحلتك."
   },
   "reviewTicketOptions": "مراجعة خيارات التذاكر",
+  "freeWithSubscription": "مجاني مع الاشتراك",
+  "purchase": "شراء",
   "tripRoute": {
     "title": "مسار الرحلة",
     "transfer": "نقل"
@@ -17,5 +19,15 @@
       "text": "لمعرفة المزيد حول متطلبات المترو، يرجى {0}",
       "link": "الضغط هنا"
     }
-  }
+  },
+  "adult": "بالغ",
+  "adults": "بالغين",
+  "child": "طفل",
+  "children": "أطفال",
+  "senior": "مسن",
+  "seniors": "مسنون",
+  "noPassengersSelected": "لم يتم تحديد ركاب",
+  "standard": "قياسي",
+  "purchaseTicket": "شراء تذكرة",
+  "egp": "ج.م."
 }

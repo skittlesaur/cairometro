@@ -4,6 +4,8 @@
     "description": "Purchase a Cairo Metro ticket from {0} to {1}. Compare metro routes, times and stations to plan your trip."
   },
   "reviewTicketOptions": "Review ticket options",
+  "freeWithSubscription": "Free with subscription",
+  "purchase": "Purchase",
   "tripRoute": {
     "title": "Trip route",
     "transfer": "Transfer"
@@ -24,5 +26,8 @@
   "children": "Children",
   "senior": "Senior",
   "seniors": "Seniors",
-  "noPassengersSelected": "No passengers selected"
+  "noPassengersSelected": "No passengers selected",
+  "standard": "Standard",
+  "purchaseTicket": "Purchase ticket",
+  "egp": "EGP"
 }

@@ -44,10 +44,12 @@ query paginateStationsSchedule (
     from {
       id
       name
+      name_ar
     }
     to {
       id
       name
+      name_ar
     }
     noOfStationsOnPath
     schedule {

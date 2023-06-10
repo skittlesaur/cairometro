@@ -9,6 +9,7 @@ import calculatePricing from '../../lib/calculate-pricing'
 import findRoute from '../../lib/find-route'
 import getSavedCard from '../../lib/get-saved-card'
 import saveUserCard from '../../lib/save-user-card'
+import sendEmail, { EmailTemplate } from '../../lib/send-email'
 
 
 
@@ -143,9 +144,47 @@ async (_, args, ctx: Context) => {
           date: date,
           price: price,
           paymentId: payment.id,
-          
+          adults: passengers.adults ?? 0,
+          children: passengers.children ?? 0,
+          seniors: passengers.seniors ?? 0,
+        },
+        include: {
+          from: true,
+          to: true,
         },
       })
+
+      
+
+      await sendEmail<EmailTemplate.PURCHASE_SUCCESSFUL>(
+        user.email as string,
+        'Successful purchase details',
+        EmailTemplate.PURCHASE_SUCCESSFUL,
+        {
+          name: user.name as string,
+          from: purchase.from.name,
+          to: purchase.to.name,
+          date: `${date.toLocaleDateString(
+            'en-US',
+            {
+              day: 'numeric',
+              year: 'numeric',
+              month: 'long',
+            },
+          )} at ${date.toLocaleTimeString(
+            'en-US',
+            {
+              hour: 'numeric',
+              minute: 'numeric',
+            },
+          )}`,
+          price: `${price.toFixed(2)} EGP`,
+          adults: passengers.adults ?? 0,
+          children: passengers.children ?? 0,
+          seniors: passengers.seniors ?? 0,
+        }
+      )
+
       return true
     }
     return false

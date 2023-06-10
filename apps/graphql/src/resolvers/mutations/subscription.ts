@@ -4,8 +4,12 @@ import { FieldResolver } from 'nexus'
 import Stripe from 'stripe'
 
 import { Context } from '../../context'
+
 import getSavedCard from '../../lib/get-saved-card'
 import saveUserCard from '../../lib/save-user-card'
+import capitalizeFirstLetters from '../../lib/capitalize-first-letters'
+import sendEmail, { EmailTemplate } from '../../lib/send-email'
+
 
 import { subscriptionMapping } from './migrations/dummy-database/subscriptions-pricing'
 
@@ -23,6 +27,22 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
 
     if (!user) {
       throw new GraphQLError('User not Authenticated')
+
+    }
+    if (!cardNumber || !expiryMonth || !expiryYear || !cardCvc) {
+      throw new GraphQLError('Card details are missing')
+    }
+    // validate card details
+    const cardNumberRegex = new RegExp('^[0-9]{16}$')
+    const expiryMonthRegex = new RegExp('^[0-9]{2}$')
+    const expiryYearRegex = new RegExp('^[0-9]{2}$')
+    const cardCvcRegex = new RegExp('^[0-9]{3}$')
+    if (!cardNumberRegex.test(cardNumber)) {
+      throw new GraphQLError('Invalid card number')
+    }
+    if (!expiryMonthRegex.test(expiryMonth)) {
+      throw new GraphQLError('Invalid expiry month')
+
     }
 
     let card = {
@@ -101,7 +121,32 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
             price: subscription.latest_invoice.amount_due / 100,
           },
         })
-        
+        await sendEmail<EmailTemplate.SUBSCRIPTION_SUCCESSFUL>(
+          user.email as string,
+          'Successful subscription details',
+          EmailTemplate.SUBSCRIPTION_SUCCESSFUL,
+          {
+            name: user.name as string,
+            subscriptionTier: capitalizeFirstLetters(subscriptionTier.replace('_', ' ')),
+            subscriptionType: capitalizeFirstLetters(subscriptionType),
+            expiresAt: `${expiresAt.toLocaleDateString(
+              'en-US',
+              {
+                day: 'numeric',
+                year: 'numeric',
+                month: 'long',
+              },
+            )} at ${expiresAt.toLocaleTimeString(
+              'en-US',
+              {
+                hour: 'numeric',
+                minute: 'numeric',
+              },
+            )}`,
+          }
+        )
+
+
         return true
       }
 

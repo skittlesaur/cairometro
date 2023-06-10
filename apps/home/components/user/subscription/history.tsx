@@ -1,21 +1,23 @@
 import Loader from '@/components/loader'
 import useSubscriptionHistory from '@/graphql/user/subscription-history'
-import capitalizeFirstLetters from '@/lib/capitalize-first-letters'
+
+import { useTranslation } from 'next-i18next'
 
 const SubscriptionHistory = () => {
+  const { t, i18n } = useTranslation('user-subscriptions')
   const { data: subscriptionHistory, isLoading: subscriptionsLoading } = useSubscriptionHistory()
 
   return (
     <div>
       <div className="grid grid-cols-[2fr_1fr_1fr] border-b border-neutral-200 pb-2 px-4">
-        <p className="font-medium">
-          Subscription
+        <p className="font-medium ltr:text-left rtl:text-right">
+          {t('subscription')}
         </p>
-        <p className="font-medium">
-          Subscribed At
+        <p className="font-medium ltr:text-left rtl:text-right">
+          {t('subscribedAt')}
         </p>
-        <p className="font-medium">
-          Expiration Date
+        <p className="font-medium ltr:text-left rtl:text-right">
+          {t('expirationDate')}
         </p>
       </div>
       {subscriptionsLoading && (
@@ -26,7 +28,7 @@ const SubscriptionHistory = () => {
       {subscriptionHistory?.length === 0 && !subscriptionsLoading && (
         <div className="mt-7 flex flex-col">
           <p className="text-center text-neutral-500">
-            No subscriptions found
+            {t('noSubscriptionsFound')}
           </p>
         </div>
       )}
@@ -36,21 +38,21 @@ const SubscriptionHistory = () => {
           key={subscription.id}
           className="w-full text-left grid grid-cols-[2fr_1fr_1fr] border-b border-neutral-200 py-3 px-4"
         >
-          <p>
-            {capitalizeFirstLetters(subscription.tier.replace('_', ' '))} - {capitalizeFirstLetters(subscription.type)}
+          <p className="ltr:text-left rtl:text-right">
+            {t(subscription.tier)} - {t(subscription.type)}
           </p>
-          <p className="text-neutral-500">
+          <p className="text-neutral-500 ltr:text-left rtl:text-right">
             {new Date(subscription.createdAt).toLocaleDateString(
-              'en-US',
+              i18n.language === 'ar' ? 'ar-EG' : 'en-US',
               {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
               })}
           </p>
-          <p className="text-neutral-500">
+          <p className="text-neutral-500 ltr:text-left rtl:text-right">
             {new Date(subscription.expiresAt).toLocaleDateString(
-              'en-US',
+              i18n.language === 'ar' ? 'ar-EG' : 'en-US',
               { 
                 year: 'numeric', 
                 month: 'long', 

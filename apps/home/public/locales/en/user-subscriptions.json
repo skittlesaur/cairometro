@@ -1,0 +1,23 @@
+{
+  "seo": {
+    "title": "My Subscriptions",
+    "description": "View your subscriptions and manage them"
+  },
+  "mySubscriptions": "My Subscriptions",
+  "ONE_AREA": "One Area",
+  "TWO_AREAS": "Two Areas",
+  "THREE_AREAS": "Three Areas",
+  "MONTHLY": "Monthly",
+  "QUARTERLY": "Quarterly",
+  "YEARLY": "Yearly",
+  "subscription": "Subscription",
+  "description": "Enjoy exploring and commuting in the streets of Cairo with your monthly subscription to up to {0} stations for free.",
+  "refund": "A refund has been requested for this subscription at {0} and is currently being reviewed by an admin",
+  "expire": "Your subscription will expire on {0}",
+  "cancel": "Cancel Subscription",
+  "ticketsCovered": "Tickets covered by your subscription",
+  "subscriptionHistory": "Your Subscriptions History",
+  "subscribedAt": "Subscribed at",
+  "expirationDate": "Expiration Date",
+  "noSubscriptionsFound": "No subscriptions found"
+}

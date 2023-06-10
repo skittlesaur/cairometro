@@ -82,19 +82,24 @@ const TicketPurchaseDetails = () => {
       return
     }
 
+    const from = ride?.[0].station
+    const to = ride?.[ride?.length - 1].station
+
     purchaseModal.open({
-      title: `Purchase Ticket (${ride?.[0].station.name} - ${ride?.[ride?.length - 1].station.name})`,
+      title: `${t('purchaseTicket')} (${i18n.language === 'ar' ? from.name_ar : from.name} - ${i18n.language === 'ar' ? to.name_ar : to.name})`,
       price,
       metaData,
       mutation: createPaymentMutation,
     })
   }, [adults,
     children,
+    i18n.language,
     price,
     purchaseModal,
     ride,
     router,
     seniors,
+    t,
     user])
 
   const getAdultsText = () =>
@@ -135,19 +140,19 @@ const TicketPurchaseDetails = () => {
           <div className="text-right">
             {price === 0 ? (
               <p className="font-semibold text-xl leading-7">
-                Free with subscription
+                {t('freeWithSubscription')}
               </p>
             ) : (
               <>
                 {price && (
                   <p className="font-semibold text-xl leading-7">
-                    {price.toFixed(2)} EGP
+                    {price.toFixed(2)} {t('egp')}
                   </p>
                 )}
               </>
             )}
             <p className="leading-6 text-base font-normal text-neutral-600">
-              {getPassengersText()}, Standard
+              {getPassengersText()}, {t('standard')}
             </p>
           </div>
           <Button
@@ -163,7 +168,7 @@ const TicketPurchaseDetails = () => {
             }
             onClick={onPurchaseClick}
           >
-            Purchase
+            {t('purchase')}
           </Button>
         </div>
       </div>
