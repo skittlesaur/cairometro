@@ -2,6 +2,7 @@ import { Variables } from 'graphql-request'
 
 import mutate from '@/graphql/mutate'
 
+
 export interface UpdateRefundRequestVariables extends Variables {
   refundRequestId: string,
   status: {
