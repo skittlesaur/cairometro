@@ -6,6 +6,7 @@ import analyticsSoldTickets from './resolvers/queries/admin/analytics-sold-ticke
 import analyticsTotalSubscribers from './resolvers/queries/admin/analytics-total-subscribers'
 import analyticsTotalUsers from './resolvers/queries/admin/analytics-total-users'
 import getRefundRequests from './resolvers/queries/admin/get-refund-requests'
+import getVerificationRequests from './resolvers/queries/admin/get-verification-requests'
 import pendingInvitations from './resolvers/queries/admin/pending-invitations'
 import refundsAnalytics from './resolvers/queries/admin/refunds-analytics'
 import teamMembers from './resolvers/queries/admin/team-members'
@@ -160,6 +161,17 @@ const queries = queryType({
     t.list.field('adminPendingInvitations', {
       type: InvitationType,
       resolve: pendingInvitations,
+    })
+
+    t.list.field('adminGetVerificationRequests', {
+      type: UserType,
+      args: {
+        page: nonNull(intArg()),
+        take: intArg(),
+        filterBy: stringArg(),
+        search: stringArg(),
+      },
+      resolve: getVerificationRequests,
     })
   },
 })

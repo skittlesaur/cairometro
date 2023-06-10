@@ -13,6 +13,8 @@ const UserType = objectType({
     t.field(User.email)
     t.field(User.name)
     t.field(User.createdAt)
+    t.field(User.documentUrl)
+    t.field(User.documentVerified)
 
     t.field('subscription', {
       type: Subscription,

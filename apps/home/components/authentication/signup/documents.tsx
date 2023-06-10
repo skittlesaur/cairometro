@@ -113,7 +113,7 @@ const Documents = forwardRef(({ nextStep }: SignupStepProps, ref) => {
           name="senior-verification"
           multiple={false}
           accept="image/*"
-          maxSize={1}
+          maxSize={10}
           minSize={0}
           disabled={isLoading || !!documentUrl}
           classes="-mx-8"

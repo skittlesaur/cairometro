@@ -4,6 +4,8 @@ interface User {
   email: string
   role: 'ADMIN' | 'CUSTOMER_SUPPORT' | 'SENIOR' | 'ADULT'
   createdAt: string
+  documentVerified: 'ACCEPTED' | 'REJECTED' | 'PENDING'
+  documentUrl: string
 }
 
 export default User
