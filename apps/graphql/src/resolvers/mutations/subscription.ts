@@ -4,6 +4,8 @@ import { FieldResolver } from 'nexus'
 import Stripe from 'stripe'
 
 import { Context } from '../../context'
+import capitalizeFirstLetters from '../../lib/capitalize-first-letters'
+import sendEmail, { EmailTemplate } from '../../lib/send-email'
 
 
 interface SubscriptionMapping {
@@ -34,9 +36,9 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
     const { subscriptionTier, subscriptionType } = metaData
     const { user, prisma } = ctx
 
-    // if (!user) {
-    //   throw new GraphQLError('User not Authenticated')
-    // }
+    if (!user) {
+      throw new GraphQLError('User not Authenticated')
+    }
     if (!cardNumber || !expiryMonth || !expiryYear || !cardCvc) {
       throw new GraphQLError('Card details are missing')
     }
@@ -104,6 +106,32 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
             expiresAt,
           },
         })
+
+        await sendEmail<EmailTemplate.SUBSCRIPTION_SUCCESSFUL>(
+          user.email as string,
+          'Successful subscription details',
+          EmailTemplate.SUBSCRIPTION_SUCCESSFUL,
+          {
+            name: user.name as string,
+            subscriptionTier: capitalizeFirstLetters(subscriptionTier).replace('_', ' '),
+            subscriptionType: capitalizeFirstLetters(subscriptionType),
+            expiresAt: `${expiresAt.toLocaleDateString(
+              'en-US',
+              {
+                day: 'numeric',
+                year: 'numeric',
+                month: 'long',
+              },
+            )} at ${expiresAt.toLocaleTimeString(
+              'en-US',
+              {
+                hour: 'numeric',
+                minute: 'numeric',
+              },
+            )}`,
+          }
+        )
+
         return true
       }
 

@@ -11,6 +11,7 @@ export enum EmailTemplate {
   INVITATION_RESPONSE = 'invitation-response',
   REFUND_REQUEST_TICKET = 'refund-request-ticket',
   PURCHASE_SUCCESSFUL = 'purchase-successful',
+  SUBSCRIPTION_SUCCESSFUL = 'subscription-successful',
 }
 
 interface SignupEmailVariables {
@@ -63,6 +64,14 @@ interface PurchaseSuccessfulEmailVariables {
   helpEmail?: string;
 }
 
+interface SubscriptionSuccessfulEmailVariables {
+  name: string;
+  subscriptionTier: string;
+  subscriptionType: string;
+  expiresAt: string;
+  helpEmail?: string;
+}
+
 interface EmailVariablesMap {
   [EmailTemplate.SIGNUP]: SignupEmailVariables;
   [EmailTemplate.LOGIN]: LoginEmailVariables;
@@ -70,6 +79,7 @@ interface EmailVariablesMap {
   [EmailTemplate.INVITATION_RESPONSE]: InvitationResponseEmailVariables;
   [EmailTemplate.REFUND_REQUEST_TICKET]: RefundRequestTicketEmailVariables;
   [EmailTemplate.PURCHASE_SUCCESSFUL]: PurchaseSuccessfulEmailVariables;
+  [EmailTemplate.SUBSCRIPTION_SUCCESSFUL]: SubscriptionSuccessfulEmailVariables;
 }
 
 export type EmailVariables<T extends EmailTemplate> = EmailVariablesMap[T];
