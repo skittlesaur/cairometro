@@ -8,7 +8,7 @@ import authenticatedPermission from '../../permissions/authenticated'
 const addRefund: FieldResolver<'Mutation', 'addRefund'> = async (
   _, args, ctx,
 ) => {
-  authenticatedPermission(ctx)
+  // authenticatedPermission(ctx)
   const { prisma, user } = ctx
   const { ticketType, id } = args
   const type = ticketType.ticketType
