@@ -34,9 +34,9 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
     const { subscriptionTier, subscriptionType } = metaData
     const { user, prisma } = ctx
 
-    // if (!user) {
-    //   throw new GraphQLError('User not Authenticated')
-    // }
+    if (!user) {
+      throw new GraphQLError('User not Authenticated')
+    }
     if (!cardNumber || !expiryMonth || !expiryYear || !cardCvc) {
       throw new GraphQLError('Card details are missing')
     }
@@ -113,8 +113,8 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
       // TODO: saveCard
 
     } catch (err) {
-      console.log(err)
-      return false
+      throw new GraphQLError(err.code)
+      
     }
 
   }

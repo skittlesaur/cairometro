@@ -1,8 +1,6 @@
 
 import { GraphQLError } from 'graphql/error'
-import { DateTime } from 'graphql-scalars/typings/mocks'
 
-import { parse } from 'handlebars'
 import { FieldResolver } from 'nexus'
 import Stripe from 'stripe'
 
@@ -79,7 +77,7 @@ async (_, args, ctx: Context) => {
       const date = new Date(parseInt(departureTime))
             
       // add userTicket to database
-      const purchase = await prisma.userTickets.create({
+      await prisma.userTickets.create({
         data: {
           user: {
             connect: {
@@ -105,7 +103,7 @@ async (_, args, ctx: Context) => {
     }
     return false
   } catch (err){
-    console.log(err)
+    throw new GraphQLError(err.message)
   }
   
 
