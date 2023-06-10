@@ -9,6 +9,7 @@ import getRefundRequests from './resolvers/queries/admin/get-refund-requests'
 import getVerificationRequests from './resolvers/queries/admin/get-verification-requests'
 import pendingInvitations from './resolvers/queries/admin/pending-invitations'
 import refundsAnalytics from './resolvers/queries/admin/refunds-analytics'
+import seniorsAnalytics from './resolvers/queries/admin/seniors-analytics'
 import teamMembers from './resolvers/queries/admin/team-members'
 import getPrice from './resolvers/queries/get-price'
 import invitation from './resolvers/queries/invitation'
@@ -108,6 +109,11 @@ const queries = queryType({
     t.field('refundsAnalytics', {
       type: refundAnalyticsType,
       resolve: refundsAnalytics,
+    })
+
+    t.field('seniorsAnalytics', {
+      type: refundAnalyticsType,
+      resolve: seniorsAnalytics,
     })
 
     t.field('paginateStationsSchedule', {

@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import Header from '@/components/admin/header'
 import { Button } from '@/components/button'
-import useRefundsAnalytics from '@/graphql/admin/analytics/refunds-analytics'
+import useSeniorsAnalytics from '@/graphql/admin/analytics/seniors-analytics'
 import updateVerificationRequestMutation, { UpdateVerificationRequestVariables } from '@/graphql/admin/verifications/update-verification-request'
 import useVerifications, { VerificationVariables } from '@/graphql/admin/verifications/verifications'
 import CalendarIcon from '@/icons/calendar-outline.svg'
@@ -30,11 +30,11 @@ const Verifications = () => {
     search,
   })
 
-  const { data: analytics, isLoading: analyticsLoading } = useRefundsAnalytics()
+  const { data: analytics, isLoading: analyticsLoading } = useSeniorsAnalytics()
 
   const data = [
     {
-      title: 'Total Refund Requests',
+      title: 'Total Senior Requests',
       value: analytics?.total,
       icon: PriceTagsIcon,
     },
@@ -49,7 +49,7 @@ const Verifications = () => {
       icon: CloseCircleIcon,
     },
     {
-      title: 'Total Refunds This Month',
+      title: 'Total Seniors This Month',
       value: analytics?.totalThisMonth,
       icon: CalendarIcon,
     },
