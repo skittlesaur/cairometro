@@ -113,7 +113,7 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
           EmailTemplate.SUBSCRIPTION_SUCCESSFUL,
           {
             name: user.name as string,
-            subscriptionTier: capitalizeFirstLetters(subscriptionTier).replace('_', ' '),
+            subscriptionTier: capitalizeFirstLetters(subscriptionTier.replace('_', ' ')),
             subscriptionType: capitalizeFirstLetters(subscriptionType),
             expiresAt: `${expiresAt.toLocaleDateString(
               'en-US',

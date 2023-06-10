@@ -17,7 +17,7 @@ You have successfully subscribed to a plan with EgyMetro!
           </mj-text>
           <mj-divider border-color="#E5E5E5" width="326.51px" border-width="1px"></mj-divider>
           <mj-text font-size="16px" color="#737373" font-weight="400" line-height="26px" align="left">
-            You now have a {{subscriptionType}} subcription to the {{subscriptionTier}} plan.
+            You now have a <span style="color: black; font-weight: bold;">{{subscriptionType}}</span> subcription to the <span style="color: black; font-weight: bold;">{{subscriptionTier}}</span> plan.
             <br />
             It will expire at {{expiresAt}}
           </mj-text>

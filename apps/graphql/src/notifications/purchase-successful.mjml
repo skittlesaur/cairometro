@@ -25,13 +25,13 @@ Your ticket purchase was successful!
             <br/>
             Ticket Price: {{price}}
             <br/>
-            Passangers:
+            Passengers:
             <br />
             <span style="padding-left: 20px;">Adults: {{adults}}</span>
              <br />
             <span style="padding-left: 20px;">Children: {{children}}</span>
              <br />
-            <span style="padding-left: 20px;">Senrios: {{seniors}}</span>
+            <span style="padding-left: 20px;">Seniors: {{seniors}}</span>
           </mj-text>
         </mj-column>
       </mj-section>
