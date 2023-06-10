@@ -8,12 +8,15 @@ import Hero from '@/components/tickets/hero'
 import useSchedule from '@/graphql/schedule/schedule'
 import Station from '@/types/station'
 
+import { useTranslation } from 'next-i18next'
+
 interface TicketsProps {
   departure: Station
   destination: Station
 }
 
 const Tickets = ({ departure, destination }: TicketsProps) => {
+  const { t, i18n } = useTranslation('tickets-search')
   const router = useRouter()
 
   const {
@@ -46,7 +49,9 @@ const Tickets = ({ departure, destination }: TicketsProps) => {
       </div>
       <div className="flex flex-col gap-10">
         <h1 className="text-3xl font-semibold">
-          Search Result for {departure?.name} to {destination?.name}
+          {t('result')
+            .replace('{0}', i18n.language === 'ar' ? departure?.name_ar : departure?.name)
+            .replace('{1}', i18n.language === 'ar' ? destination?.name_ar : destination?.name)}
         </h1>
         <div className="flex flex-col gap-5">
           {!searchResult && (
@@ -55,8 +60,8 @@ const Tickets = ({ departure, destination }: TicketsProps) => {
           {searchResult?.schedule?.map((schedule: { departureTime: Date, arrivalTime: Date }) => (
             <Ticket
               key={`${schedule.departureTime}-${schedule.arrivalTime}-search`}
-              departure={searchResult.from.name}
-              arrival={searchResult.to.name}
+              departure={i18n.language === 'ar' ? searchResult.from.name_ar : searchResult.from.name}
+              arrival={i18n.language === 'ar' ? searchResult.to.name_ar : searchResult.to.name}
               departureTime={new Date(schedule.departureTime)}
               arrivalTime={new Date(schedule.arrivalTime)}
               href={`/tickets/${searchResult.from.id}/${searchResult.to.id}/${new Date(schedule.departureTime).toISOString()}?adults=${adults}&children=${children}&seniors=${seniors}`}

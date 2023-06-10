@@ -1,0 +1,15 @@
+{
+  "cardNumber": "رقم البطاقة",
+  "cardHolder": "اسم صاحب البطاقة",
+  "cardHolderPlaceholder": "اسم صاحب البطاقة",
+  "validThru": "صالحة حتى",
+  "validThruPlaceholder": "شهر/سنة",
+  "CVC": "CVC",
+  "saveCard": "حفظ البطاقة",
+  "pay": "دفع",
+  "savedCards": "البطاقات المحفوظة",
+  "total": "المجموع",
+  "egp": "جنيه",
+  "poweredBy": "مدعوم بواسطة",
+  "endsWith": "تنتهي بـ"
+}

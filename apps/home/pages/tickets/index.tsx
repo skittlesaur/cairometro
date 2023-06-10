@@ -42,7 +42,7 @@ export const getServerSideProps = async (
 
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['common', 'find-ticket'])),
+      ...(await serverSideTranslations(locale, ['common', 'find-ticket', 'tickets-search'])),
       departure: depStation,
       destination: destStation,
     },

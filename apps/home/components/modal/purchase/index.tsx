@@ -17,9 +17,11 @@ import LogoPaymobAccept from '@/icons/logo-paymob-accept.svg'
 import LogoVisa from '@/icons/logo-visa.svg'
 
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTranslation } from 'next-i18next'
 import toast from 'react-hot-toast'
 
 const PurchaseModal = () => {
+  const { t, i18n } = useTranslation('purchase')
   const { purchaseModal } = useAppContext()
   const [cardId, setCardId] = useState<string | null>(null)
   const [cardBrand, setCardBrand] = useState<'Visa' | 'MasterCard' | null>(null)
@@ -159,10 +161,13 @@ const PurchaseModal = () => {
               </div>
               <div className="flex flex-col items-end">
                 <p className="text-sm font-medium text-neutral-500">
-                  Total
+                  {t('total')}
                 </p>
-                <h2 className="text-xl font-semibold">
-                  {purchaseModal.data.price} EGP
+                <h2 
+                  className="text-xl font-semibold"
+                  dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
+                >
+                  {purchaseModal.data.price.toFixed(2)} {t('egp')}
                 </h2>
               </div>
             </div>
@@ -213,7 +218,7 @@ const PurchaseModal = () => {
                     htmlFor="card-number"
                     className="text-sm font-medium text-neutral-500"
                   >
-                    Card Number
+                    {t('cardNumber')}
                   </label>
                   <Input
                     id="card-number"
@@ -251,13 +256,13 @@ const PurchaseModal = () => {
                     htmlFor="card-holder"
                     className="text-sm font-medium text-neutral-500"
                   >
-                    Card Holder
+                    {t('cardHolder')}
                   </label>
                   <Input
                     id="card-holder"
                     type="text"
                     value={cardHolder}
-                    placeholder="Enter Card Holder Name"
+                    placeholder={t('cardHolderPlaceholder') as string}
                     onChange={(event) => setCardHolder(event.target.value)}
                   />
                 </div>
@@ -267,13 +272,13 @@ const PurchaseModal = () => {
                       htmlFor="valid-thru"
                       className="text-sm font-medium text-neutral-500"
                     >
-                      Valid Thru
+                      {t('validThru')}
                     </label>
                     <Input
                       id="valid-thru"
                       type="text"
                       value={validThru}
-                      placeholder="MM/YY"
+                      placeholder={t('validThruPlaceholder') as string}
                       maxLength={5}
                       onChange={(event) => {
                         const { value } = event.target
@@ -306,7 +311,7 @@ const PurchaseModal = () => {
                       htmlFor="cvc"
                       className="text-sm font-medium text-neutral-500"
                     >
-                      CVC
+                      {t('CVC')}
                     </label>
                     <Input
                       id="cvc"
@@ -334,7 +339,7 @@ const PurchaseModal = () => {
 
                     onClick={onPayClick}
                   >
-                    Pay
+                    {t('pay')}
                   </Button>
                   <div className="flex items-center gap-2">
                     <Checkbox
@@ -346,7 +351,7 @@ const PurchaseModal = () => {
                       htmlFor="save-card"
                       className="text-sm font-medium text-neutral-500"
                     >
-                      Save Card
+                      {t('saveCard')}
                     </label>
                   </div>
                 </div>
@@ -368,7 +373,7 @@ const PurchaseModal = () => {
             </div>
             <div className="flex flex-col items-center text-neutral-500">
               <p className="text-xs font-semibold">
-                Powered by
+                {t('poweredBy')}
               </p>
               <LogoPaymobAccept className="h-8 fill-current" />
             </div>
