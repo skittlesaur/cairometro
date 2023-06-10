@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
 
 import axios, { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
@@ -11,6 +12,7 @@ const OtpInput = ({ email }: OtpInputProps) => {
   const [otp, setOtp] = useState('')
   const inputRefs = useRef<HTMLInputElement[]>([])
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const router = useRouter()
 
   const submitOTP = useCallback(async () => {
     if (!otp || isSubmitting) return
@@ -23,6 +25,7 @@ const OtpInput = ({ email }: OtpInputProps) => {
       }, {
         withCredentials: true,
       })
+      router.push('/')
     } catch (e) {
       const error = (e as AxiosError).response?.data
       const message = (error as {message: string})?.message || 'Something went wrong'
