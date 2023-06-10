@@ -3,6 +3,8 @@ import { Variables } from 'graphql-request'
 import mutate from '@/graphql/mutate'
 
 interface CreatePaymentVariables extends Variables {
+  cardId?: string
+  cardHolder: string
   cardNumber: string
   expiryMonth: string
   expiryYear: string
@@ -22,6 +24,8 @@ interface CreatePaymentVariables extends Variables {
 
 const CREATE_PAYMENT_QUERY = /* GraphQL */ `
   mutation createPayment(
+    $cardId: String
+    $cardHolder: String!
     $cardNumber: String!
     $expiryMonth: String!
     $expiryYear: String!
@@ -30,6 +34,8 @@ const CREATE_PAYMENT_QUERY = /* GraphQL */ `
     $metaData: oneTimeInput!
   ) {
     createPayment(
+      cardId: $cardId
+      cardHolder: $cardHolder
       cardNumber: $cardNumber
       expiryMonth: $expiryMonth
       expiryYear: $expiryYear
