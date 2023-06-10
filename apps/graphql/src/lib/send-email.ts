@@ -11,6 +11,7 @@ export enum EmailTemplate {
   INVITATION_RESPONSE = 'invitation-response',
   REFUND_REQUEST_TICKET = 'refund-request-ticket',
   REFUND_REQUEST_RESPONSE = 'refund-request-response',
+  VERIFICATION_REQUEST_RESPONSE = 'verification-request-response',
 }
 
 interface SignupEmailVariables {
@@ -54,10 +55,19 @@ interface RefundRequestTicketEmailVariables {
 interface RefundRequestResponseEmailVariables {
   name: string;
   status: string;
+  statusColor: string;
   from: string;
   to: string;
   date: string;
   refundAmount: string;
+  helpEmail?: string;
+}
+
+interface VerificationRequestResponseEmailVariables {
+  name: string;
+  statusColor: string;
+  documentUrl: string
+  documentVerified: string;
   helpEmail?: string;
 }
 
@@ -68,6 +78,7 @@ interface EmailVariablesMap {
   [EmailTemplate.INVITATION_RESPONSE]: InvitationResponseEmailVariables;
   [EmailTemplate.REFUND_REQUEST_TICKET]: RefundRequestTicketEmailVariables;
   [EmailTemplate.REFUND_REQUEST_RESPONSE]: RefundRequestResponseEmailVariables;
+  [EmailTemplate.VERIFICATION_REQUEST_RESPONSE]: VerificationRequestResponseEmailVariables;
 }
 
 export type EmailVariables<T extends EmailTemplate> = EmailVariablesMap[T];

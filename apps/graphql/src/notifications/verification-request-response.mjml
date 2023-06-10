@@ -5,7 +5,7 @@
         <mj-image width="100px" src="https://cairometro.baraa.app/assets/logo.png" alt="img"/>
         <mj-text font-size="18px" align="center" font-weight="400">Hi <span style="font-weight: 600;">{{name}}</span>,
           <br/>
-          An admin has reviewed you refund request
+          An admin has reviewed your profile
         </mj-text>
       </mj-column>
     </mj-section>
@@ -14,21 +14,13 @@
       <mj-section padding-top="20px" padding-bottom="0px" padding-left="30px" padding-right="30px">
         <mj-column>
           <mj-text font-size="16px" color="#737373" align="center" line-height="24px" font-weight="400">
-            Your refund request has been <span style="font-weight: bold; color: {{statusColor}}">{{status}}</span>
+            Your verification request has been <span style="font-weight: bold; color: {{statusColor}}">{{documentVerified}}</span>
           </mj-text>
-          <!--          trip details -->
-          <mj-text font-size="16px" color="#737373" align="center" line-height="24px" font-weight="800">
-            Trip Details
-          </mj-text>
-          <mj-text font-size="16px" color="#737373" align="center" line-height="24px" font-weight="600">
-            From: {{from}}
-            <br/>
-            To: {{to}}
-            <br/>
-            Date: {{date}}
-            <br/>
-            Refund Amount: {{refundAmount}}
-          </mj-text>
+          <mj-image
+      width="200px"
+      src={{documentUrl}}
+      alt="Image Alt Text"
+    />
         </mj-column>
       </mj-section>
     </mj-wrapper>
