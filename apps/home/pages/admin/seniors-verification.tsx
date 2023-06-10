@@ -1,8 +1,7 @@
 import type { NextPage } from 'next'
 
-import Refunds from '@/components/admin/refunds'
-import AdminLayout from '@/layouts/admin'
 import Verifications from '@/components/admin/verification'
+import AdminLayout from '@/layouts/admin'
 
 const VerficationPage: NextPage = () => {
   return (
