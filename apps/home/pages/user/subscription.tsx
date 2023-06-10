@@ -4,10 +4,12 @@ import Subscription from '@/components/user/subscription'
 import AppLayout from '@/layouts/app'
 import AuthenticatedUser from '@/layouts/user'
 
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { NextSeo } from 'next-seo'
 
 const UserSubscriptionPage: NextPage = () => {
-  // const { t } = useTranslation('home')
+  const { t } = useTranslation('user-subscriptions')
 
   return (
     <AuthenticatedUser>
@@ -17,11 +19,10 @@ const UserSubscriptionPage: NextPage = () => {
           activePath: '/user/subscriptions',
         }}
       >
-        {/* <NextSeo*/}
-        {/*  title={t('seo.title') as string}*/}
-        {/*  description={t('seo.description') as string}*/}
-        {/*  titleTemplate="%s"*/}
-        {/* />*/}
+        <NextSeo
+          title={t('seo.title') as string}
+          description={t('seo.description') as string}
+        />
         <Subscription />
       </AppLayout>
     </AuthenticatedUser>
@@ -31,7 +32,7 @@ const UserSubscriptionPage: NextPage = () => {
 export const getStaticProps = async ({ locale }: { locale: string }) => ({
   props: {
     ...(await serverSideTranslations(locale, [
-      'common',
+      'common', 'user-subscriptions', 'user-tickets',
     ])),
   },
 })

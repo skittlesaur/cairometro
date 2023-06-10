@@ -8,6 +8,8 @@ import Ticket from '@/components/ticket'
 import useSchedule from '@/graphql/schedule/schedule'
 import Station from '@/types/station'
 
+import { useTranslation } from 'next-i18next'
+
 const TAKE_PER_PAGE = 5
 
 interface SchedulePageProps {
@@ -16,6 +18,7 @@ interface SchedulePageProps {
 }
 
 const SchedulePage = React.memo(({ page, disableLoadMore }: SchedulePageProps) => {
+  const { i18n } = useTranslation()
   const router = useRouter()
 
   const {
@@ -46,8 +49,8 @@ const SchedulePage = React.memo(({ page, disableLoadMore }: SchedulePageProps) =
       {data?.schedule?.map((schedule: { departureTime: Date, arrivalTime: Date }) => (
         <Ticket
           key={`${schedule.departureTime}-${schedule.arrivalTime}-search`}
-          departure={data.from.name}
-          arrival={data.to.name}
+          departure={i18n.language === 'ar' ? data.from.name_ar : data.from.name}
+          arrival={i18n.language === 'ar' ? data.to.name_ar : data.to.name}
           departureTime={new Date(schedule.departureTime)}
           arrivalTime={new Date(schedule.arrivalTime)}
           href={`/tickets/${data.from.id}/${data.to.id}/${new Date(schedule.departureTime).toISOString()}?adults=${adults}&children=${children}&seniors=${seniors}`}
@@ -68,6 +71,7 @@ interface FullScheduleProps {
 }
 
 const FullSchedule = ({ loaded, departure, destination }: FullScheduleProps) => {
+  const { t, i18n } = useTranslation('tickets-search')
   const [pagination, setPagination] = useState({ page: -1, hasMore: true })
 
   if (pagination.page === -1) {
@@ -78,7 +82,9 @@ const FullSchedule = ({ loaded, departure, destination }: FullScheduleProps) => 
             variant="secondary"
             onClick={() => setPagination({ page: 0, hasMore: true })}
           >
-            View full schedule for {departure?.name} to {destination?.name}
+            {t('viewFullSchedule')
+              .replace('{0}', i18n.language === 'ar' ? departure?.name_ar : departure?.name)
+              .replace('{1}', i18n.language === 'ar' ? destination?.name_ar : destination?.name)}
           </Button>
         )}
       </div>
@@ -87,7 +93,9 @@ const FullSchedule = ({ loaded, departure, destination }: FullScheduleProps) => 
 
   return (
     <div className="flex flex-col gap-20">
-      <OrSeparator>Full Schedule</OrSeparator>
+      <OrSeparator>
+        {t('fullSchedule')}
+      </OrSeparator>
       <div className="flex flex-col gap-5">
         {Array.from({ length: pagination.page + 1 }).map((_, index) => (
           <SchedulePage
@@ -103,7 +111,7 @@ const FullSchedule = ({ loaded, departure, destination }: FullScheduleProps) => 
             variant="secondary"
             onClick={() => setPagination((prev) => ({ ...prev, page: prev.page + 1 }))}
           >
-            Load More
+            {t('loadMore')}
           </Button>
         </div>
       )}
