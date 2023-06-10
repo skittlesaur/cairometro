@@ -21,7 +21,7 @@ model User {
   updatedAt        DateTime          @updatedAt
   Otp              Otp[]
   documentUrl      String?
-  documentVerified Boolean?
+  documentVerified VerificationStatus @default(PENDING)
   Subscriptions    Subscriptions[]
   refunds          Refund[]
   UserTickets      UserTickets[]
@@ -177,6 +177,12 @@ enum SubscriptionTier {
 }
 
 enum RefundStatus {
+  ACCEPTED
+  REJECTED
+  PENDING
+}
+
+enum VerificationStatus {
   ACCEPTED
   REJECTED
   PENDING

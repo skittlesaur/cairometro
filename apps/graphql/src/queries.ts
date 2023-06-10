@@ -29,6 +29,7 @@ import StationType from './types/station'
 import TripRouteType from './types/trip-route'
 import UserType from './types/user'
 import UserAnalyticsType from './types/users-analytics'
+import getVerificationRequests from './resolvers/queries/admin/get-verification-requests'
 
 
 const queries = queryType({
@@ -144,6 +145,15 @@ const queries = queryType({
     t.list.field('adminPendingInvitations', {
       type: InvitationType,
       resolve: pendingInvitations,
+    })
+
+    t.list.field('adminGetVerificationRequests', {
+      type: UserType,
+      args: {
+        page: nonNull(intArg()),
+        take: intArg(),
+      },
+      resolve: getVerificationRequests,
     })
   },
 })

@@ -23,6 +23,8 @@ import StationType from './types/station'
 import StatusEnum from './types/status-arg'
 import TicketTypeEnumArg from './types/ticket-type-enum-arg'
 import UserRoleEnumArg from './types/user-role-enum-arg'
+import VerificationStatusEnumArg from './types/verification-status-enum-arg'
+import updateVerificationStatus from './resolvers/mutations/update-verification-status'
 
 const mutations = mutationType({
   definition(t) {
@@ -179,6 +181,15 @@ const mutations = mutationType({
         role: nonNull(arg({ type: UserRoleEnumArg })),
       },
       resolve: adminInviteTeammate,
+    })
+
+    t.field('adminUpdateVerificationRequest', {
+      type: 'Boolean',
+      args: {
+        userId: nonNull(stringArg()),
+        documentVerified: nonNull(arg({ type: VerificationStatusEnumArg })),
+      },
+      resolve: updateVerificationStatus,
     })
   },
 })
