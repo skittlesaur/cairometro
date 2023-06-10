@@ -152,19 +152,6 @@ const DesktopNavigation = ({ activePath }: NavigationProps) => {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild>
-            <Link
-              href="/help/chat"
-              className={`text-sm transition-colors py-2 px-3 ${cn({
-                'text-black font-medium': '/support' === activePath,
-                'text-neutral-600 hover:text-black': '/support' !== activePath,
-              })}`}
-            >
-              {t('navigation.support')}
-            </Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
       </NavigationMenu>
       <div className="flex justify-end gap-3">
         <Button

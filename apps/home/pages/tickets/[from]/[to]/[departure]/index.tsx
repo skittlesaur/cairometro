@@ -18,7 +18,10 @@ const TicketDetailsPage = ()=>{
 
 export const getStaticProps = async ({ locale }: { locale: string }) => ({
   props: {
-    ...(await serverSideTranslations(locale, ['common', 'tickets-details', 'find-ticket'])),
+    ...(await serverSideTranslations(locale, ['common',
+      'tickets-details',
+      'find-ticket',
+      'purchase'])),
   },
 })
 

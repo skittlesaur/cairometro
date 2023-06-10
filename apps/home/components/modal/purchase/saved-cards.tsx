@@ -4,12 +4,15 @@ import useUserCards from '@/graphql/user/user-cards'
 import LogoMastercard from '@/icons/logo-mastercard.svg'
 import LogoVisa from '@/icons/logo-visa.svg'
 
+import { useTranslation } from 'next-i18next'
+
 interface SavedCardsProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onCardSelect: (card: any)=> void
 }
 
 const SavedCards = ({ onCardSelect }: SavedCardsProps) => {
+  const { t } = useTranslation('purchase')
   const { data: userCards } = useUserCards()
   const [open, setOpen] = useState(false)
 
@@ -21,7 +24,7 @@ const SavedCards = ({ onCardSelect }: SavedCardsProps) => {
         className="bg-neutral-50 border border-neutral-200 flex items-center justify-between w-full px-4 py-2.5 text-sm font-medium text-gray-900 rounded-md hover:bg-neutral-100"
         onClick={() => setOpen(!open)}
       >
-        Saved Cards
+        {t('savedCards')}
       </button>
       {open && (
         <div className="absolute z-10 w-full top-full mt-4">
@@ -47,7 +50,7 @@ const SavedCards = ({ onCardSelect }: SavedCardsProps) => {
                     </div>
                     <div className="flex flex-col">
                       <p>
-                        Ends with {card.last4}
+                        {t('endsWith')} {card.last4}
                       </p>
                       <p className="text-xs text-neutral-600">
                         {card.cardHolder}

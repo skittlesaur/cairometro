@@ -24,5 +24,6 @@
     "two": "Two Areas",
     "three": "Three Areas"
   },
-  "egp": "EGP"
+  "egp": "EGP",
+  "purchaseSubscription": "Purchase {0} Subscription"
 }

@@ -22,6 +22,7 @@ import stationById from './resolvers/queries/station-by-id'
 import stations from './resolvers/queries/stations'
 import userCards from './resolvers/queries/user-cards'
 import userPurchaseHistory from './resolvers/queries/user-purchase-history'
+import userSubscriptionHistory from './resolvers/queries/user-subscription-history'
 import InvitationType from './types/invitation'
 import LineType from './types/line'
 import LinesAndStationsAnalyticsType from './types/lines-and-stations-type'
@@ -31,6 +32,7 @@ import refundAnalyticsType from './types/refund-analytics'
 import RideTicketDataType from './types/ride-ticket-data'
 import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
+import Subscription from './types/subscription'
 import TripRouteType from './types/trip-route'
 import UserType from './types/user'
 import UserCardType from './types/user-card'
@@ -82,10 +84,18 @@ const queries = queryType({
       type: LineType,
       resolve: lines,
     })
-    
+
     t.list.field('purchaseHistory', {
       type: UserTicketType,
+      args: {
+        subscriptionOnly: arg({ type: 'Boolean' }),
+      },
       resolve: userPurchaseHistory,
+    })
+
+    t.list.field('userSubscriptionsHistory', {
+      type: Subscription,
+      resolve: userSubscriptionHistory,
     })
 
     t.field('analyticsSoldTickets', {

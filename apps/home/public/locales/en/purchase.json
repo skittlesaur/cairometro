@@ -1,0 +1,15 @@
+{
+  "cardNumber": "Card Number",
+  "cardHolder": "Card Holder",
+  "cardHolderPlaceholder": "Enter Card Holder Name",
+  "validThru": "Valid Thru",
+  "validThruPlaceholder": "MM/YY",
+  "CVC": "CVC",
+  "saveCard": "Save Card",
+  "pay": "Pay",
+  "savedCards": "Saved Cards",
+  "total": "Total",
+  "egp": "EGP",
+  "poweredBy": "Powered By",
+  "endsWith": "Ends with"
+}

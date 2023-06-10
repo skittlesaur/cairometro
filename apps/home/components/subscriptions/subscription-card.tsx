@@ -42,19 +42,18 @@ const SubscriptionCard = ({
     }
     
     purchaseModal.open({
-      title: `Purchase ${subscription} Subscription (${area})`,
+      title: `${t('purchaseSubscription').replace('{0}', subscription)} (${area})`,
       price,
       metaData,
       mutation: createSubscriptionMutation,
     })
-  }, [
-    area,
+  }, [area,
     price,
     purchaseModal,
     router,
     subscription,
-    user,
-  ])
+    t,
+    user])
 
   return (
     <motion.div

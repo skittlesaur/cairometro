@@ -1,6 +1,5 @@
 import Faq from '@/components/faq'
 import HelpCard from '@/components/help/card'
-import ContactUs from '@/components/help/contact-us'
 import AccessibilityIcon from '@/icons/accessibility-outline.svg'
 import LinesIcon from '@/icons/analytics-outline.svg'
 import RulesIcon from '@/icons/document-outline.svg'
@@ -53,7 +52,6 @@ const HelpPage = () => {
           ))}
         </div>
         <Faq />
-        <ContactUs />
       </div>
     </HelpLayout>
   )
