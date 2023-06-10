@@ -5,22 +5,7 @@ import Stripe from 'stripe'
 
 import { Context } from '../../context'
 
-
-interface SubscriptionMapping {
-  [key: string]: string;
-}
-
-const subscriptionMapping: SubscriptionMapping = {
-  ONE_AREA_MONTHLY: 'price_1NGVrBJ85o4Y1it227OWB8Md',
-  ONE_AREA_QUARTERLY: 'price_1NGVrBJ85o4Y1it2MTslSmnh',
-  ONE_AREA_YEARLY: 'price_1NGVrBJ85o4Y1it2xcgtmHPP',
-  TWO_AREAS_MONTHLY: 'price_1NGVstJ85o4Y1it2nZDFUeQA',
-  TWO_AREAS_QUARTERLY: 'price_1NGVstJ85o4Y1it26494tuHx',
-  TWO_AREAS_YEARLY: 'price_1NGVstJ85o4Y1it2M9k1S3mC',
-  THREE_AREAS_MONTHLY: 'price_1NGVuJJ85o4Y1it2B7OxVpi5',
-  THREE_AREAS_QUARTERLY: 'price_1NGVuJJ85o4Y1it2wh5thxp7',
-  THREE_AREAS_YEARLY: 'price_1NGVuJJ85o4Y1it2aGX1Bjlx',
-}
+import { subscriptionMapping } from './migrations/dummy-database/subscriptions-pricing'
 
 
 const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
@@ -67,7 +52,7 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
         },
       })
 
-      const mappingKey = `${subscriptionTier}_${subscriptionType}`
+      const mappingKey = `${user.role}_${subscriptionTier}_${subscriptionType}`
       const subscriptionId: string | undefined = subscriptionMapping[mappingKey]
       const plan = await stripe.prices.retrieve(subscriptionId)
       const customer = await stripe.customers.create({
@@ -81,16 +66,7 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
       })
 
       if (subscription) {
-
-        const expiresAt = new Date()
-        if (subscriptionType === 'MONTHLY') {
-          expiresAt.setMonth(expiresAt.getMonth() + 1)
-        } else if (subscriptionType === 'QUARTERLY') {
-          expiresAt.setMonth(expiresAt.getMonth() + 3)
-        } else if (subscriptionType === 'YEARLY') {
-          expiresAt.setFullYear(expiresAt.getFullYear() + 1)
-        }
-
+        const expiresAt = new Date(subscription.current_period_end * 1000)
         await prisma.subscriptions.create({
           data: {
             user: {
@@ -104,6 +80,7 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
             expiresAt,
           },
         })
+      
         return true
       }
 
