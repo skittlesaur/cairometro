@@ -10,6 +10,7 @@ export enum EmailTemplate {
   INVITATION = 'invitation',
   INVITATION_RESPONSE = 'invitation-response',
   REFUND_REQUEST_TICKET = 'refund-request-ticket',
+  REFUND_REQUEST_RESPONSE = 'refund-request-response',
 }
 
 interface SignupEmailVariables {
@@ -50,12 +51,23 @@ interface RefundRequestTicketEmailVariables {
   helpEmail?: string;
 }
 
+interface RefundRequestResponseEmailVariables {
+  name: string;
+  status: string;
+  from: string;
+  to: string;
+  date: string;
+  refundAmount: string;
+  helpEmail?: string;
+}
+
 interface EmailVariablesMap {
   [EmailTemplate.SIGNUP]: SignupEmailVariables;
   [EmailTemplate.LOGIN]: LoginEmailVariables;
   [EmailTemplate.INVITATION]: InvitationEmailVariables;
   [EmailTemplate.INVITATION_RESPONSE]: InvitationResponseEmailVariables;
   [EmailTemplate.REFUND_REQUEST_TICKET]: RefundRequestTicketEmailVariables;
+  [EmailTemplate.REFUND_REQUEST_RESPONSE]: RefundRequestResponseEmailVariables;
 }
 
 export type EmailVariables<T extends EmailTemplate> = EmailVariablesMap[T];
