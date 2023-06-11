@@ -27,7 +27,7 @@ model User {
   UserTickets      UserTickets[]
   StaffInvitation  StaffInvitation[]
   SearchHistory    SearchHistory[]
-  userCreditCards   UserCreditCard[]
+  userCreditCards  UserCreditCard[]
 }
 
 model UserTickets {
@@ -45,7 +45,7 @@ model UserTickets {
   seniors   Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  paymentId String?   
+  paymentId String?
 }
 
 model UserCreditCard {
@@ -77,7 +77,7 @@ model Subscriptions {
   userId    String
   type      SubscriptionType
   tier      SubscriptionTier
-  price       Float
+  price     Float
   createdAt DateTime         @default(now())
   updatedAt DateTime         @updatedAt
   expiresAt DateTime

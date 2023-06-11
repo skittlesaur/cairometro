@@ -124,7 +124,7 @@ async (_, args, ctx: Context) => {
     if (payment.status === 'succeeded'){
             
       // add userTicket to database
-      await prisma.userTickets.create({
+      const purchase = await prisma.userTickets.create({
         data: {
           user: {
             connect: {
