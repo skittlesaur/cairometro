@@ -23,6 +23,7 @@ const GoogleButton = () => {
 
         router.push('/')
       } catch (e) {
+        console.log(e)
         toast.error('Login failed')
       }
     },
