@@ -15,6 +15,7 @@ const UserType = objectType({
     t.field(User.createdAt)
     t.field(User.documentUrl)
     t.field(User.documentVerified)
+    t.field(User.picture)
 
     t.field('subscription', {
       type: Subscription,

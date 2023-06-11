@@ -6,6 +6,7 @@ import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 
+import googleAuth from './api/auth/google-auth'
 import logout from './api/auth/logout'
 import magicLinkVerification from './api/auth/magic-link-verification'
 import otpVerification from './api/auth/otp-verification'
@@ -34,6 +35,7 @@ app.get('/ping', (_, res: Response) => {
 
 app.post('/auth/magic-link', magicLinkVerification)
 app.post('/auth/otp', otpVerification)
+app.post('/auth/google', googleAuth)
 app.post('/auth/logout', logout)
 
 app.use('/graphql', yoga)

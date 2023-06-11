@@ -6,6 +6,7 @@ interface User {
   createdAt: string
   documentVerified: 'ACCEPTED' | 'REJECTED' | 'PENDING'
   documentUrl: string
+  picture?: string
 }
 
 export default User

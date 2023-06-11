@@ -8,6 +8,7 @@ const USER_QUERY = /* GraphQL */ `
       id
       name
       role
+      picture
       subscription {
         id
         type

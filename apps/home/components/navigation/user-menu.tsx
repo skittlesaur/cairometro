@@ -72,6 +72,7 @@ const UserMenu = () => {
             <UserAvatar
               id={user.id}
               name={user.name}
+              image={user.picture}
             />
           </NavigationMenu.Trigger>
           <NavigationMenu.Content className="absolute top-full pt-4 ltr:right-0 rtl:left-0">
