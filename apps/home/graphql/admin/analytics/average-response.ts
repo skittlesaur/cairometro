@@ -3,19 +3,19 @@ import graphqlFetcher from '@/graphql/graphql-fetcher'
 
 import useSWR from 'swr'
 
-const ANALYTICS_AVERAGE_RESPONSE_QUERY = /* GraphQL */ `
+const TOTAL_SOLD_TICKETS_QUERY = /* GraphQL */ `
   {
-    analyticsAverageCustomerSupportResponse
+    totalSoldTickets
   }
 `
 
-const useAnalyticsAverageCustomerSupportResponse = () => {
+const useTotalSoldTickets = () => {
   const result = useSWR(
-    [ANALYTICS_AVERAGE_RESPONSE_QUERY],
+    [TOTAL_SOLD_TICKETS_QUERY],
     (queryStr: string) => graphqlFetcher(queryStr)
   )
 
   return result
 }
 
-export default useAnalyticsAverageCustomerSupportResponse
+export default useTotalSoldTickets

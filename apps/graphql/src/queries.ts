@@ -1,7 +1,7 @@
 import { arg, intArg, nonNull, queryType, stringArg } from 'nexus'
 
 import analyticsActiveLinesAndStations from './resolvers/queries/admin/analytics-active-lines-and-stations'
-import analyticsAverageCustomerSupportResponse from './resolvers/queries/admin/analytics-average-response'
+import analyticsTotalSoldTickets from './resolvers/queries/admin/analytics-average-response'
 import analyticsSoldTickets from './resolvers/queries/admin/analytics-sold-tickets'
 import analyticsTotalSubscribers from './resolvers/queries/admin/analytics-total-subscribers'
 import analyticsTotalUsers from './resolvers/queries/admin/analytics-total-users'
@@ -15,6 +15,7 @@ import getPrice from './resolvers/queries/get-price'
 import invitation from './resolvers/queries/invitation'
 import lines from './resolvers/queries/lines'
 import me from './resolvers/queries/me'
+import monthlyRevenue from './resolvers/queries/monthly-revenue'
 import paginateStationsSchedule from './resolvers/queries/paginate-stations-schedule'
 import recommendations from './resolvers/queries/recommendations'
 import rideRouteByDate from './resolvers/queries/ride-route-by-date'
@@ -29,6 +30,7 @@ import LinesAndStationsAnalyticsType from './types/lines-and-stations-type'
 import passengersInputType from './types/passengers-input'
 import RefundType from './types/refund'
 import refundAnalyticsType from './types/refund-analytics'
+import RevenueType from './types/revenue'
 import RideTicketDataType from './types/ride-ticket-data'
 import scheduleTimeType from './types/schedule-time'
 import StationType from './types/station'
@@ -113,9 +115,9 @@ const queries = queryType({
       resolve: analyticsTotalSubscribers,
     })
 
-    t.field('analyticsAverageCustomerSupportResponse', {
+    t.field('totalSoldTickets', {
       type: 'Int',
-      resolve: analyticsAverageCustomerSupportResponse,
+      resolve: analyticsTotalSoldTickets,
     })
 
     t.field('analyticsActiveLinesAndStations', {
@@ -195,6 +197,11 @@ const queries = queryType({
         search: stringArg(),
       },
       resolve: getVerificationRequests,
+    })
+    
+    t.list.field('monthlyRevenue', {
+      type: RevenueType,
+      resolve: monthlyRevenue,
     })
   },
 })

@@ -1,21 +1,23 @@
 import { useMemo, useState } from 'react'
 
+import useMonthlyRevenue from '@/graphql/admin/monthly-revenue'
+
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslation } from 'next-i18next'
 
 const MonthlyRevenue = () => {
+  const { data: revenue } = useMonthlyRevenue()
   const [currentHover, setCurrentHover] = useState<string>()
   const { i18n } = useTranslation()
 
   const data = useMemo(() => {
-    return Array.from({ length: 12 }, (_, i) => ({
-      id: `${i}`,
-      month: new Date(2023, i).toLocaleString(i18n.language, { month: 'short' }),
-      value: Math.floor(Math.random() * 1000),
+    return revenue?.map(({ month, revenue: value }: {month: number, revenue: number}) => ({
+      month: new Date(2023, month).toLocaleString(i18n.language, { month: 'short' }),
+      value: value ?? 20,
     }))
-  }, [i18n.language])
+  }, [i18n.language, revenue])
 
-  const maxValue = Math.max(...data.map(({ value }) => value))
+  const maxValue = Math.max(...(data ?? []).map(({ value }: {value: number}) => value))
 
   return (
     <div className="min-h-[20em] border border-gray-200 rounded-lg flex flex-col">
@@ -25,7 +27,7 @@ const MonthlyRevenue = () => {
         </h1>
       </div>
       <div className="flex justify-between gap-3 md:gap-5 w-full h-full p-5">
-        {data.map(({ month, value, id }, index) => (
+        {data?.map(({ month, value }: {month: string, value: number}, index: number) => (
           <motion.div
             key={month}
             initial={{ opacity: 0, scaleY: 0 }}
@@ -39,20 +41,20 @@ const MonthlyRevenue = () => {
               delay: index * 0.1,
             }}
             className="flex flex-col gap-2 justify-end items-center w-full"
-            onMouseEnter={() => setCurrentHover(id)}
+            onMouseEnter={() => setCurrentHover(month)}
             onMouseLeave={() => setCurrentHover(undefined)}
           >
             <div
-              className="relative bg-gray-200 w-full rounded min-h-[1em] max-h-[calc(100%-2em)]"
+              className="relative bg-gray-200 w-full rounded min-h-[0.5em] max-h-[calc(100%-2em)]"
               style={{
                 height: value / maxValue * 100,
               }}
             >
-              <AnimatePresence mode="wait">
-                {currentHover === id && (
+              <AnimatePresence>
+                {currentHover === month && (
                   <div className="absolute inset-0 rounded overflow-hidden pointer-events-none">
                     <motion.div
-                      key={id}
+                      key={month}
                       initial={{ height: 0 }}
                       animate={{ height: '100%' }}
                       exit={{ height: 0 }}
@@ -64,9 +66,9 @@ const MonthlyRevenue = () => {
                     />
                   </div>
                 )}
-                {currentHover === id && (
+                {currentHover === month && (
                   <motion.div
-                    key={id}
+                    key={month}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}

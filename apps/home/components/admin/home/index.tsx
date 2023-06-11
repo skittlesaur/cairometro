@@ -1,7 +1,7 @@
 import Header from '@/components/admin/header'
 import MonthlyRevenue from '@/components/admin/home/monthly-revenue'
 import TotalUsers from '@/components/admin/home/total-users'
-import useAnalyticsAverageCustomerSupportResponse from '@/graphql/admin/analytics/average-response'
+import useTotalSoldTickets from '@/graphql/admin/analytics/average-response'
 import useAnalyticsSoldTickets from '@/graphql/admin/analytics/sold-tickets'
 import useAnalyticsTotalSubscribers from '@/graphql/admin/analytics/total-subscribers'
 import useAnalyticsTotalUsers from '@/graphql/admin/analytics/total-users'
@@ -15,9 +15,9 @@ const Admin = () => {
   const { data: soldTickets } = useAnalyticsSoldTickets()
   const { data: totalUsers } = useAnalyticsTotalUsers()
   const { data: totalSubscribers } = useAnalyticsTotalSubscribers()
-  const { data: averageResponseTime } = useAnalyticsAverageCustomerSupportResponse()
+  const { data: totalSoldTickets } = useTotalSoldTickets()
 
-  const allLoaded = soldTickets && totalUsers && totalSubscribers && averageResponseTime
+  const allLoaded = soldTickets && totalUsers && totalSubscribers && totalSoldTickets
 
   const data = [
     {
@@ -36,9 +36,8 @@ const Admin = () => {
       icon: CardOutlineIcon,
     },
     {
-      title: 'Average Customer Support Response Time',
-      // response is in minutes convert it to x hours y minutes
-      value: averageResponseTime ? `${Math.floor(averageResponseTime / 60)}h ${averageResponseTime % 60}m` : undefined,
+      title: 'Total Sold Tickets',
+      value: totalSoldTickets,
       icon: HourglassOutlineIcon,
     },
   ]
