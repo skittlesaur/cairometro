@@ -4,10 +4,12 @@ import UserTickets from '@/components/user/tickets'
 import AppLayout from '@/layouts/app'
 import AuthenticatedUser from '@/layouts/user'
 
+import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { NextSeo } from 'next-seo'
 
 const UserTicketsPage: NextPage = () => {
-  // const { t } = useTranslation('home')
+  const { t } = useTranslation('user-ticket')
 
   return (
     <AuthenticatedUser>
@@ -17,11 +19,10 @@ const UserTicketsPage: NextPage = () => {
           activePath: '/user/tickets',
         }}
       >
-        {/* <NextSeo*/}
-        {/*  title={t('seo.title') as string}*/}
-        {/*  description={t('seo.description') as string}*/}
-        {/*  titleTemplate="%s"*/}
-        {/* />*/}
+        <NextSeo
+          title={t('seo.title') as string}
+          description={t('seo.description') as string}
+        />
         <UserTickets />
       </AppLayout>
     </AuthenticatedUser>

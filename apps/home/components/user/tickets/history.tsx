@@ -192,7 +192,7 @@ const History = ({ subscriptionOnly = false }: HistoryProps) => {
                         <Button
                           useLoading
                           variant="linkSecondary"
-                          className="!px-0 !py-0"
+                          className="!px-0 !py-0 min-w-[7.7em]"
                           onClick={async () => {
                             try {
                               await requestRefundMutation({

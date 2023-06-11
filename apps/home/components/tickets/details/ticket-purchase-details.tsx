@@ -159,9 +159,10 @@ const TicketPurchaseDetails = () => {
             </p>
           </div>
           <Button
+            useLoading
             size={'lg'}
             variant={'primary'}
-            className="py-2.5 px-9"
+            className="py-2.5 px-9 min-w-[10em]"
             disabled={
               price === undefined ||
               adults < 0 ||
