@@ -17,6 +17,8 @@ const GoogleButton = () => {
       try {
         await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/google`, {
           accessToken: response?.access_token,
+        }, {
+          withCredentials: true,
         })
 
         router.push('/')
