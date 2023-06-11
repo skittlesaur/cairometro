@@ -13,7 +13,10 @@ const UserTicketType = objectType({
     t.field(UserTickets.to)
     t.field(UserTickets.price)
     t.field(UserTickets.date)
-    
+    t.field(UserTickets.adults)
+    t.field(UserTickets.seniors)
+    t.field(UserTickets.children)
+
     t.field('refundRequest', {
       type: RefundType,
       resolve: async (parent, _, ctx) => {

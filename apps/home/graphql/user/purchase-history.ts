@@ -24,6 +24,9 @@ query purchaseHistory($subscriptionOnly: Boolean) {
     }
     price
     date
+    adults
+    seniors
+    children
     refundRequest {
       id
       status

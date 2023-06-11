@@ -104,17 +104,17 @@ const History = ({ subscriptionOnly = false }: HistoryProps) => {
                     {t('passengers')}
                   </p>
                   <p>
-                    {ticket.passengers?.adults ?? 1}
+                    {ticket?.adults}
                     {' '}
                     {t('adults')}
                   </p>
                   <p>
-                    {ticket.passengers?.seniors ?? 0}
+                    {ticket?.seniors}
                     {' '}
                     {t('seniors')}
                   </p>
                   <p>
-                    {ticket.passengers?.children ?? 0}
+                    {ticket?.children}
                     {' '}
                     {t('children')}
                   </p>
