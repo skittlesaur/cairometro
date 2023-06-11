@@ -10,7 +10,7 @@ const Subscriptions = () => {
   const { t, i18n } = useTranslation('subscriptions')
 
   const SubscriptionType = [
-    t('types.monthly'), t('types.quarterly'), t('types.annual'),
+    t('types.monthly'), t('types.quarterly'), t('types.yearly'),
   ]
 
   const [activeType, setActiveType] = useState(0)

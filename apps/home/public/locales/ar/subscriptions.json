@@ -8,7 +8,7 @@
   "types": {
     "monthly": "شهري",
     "quarterly": "ربع سنوي",
-    "annual": "سنوي"
+    "yearly": "سنوي"
   },
   "subscription": "اشتراك",
   "upToStations": "ما يصل إلى {0} محطة",

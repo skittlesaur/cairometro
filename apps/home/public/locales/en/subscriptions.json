@@ -8,7 +8,7 @@
   "types": {
     "monthly": "Monthly",
     "quarterly": "Quarterly",
-    "annual": "Annual"
+    "yearly": "Yearly"
   },
   "subscription": "Subscription",
   "upToStations": "Up to {0} stations",
