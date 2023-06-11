@@ -5,7 +5,7 @@
         <mj-image width="100px" src="https://cairometro.baraa.app/assets/logo.png" alt="img"/>
         <mj-text font-size="18px" align="center" font-weight="400">Hi <span style="font-weight: 600;">{{name}}</span>,
           <br/>
-          An admin has reviewed you refund request
+          An admin has reviewed your refund request
         </mj-text>
       </mj-column>
     </mj-section>
