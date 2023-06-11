@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 
 import { PrismaClient, UserRole } from '@prisma/client'
-import axios from 'axios/index'
+import axios from 'axios'
 
 import generateAccessToken from '../../lib/generate-access-token'
 import { isDev } from '../../utils/is-dev'
