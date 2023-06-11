@@ -32,7 +32,7 @@ const UserSubscriptionPage: NextPage = () => {
 export const getStaticProps = async ({ locale }: { locale: string }) => ({
   props: {
     ...(await serverSideTranslations(locale, [
-      'common', 'user-subscriptions', 'user-tickets',
+      'common', 'user-subscriptions', 'user-ticket',
     ])),
   },
 })
