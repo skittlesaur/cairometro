@@ -8,7 +8,7 @@ import useVerifications, { VerificationVariables } from '@/graphql/admin/verific
 import CalendarIcon from '@/icons/calendar-outline.svg'
 import CheckboxIcon from '@/icons/checkbox-outline.svg'
 import CloseCircleIcon from '@/icons/close-circle-outline.svg'
-import PriceTagsIcon from '@/icons/pricetags-outline.svg'
+import PersonIcon from '@/icons/person-outline.svg'
 import User from '@/types/user'
 
 import { AnimatePresence } from 'framer-motion'
@@ -36,7 +36,7 @@ const Verifications = () => {
     {
       title: 'Total Senior Requests',
       value: analytics?.total,
-      icon: PriceTagsIcon,
+      icon: PersonIcon,
     },
     {
       title: 'Total Approved',
