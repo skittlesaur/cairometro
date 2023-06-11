@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
 
 import { PrismaClient, UserRole } from '@prisma/client'
+import axios from 'axios/index'
 
 import generateAccessToken from '../../lib/generate-access-token'
 import { isDev } from '../../utils/is-dev'
-import axios from 'axios/index'
 
 const googleAuth = async (req: Request, res: Response) => {
   try {
