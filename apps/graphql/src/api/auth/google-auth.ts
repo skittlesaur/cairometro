@@ -4,12 +4,21 @@ import { PrismaClient, UserRole } from '@prisma/client'
 
 import generateAccessToken from '../../lib/generate-access-token'
 import { isDev } from '../../utils/is-dev'
+import axios from 'axios/index'
 
 const googleAuth = async (req: Request, res: Response) => {
   try {
     const prisma = new PrismaClient()
     const accessTokenCookieDomain = process.env.ACCESS_TOKEN_COOKIE ?? ''
-    const { name, email, picture } = req.body
+    const { accessToken } = req.body
+
+    const { data } = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+
+    const { email, name, picture } = data
 
     let user = await prisma.user.findFirst({
       where: {

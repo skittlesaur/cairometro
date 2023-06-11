@@ -14,21 +14,15 @@ const GoogleButton = () => {
 
   const login = useGoogleLogin({
     onSuccess: async (response) => {
-      const { data } = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: {
-          Authorization: `Bearer ${response?.access_token}`,
-        },
-      })
+      try {
+        await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/google`, {
+          accessToken: response?.access_token,
+        })
 
-      const { email, name, picture } = data
-      
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/google`, {
-        email,
-        name,
-        picture,
-      })
-      
-      router.push('/')
+        router.push('/')
+      } catch (e) {
+        toast.error('Login failed')
+      }
     },
     onError: () => {
       toast.error('Login failed')
