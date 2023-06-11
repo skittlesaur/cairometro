@@ -1,4 +1,4 @@
-import { Path, Station, UserRole } from '@prisma/client'
+import { Path, Station, UserRole, VerificationStatus } from '@prisma/client'
 
 import { Context } from '../context'
 
@@ -29,7 +29,7 @@ const calculatePricing = async (
 
   const countOfStationsInLine = getCountOfStationsInLine(stations)
   const pricing = await getLinesPricing(countOfStationsInLine, ctx)
-  
+
   if (user) {
     const userSubscription = await ctx.prisma.subscriptions.findFirst({
       where: {
@@ -51,7 +51,15 @@ const calculatePricing = async (
       }
     }
   }
-  
+
+  if (user?.role === UserRole.SENIOR && user?.documentVerified === VerificationStatus.ACCEPTED){
+    adults += seniors - 1
+    seniors = 1
+  } else {
+    adults += seniors
+    seniors = 0
+  }
+
   const total = pricing.adults * adults + pricing.seniors * seniors + pricing.children * children
   return total
 }
