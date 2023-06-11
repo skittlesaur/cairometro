@@ -102,6 +102,7 @@ const PurchaseModal = () => {
         metaData: purchaseModal.data.metaData,
       })
       purchaseModal.close()
+      purchaseModal.data.onSuccess?.()
     } catch (e) {
       toast('Something went wrong, please try again later')
     }

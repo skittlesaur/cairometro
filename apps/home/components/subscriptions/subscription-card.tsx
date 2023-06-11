@@ -46,6 +46,9 @@ const SubscriptionCard = ({
       price,
       metaData,
       mutation: createSubscriptionMutation,
+      onSuccess: () => {
+        router.push('/user/subscription')
+      },
     })
   }, [area,
     price,

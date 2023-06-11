@@ -49,7 +49,7 @@ const TicketPurchaseDetails = () => {
     },
   })
 
-  const onPurchaseClick = useCallback((_: MouseEvent<HTMLButtonElement>) => {
+  const onPurchaseClick = useCallback(async (_: MouseEvent<HTMLButtonElement>) => {
     if (!ride || price === undefined) return
 
     if (!user) {
@@ -77,8 +77,8 @@ const TicketPurchaseDetails = () => {
     }
 
     if (price === 0){
-      createPaymentMutation({ metaData })
-      // router.push('/user/tickets')
+      await createPaymentMutation({ metaData })
+      router.push('/user/tickets')
       return
     }
 
@@ -90,6 +90,9 @@ const TicketPurchaseDetails = () => {
       price,
       metaData,
       mutation: createPaymentMutation,
+      onSuccess: () => {
+        router.push('/user/tickets')
+      },
     })
   }, [adults,
     children,

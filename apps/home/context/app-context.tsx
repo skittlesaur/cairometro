@@ -8,6 +8,7 @@ interface PurchaseData {
   metaData: any
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mutation: (args: any)=> Promise<void>
+  onSuccess?: ()=> void
 }
 
 interface AppContextType {

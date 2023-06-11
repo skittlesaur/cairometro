@@ -4,12 +4,10 @@ import { FieldResolver } from 'nexus'
 import Stripe from 'stripe'
 
 import { Context } from '../../context'
-
+import capitalizeFirstLetters from '../../lib/capitalize-first-letters'
 import getSavedCard from '../../lib/get-saved-card'
 import saveUserCard from '../../lib/save-user-card'
-import capitalizeFirstLetters from '../../lib/capitalize-first-letters'
 import sendEmail, { EmailTemplate } from '../../lib/send-email'
-
 
 import { subscriptionMapping } from './migrations/dummy-database/subscriptions-pricing'
 
@@ -27,21 +25,6 @@ const createSubscription: FieldResolver<'Mutation', 'CreateSubscritpion'> =
 
     if (!user) {
       throw new GraphQLError('User not Authenticated')
-
-    }
-    if (!cardNumber || !expiryMonth || !expiryYear || !cardCvc) {
-      throw new GraphQLError('Card details are missing')
-    }
-    // validate card details
-    const cardNumberRegex = new RegExp('^[0-9]{16}$')
-    const expiryMonthRegex = new RegExp('^[0-9]{2}$')
-    const expiryYearRegex = new RegExp('^[0-9]{2}$')
-    const cardCvcRegex = new RegExp('^[0-9]{3}$')
-    if (!cardNumberRegex.test(cardNumber)) {
-      throw new GraphQLError('Invalid card number')
-    }
-    if (!expiryMonthRegex.test(expiryMonth)) {
-      throw new GraphQLError('Invalid expiry month')
 
     }
 
