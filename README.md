@@ -12,6 +12,36 @@ user-friendly application for managing and accessing information about the Cairo
 This project is part of the Software Engineering course at the German International University under the supervision
 of [Dr. Amr Desouky](https://github.com/desoukya) and Eng. Ayman Iskandar.
 
+# Screenshots
+
+Click on the images to expand.
+
+<a href="https://github.com/skittlesaur/cairometro/assets/61744498/e1ed3920-73b0-4830-ae00-3f7ecfad2b67" style="display: inline-block; overflow: hidden">
+  <img src="https://github.com/skittlesaur/cairometro/assets/61744498/e1ed3920-73b0-4830-ae00-3f7ecfad2b67" alt="Landing Page" style="height: 500px; object-fit: cover; object-position: top;">
+</a>
+
+<a href="https://github.com/skittlesaur/cairometro/assets/61744498/20ce5728-bd99-4df2-a747-0386a30e1070" style="display: inline-block; overflow: hidden">
+  <img src="https://github.com/skittlesaur/cairometro/assets/61744498/20ce5728-bd99-4df2-a747-0386a30e1070" alt="Subscriptions Page" style="height: 500px; object-fit: cover; object-position: top;">
+</a>
+
+<a href="https://github.com/skittlesaur/cairometro/assets/61744498/c4ad1045-7ff9-4dde-a91c-cd66e773970f" style="display: inline-block; overflow: hidden">
+  <img src="https://github.com/skittlesaur/cairometro/assets/61744498/c4ad1045-7ff9-4dde-a91c-cd66e773970f" alt="Help Page Example" style="height: 500px; object-fit: cover; object-position: top;">
+</a>
+
+
+<a href="https://github.com/skittlesaur/cairometro/assets/61744498/8ec51bbf-f058-4feb-8b2a-4e17dfd8b07f" style="display: inline-block; overflow: hidden">
+  <img src="https://github.com/skittlesaur/cairometro/assets/61744498/8ec51bbf-f058-4feb-8b2a-4e17dfd8b07f" alt="Ticket Details" style="height: 500px; object-fit: cover; object-position: top;">
+</a>
+
+<a href="https://github.com/skittlesaur/cairometro/assets/61744498/d316f95e-8024-4556-974d-80047154335c" style="display: inline-block; overflow: hidden">
+  <img src="https://github.com/skittlesaur/cairometro/assets/61744498/d316f95e-8024-4556-974d-80047154335c" alt="Login Page" style="height: 500px; object-fit: cover; object-position: top;">
+</a>
+
+<a href="https://github.com/skittlesaur/cairometro/assets/61744498/3bc2b4d9-8c41-4d61-86e7-1bb3f2bd4ed4" style="display: inline-block; overflow: hidden">
+  <img src="https://github.com/skittlesaur/cairometro/assets/61744498/3bc2b4d9-8c41-4d61-86e7-1bb3f2bd4ed4" alt="Admin Panel" style="height: 500px; object-fit: cover; object-position: top;">
+</a>
+
+
 # Tools & Technologies
 
 - [Linear](https://linear.app): for project management
